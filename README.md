@@ -1,4 +1,5 @@
-# CluBoat前端
+# CLUBoat_Frontend
+CLUBoat 高校社团信息管理平台
 
 CluBoat前端采用VUE框架，以及Element-Plus、Swiper组件库等。
 

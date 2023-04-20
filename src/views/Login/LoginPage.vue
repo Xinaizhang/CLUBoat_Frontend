@@ -293,7 +293,7 @@ input::placeholder {
 }
 
 input:focus {
-    color: #FFE055;
+    color: #6596c8;
     outline: none;
     border-bottom: 1px solid #e9b10a;
     transition: 0.5s;

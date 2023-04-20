@@ -42,26 +42,24 @@
         <span class="word">我的通知</span>
       </el-header>
       <el-row justify="center" style="margin-top: 20px;">
-        <el-col :span="18">
-          <el-scrollbar v-if="notificationList" max-height="480px">
-            <el-collapse v-model="activeNames">
-              <el-collapse-item class="item" v-for="item in notificationList" :key="item.notificationId" :title="item.notificationTitle" :name="item.notificationId">
-                <div>
-                  {{ item.notificationContent }}
-                </div>
-                <el-row>&emsp;</el-row>
-                <el-row>
-                  <el-col class="actorFather" :span="19">
-                    <div class="actor" v-if="item.isAdmin!=1">社团管理员</div>
-                    <div class="actor" v-if="item.isAdmin==1">社联管理员</div>
-                  </el-col>
-                  <el-col :span="5" class="time">
-                    {{ item.notificationTime }}
-                  </el-col>
-                </el-row>
-                
-              </el-collapse-item>
-            </el-collapse>
+        <el-col :span="20">
+          <el-scrollbar v-if="notificationList" max-height="480px" style="padding-right:2vw;">
+            <el-timeline v-model="activeNames" style="padding-left:1px;">
+              <el-timeline-item v-for="item in notificationList" :key="item.notificationId" :timestamp="item.notificationTime" placement="top" color="#FFC353" :hollow="true">
+                <el-card>
+                  <template #header>
+                    <div class="card-header">
+                      <h3>{{ item.notificationTitle }}</h3>
+                      <div class="actorFather">
+                        <div class="actor" v-if="item.isAdmin!=1">社团管理员</div>
+                        <div class="actor" v-if="item.isAdmin==1">社联管理员</div>
+                      </div>
+                    </div>
+                  </template>
+                <p>{{ item.notificationContent }}</p>
+                </el-card>
+              </el-timeline-item>
+            </el-timeline>
           </el-scrollbar>
           <el-empty style="height:478px;" v-if="!notificationList" description="未收到通知" />
         </el-col>
@@ -78,60 +76,9 @@ import { Bell, Football } from '@element-plus/icons-vue';
 export default {
   name: "myNotification",
   data () {
-  return {
-    activeNames: 1,
-    notificationList: null,
-    // [{
-    //   notificationId:1,
-    //   sendAdminId:1,
-    //   sendUserId:1,
-    //   notificationTitle:"社团成立啦",
-    //   notificationContent:"恭喜你成为第一个用户",
-    //   notificationTime:"2022-11-20T13:33:37.000+00:00"
-    // },{
-    //   notificationId:2,
-    //   sendAdminId:1,
-    //   sendUserId:1,
-    //   notificationTitle:"社团成立啦",
-    //   notificationContent:"恭喜你成为第一个用户",
-    //   notificationTime:"2022-11-20T13:33:37.000+00:00"
-    // },{
-    //   notificationId:3,
-    //   sendAdminId:1,
-    //   sendUserId:1,
-    //   notificationTitle:"社团成立啦",
-    //   notificationContent:"恭喜你成为第一个用户",
-    //   notificationTime:"2022-11-20T13:33:37.000+00:00"
-    // },{
-    //   notificationId:4,
-    //   sendAdminId:1,
-    //   sendUserId:1,
-    //   notificationTitle:"社团成立啦",
-    //   notificationContent:"恭喜你成为第一个用户",
-    //   notificationTime:"2022-11-20T13:33:37.000+00:00"
-    // },{
-    //   notificationId:5,
-    //   sendAdminId:1,
-    //   sendUserId:1,
-    //   notificationTitle:"社团成立啦",
-    //   notificationContent:"恭喜你成为第一个用户",
-    //   notificationTime:"2022-11-20T13:33:37.000+00:00"
-    // },{
-    //   notificationId:6,
-    //   sendAdminId:1,
-    //   sendUserId:1,
-    //   notificationTitle:"社团成立啦",
-    //   notificationContent:"恭喜你成为第一个用户",
-    //   notificationTime:"2022-11-20T13:33:37.000+00:00"
-    // },{
-    //   notificationId:7,
-    //   sendAdminId:1,
-    //   sendUserId:1,
-    //   notificationTitle:"社团成立啦",
-    //   notificationContent:"恭喜你成为第一个用户",
-    //   notificationTime:"2022-11-20T13:33:37.000+00:00"
-    // }],
-  }
+    return {
+      notificationList: null,
+    }
   },
   methods: {
   },
@@ -144,6 +91,10 @@ export default {
     .then(res => {
       console.log(res.data.data);
       this.notificationList=res.data.data;
+      this.notificationList.sort(function(a, b) {
+          return b.notificationTime < a.notificationTime ? -1 : 1
+      })
+      console.log("通知"+this.activeNames)
     })
     .catch(function (error) {
       console.log(error);
@@ -181,9 +132,10 @@ export default {
     border-left: 8px solid #FFC353;
     font-size: 20px;
   }
-
-  .item{
-    font-size: 30px;
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
   .actor{
     background-color: #FFC353;
@@ -192,11 +144,9 @@ export default {
     border-radius: 10px;
     font-weight: 600;
     font-size: smaller;
+    line-height: 20px;
   }
   .actorFather{
     text-align: center;
-  }
-  .time{
-    color: #023764;
   }
 </style>

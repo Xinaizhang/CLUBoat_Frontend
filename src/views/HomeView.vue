@@ -251,7 +251,6 @@ export default {
     //   club_name: '爵士舞社',
     //   club_information: '这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介。'
     }],
-
   }
   },
   methods: {
@@ -278,6 +277,9 @@ export default {
     .then(res => {
       console.log(res.data.data);
       this.pubnotList=res.data.data;
+      this.pubnotList.sort(function(a, b) {
+          return b.pubnotTime < a.pubnotTime ? -1 : 1
+      })
       this.total1=res.data.data.length;
     })
     .catch(function (error) {

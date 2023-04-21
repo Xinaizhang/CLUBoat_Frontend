@@ -1,16 +1,7 @@
 <template>
     <el-container class="" style="height: 100vh">
         <el-header class="header">
-            <el-row>
-                <el-col :span="22" class="title">
-                    <h1>
-                        社联管理系统
-                    </h1>
-                </el-col>
-                <el-col :span="2" class="text">
-                    你好！管理员
-                </el-col>
-            </el-row>
+            <FedNav/>
         </el-header>
     
         <el-container>
@@ -168,6 +159,7 @@
 </template>
     
 <script>
+import FedNav from '@/components/FedHeader.vue'
 import { ElMessage,ElMessageBox } from 'element-plus'
 import 'element-plus/es/components/message/style/index'
 import 'element-plus/es/components/message-box/style/index'
@@ -175,6 +167,7 @@ import 'element-plus/es/components/message-box/style/index'
 export default {
 name: "clubFederationClubBuild",
 components: {
+    FedNav
 },
 data () {
 return {

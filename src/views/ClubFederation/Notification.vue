@@ -105,7 +105,8 @@
                                     <el-input v-model="notification.notificationContent" autocomplete="off" type="textarea" :rows="6"/>
                                 </el-form-item>
                                 <el-form-item label="选择用户" label-width="70px">
-                                    <el-select v-model="notification.sendUserId" placeholder="选择用户" class="select">
+                                    <el-select v-model="notification.receiver_id" placeholder="选择用户" class="select">
+                                        <el-option label="全体用户" :value=(-1)>全体用户</el-option>
                                         <el-option
                                         v-for="item in userList"
                                         :key="item.userId"
@@ -168,9 +169,11 @@ return {
     notification:{
         sendAdminId: 1,
         sendUserId: null,
+        senderType: 1,
+        receiverType: null,
+        receiver_id: null,
         notificationTitle: "",
-        notificationContent: "",
-        isAdmin: 1
+        notificationContent: ""
     },
 }
 },
@@ -179,13 +182,22 @@ methods: {
         this.page=val
     },
     addNotification(){
-        if(this.notification.notificationContent==""||this.notification.notificationTitle==""||this.notification.sendUserId==null){
+        if(this.notification.notificationContent==""||this.notification.notificationTitle==""||this.notification.receiver_id==null){
             ElMessage({
                 message: "不能为空！",
                 type: 'error',
             })
             return;
         }
+
+        if (this.notification.receiver_id==-1){
+            this.notification.receiver_id=null;
+            this.notification.receiverType=0;
+        }
+        else{
+            this.notification.receiverType=2
+        }
+
         this.dialogFormVisible = false;
 
         this.$axios({
@@ -211,30 +223,30 @@ methods: {
     },
 },
 created() {
-    this.$axios({
-        method: 'get',
-        url: '/api/examine/notification',
-    })
-    .then(res => {
-        console.log(res.data.data);
-        this.notificationList=res.data.data;
-        this.total=res.data.data.length;
-    })
-    .catch(function (error) {
-        console.log(error);
-    })
+    // this.$axios({
+    //     method: 'get',
+    //     url: '/api/examine/notification',
+    // })
+    // .then(res => {
+    //     console.log(res.data.data);
+    //     this.notificationList=res.data.data;
+    //     this.total=res.data.data.length;
+    // })
+    // .catch(function (error) {
+    //     console.log(error);
+    // })
 
-    this.$axios({
-        method: 'get',
-        url: '/api/user-info/person-info',
-    })
-    .then(res => {
-        console.log(res.data.data);
-        this.userList=res.data.data;
-    })
-    .catch(function (error) {
-        console.log(error);
-    })
+    // this.$axios({
+    //     method: 'get',
+    //     url: '/api/user-info/person-info',
+    // })
+    // .then(res => {
+    //     console.log(res.data.data);
+    //     this.userList=res.data.data;
+    // })
+    // .catch(function (error) {
+    //     console.log(error);
+    // })
 },
 }
 </script>

@@ -58,7 +58,7 @@
             </router-link>
 
             <router-link to="/org_clubbudget">
-                <el-menu-item index="5">
+                <el-menu-item index="6">
                     <template #title>
                         <el-icon>
                             <TrendCharts />

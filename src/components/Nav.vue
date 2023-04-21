@@ -20,7 +20,16 @@
                 </el-input>
                 <nav class="nav_icon">
                     <a href="/notification"><el-icon class="icon"><Bell /></el-icon></a>
-                    <el-avatar class="icon" size="small" :src="userInfo.userPhotoUrl"/>
+                    <el-popover
+                        placement="bottom"                    
+                    >
+                        <template #reference>
+                            <el-avatar size="small" :src="userInfo.userPhotoUrl"/>
+                        </template>
+                        <el-row justify="center"><el-button class="btn" link><router-link class="text" to="/personInfo">个人中心</router-link></el-button></el-row>
+                        <hr style="margin: 10px 0px;">
+                        <el-row justify="center"><el-button class="btn" link><router-link class="text" to="/">退出登录</router-link></el-button></el-row>
+                    </el-popover>
                 </nav>
             </div>
             <div class="box_style2"></div>
@@ -174,6 +183,12 @@
     .nav_icon a:hover {
         color: #055aa4;
     }
+    .nav_icon .icon {
+        margin-top: 1vh;
+    }
+    .nav_icon .icon:hover {
+        cursor: pointer;
+    }
 
     /*搜索框*/
     .search{
@@ -184,4 +199,13 @@
         box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 3px #023764;
         border-radius: 4px;
     }
+.btn{
+    color: #FFC353;
+    height: 30px;
+    width: 80px;
+}
+.btn .text{
+    text-decoration:none;
+    color: #023764;
+}
 </style>

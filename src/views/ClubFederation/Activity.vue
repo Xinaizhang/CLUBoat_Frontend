@@ -8,7 +8,7 @@
                     </h1>
                 </el-col>
                 <el-col :span="2" class="text">
-                    你好！管理员
+                    <el-button class="nav_button" color="#024886"><router-link style="text-decoration:none;color:#FFC353" to="/">退出登录</router-link></el-button>
                 </el-col>
             </el-row>
         </el-header>
@@ -382,5 +382,10 @@ created() {
 --el-pagination-button-disabled-bg-color:#fff;
 --el-pagination-button-bg-color:#fff;
 --el-pagination-hover-color: #167fdb;
+}
+.nav_button{
+    color: #fff;
+    height: 30px;
+    width: 80px;
 }
 </style>

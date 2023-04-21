@@ -3,8 +3,11 @@
     <div class="header">
         <div class="headertitle">社团管理系统</div>
         <div class="personinfo">
-            <router-link to="/details">
+            <router-link to="/details" style="position:absolute;left:0px">
                 <el-button type="primary">返回社团详情</el-button>
+            </router-link>
+            <router-link to="/" style="position:absolute;right:30px">
+                <el-button type="primary">退出登录</el-button>
             </router-link>
         </div>
     </div>
@@ -41,9 +44,10 @@
     }
 
     .personinfo {
+        position:relative;
         color: #000000;
         padding: 10px;
         font-size: 18px;
-        width: 170px;
+        width: 230px;
     }
 </style>

@@ -311,6 +311,7 @@ export default {
     height: 40vh;
     text-align: center;
     background-size:cover;
+    padding: 1px;
     background-position:center center;
   }
   .head_bg .title{

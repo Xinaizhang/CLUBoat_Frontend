@@ -40,8 +40,10 @@
                                 :rows="6" />
                         </el-form-item>
                         <el-form-item label="选择用户" label-width="70px">
-                            <el-select v-model="notification.receiver_id" placeholder="选择用户" class="select">
+                            <el-select v-model="notification.receiverId" placeholder="选择用户" class="select">
+                                <!-- group notification selection-->
                                 <el-option label="全体社团成员" :value=(-1)>全体社团成员</el-option>
+
                                 <el-option v-for="item in userList" :key="item.userId" :label="item.userId"
                                     :value="item.userId" class="select">
                                     <span style="float: left">UID：{{ item.userId }} &nbsp;{{ item.userName }}</span>
@@ -102,7 +104,7 @@ export default {
                 sendUserId: null,
                 senderType: 0,
                 receiverType: null,
-                receiver_id: null,
+                receiverId: null,
                 notificationTitle: "",
                 notificationContent: ""
             },
@@ -115,8 +117,8 @@ export default {
         },
         addNotification() {
             // set send mode
-            if (this.notification.receiver_id == -1) { // to all club members
-                this.notification.receiver_id = parseInt(localStorage.getItem('clubId'));
+            if (this.notification.receiverId == -1) { // to all club members
+                this.notification.receiverId = parseInt(localStorage.getItem('clubId'));
                 this.notification.receiverType = 1;
             }
             else {

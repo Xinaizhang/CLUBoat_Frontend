@@ -63,7 +63,18 @@
                         <el-icon>
                             <TrendCharts />
                         </el-icon>
-                        <text style="font-size:17px">财务管理</text>
+                        <text style="font-size:17px">预算管理</text>
+                    </template>
+                </el-menu-item>
+            </router-link>
+
+            <router-link to="/org_clubreim">
+                <el-menu-item index="6">
+                    <template #title>
+                        <el-icon>
+                            <TrendCharts />
+                        </el-icon>
+                        <text style="font-size:17px">报销管理</text>
                     </template>
                 </el-menu-item>
             </router-link>

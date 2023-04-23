@@ -63,7 +63,9 @@
                 </el-form>
                  -->
                 <el-button type="primary" @click="addBudget">确认</el-button>
-
+                
+                <br>
+                <el-tag class="ml-2" type="warning" size="large">Only main function operating. Still in process</el-tag>
             </el-card>
         </el-col>
     </el-row>

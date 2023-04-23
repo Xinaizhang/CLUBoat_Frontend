@@ -24,6 +24,7 @@ import OrgClubNotification from '../views/ClubOrganization/OrgClubNotification.v
 import OrgClubActivity from '../views/ClubOrganization/OrgClubActivity.vue'
 import OrgClubNews from '../views/ClubOrganization/OrgClubNews.vue'
 import OrgClubBudget from '../views/ClubOrganization/OrgClubBudget.vue'
+import OrgClubReim from '../views/ClubOrganization/OrgClubReim.vue'
 
 const routes = [
   {
@@ -146,6 +147,12 @@ const routes = [
     name:'org_clubbudget',
     component: OrgClubBudget
   },
+  {
+    path:'/org_clubreim',
+    name:'org_clubreim',
+    component: OrgClubReim
+
+  }
 ]
 
 const router = createRouter({

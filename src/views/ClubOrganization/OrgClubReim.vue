@@ -234,8 +234,8 @@ export default {
                 method: 'post',
                 url: '/api/club-manage/reimbursements',
                 data: {
-                    clubId: this.inputreim.clubId,
-                    userId: this.inputreim.userId,
+                    clubId: localStorage.getItem("clubId"),
+                    userId: localStorage.getItem("userId"),
                     title: this.inputreim.title,
                     amount: this.inputreim.amount,
                     description: this.inputreim.description,

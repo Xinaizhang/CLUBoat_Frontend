@@ -204,17 +204,16 @@
                                             <el-input disabled v-model="reim.feedback" autocomplete="off" type="textarea" :rows="17"/>
                                         </el-form-item>
                                         <el-form-item required v-if="reim.status =='待审批'" label="反馈" label-width="70px">
-                                            <el-input v-model="feedback" autocomplete="off" type="textarea" :rows="17"/>
+                                            <el-input v-model="feedback" autocomplete="off" type="textarea" :rows="16"/>
                                         </el-form-item>
+                                        <el-button v-if="reim.status =='待审批'" style="width:80px;" type="success" plain @click="pass">通过</el-button>
+                                        <el-button v-if="reim.status =='待审批'" style="width:80px;" type="danger" plain @click="noPass">驳回</el-button>
                                     </el-form>
                                 </div>
                             </el-scrollbar>
                             <template #footer>
                                 <span class="dialog-footer">
-                                    <el-button v-if="reim.status !='待审批'" type="primary" @click="dialogFormVisible1 = false;dialogFormVisible = true">申请详情</el-button>
-                                    <el-button v-if="reim.status =='待审批'" type="primary" @click="pass">通过</el-button>
-                                    <el-button v-if="reim.status =='待审批'" @click="noPass">驳回</el-button>
-                                    
+                                    <el-button type="primary" @click="dialogFormVisible1 = false;dialogFormVisible = true">申请详情</el-button>
                                 </span>
                             </template>
                         </el-dialog>

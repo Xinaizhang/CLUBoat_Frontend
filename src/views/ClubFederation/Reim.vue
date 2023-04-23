@@ -61,48 +61,43 @@
                         </div>
                         </template>
                         <el-table
-                        :data="reimList.slice((page-1) * limit, page * limit)" 
-                        style="width: 100%"
-                        size="large"
-                        height="430"
-                        highlight-current-row
-                        @current-change="getCurrentRow"
+                            :data="reimList.slice((page-1) * limit, page * limit)" 
+                            style="width: 100%"
+                            size="large"
+                            height="430"
+                            highlight-current-row
+                            @current-change="getCurrentRow"
                         >
                             <el-table-column label="序号" type="index" width="150" />
-                            <el-table-column prop="userId" label="用户ID" sortable width="170"/>
-                            <el-table-column prop="reimApplyReason" label="申请理由"/>
-                            <el-table-column prop="reimApplyTime" sortable label="申请时间" />
+                            <el-table-column prop="clubName" label="申请社团" sortable width="170"/>
+                            <el-table-column prop="userName" label="申请人" sortable width="170"/>
+                            <el-table-column prop="title" label="申请标题"/>
+                            <el-table-column prop="amount" label="申请金额"/>
+                            <el-table-column prop="createTime" sortable label="申请时间" />
                             <el-table-column
-                                prop="reimApplyIsPass"
+                                prop="status"
                                 label="状态"
                                 width="100"
                                 :filters="[
-                                    { text: '已通过', value: 1 },
-                                    { text: '未通过', value: 0 },
+                                    { text: '已通过', value: '已通过' },
+                                    { text: '已拒绝', value: '已拒绝' },
+                                    { text: '待审批', value: '待审批' },
                                 ]"
                                 :filter-method="filterTag"
                                 filter-placement="bottom-end"
                                 >
                                 <template #default="scope">
-                                    <el-tag
-                                    v-if="scope.row.reimApplyIsPass == '1'"
-                                    :type="success"
-                                    disable-transitions
-                                    >已通过</el-tag>
-                                    <el-tag
-                                    v-if="scope.row.reimApplyIsPass =='0'"
-                                    :type="scope.row.reimApplyIsPass === '1' ? 'success' : 'danger'"
-                                    disable-transitions
-                                    >未通过</el-tag>
+                                    <el-tag v-if="scope.row.status == '已通过'" type="success" disable-transitions>已通过</el-tag>
+                                    <el-tag v-if="scope.row.status =='已拒绝'" type="danger" disable-transitions >已拒绝</el-tag>
+                                    <el-tag v-if="scope.row.status =='待审批'" disable-transitions >待审批</el-tag>
                                 </template>
                             </el-table-column>
                             <el-table-column fixed="right" label="操作" width="120">
                                 <template #default="operation">
-                                    <el-button v-if="operation.row.feedback == null" :disabled="operation.row.reimApplyIsPass =='1'" link type="primary" size="small" @click="dialogFormVisible = true"
-                                    >审核</el-button>
-                                    <el-button v-if="operation.row.feedback != null" :disabled="operation.row.reimApplyIsPass =='1'" link type="primary" size="small" @click="dialogFormVisible = true"
+                                    <el-button v-if="operation.row" link type="primary" size="small" @click="dialogFormVisible = true"
                                     >查看</el-button>
-                                    <el-button link type="primary" size="small" @click="confirmDeleteReim">删除</el-button>
+                                    <el-button link type="primary" size="small" @click="dialogFormVisible1 = true"
+                                    >审核</el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -119,32 +114,108 @@
                                 />
                             </div>
                         </el-row>
-                        <el-dialog v-model="dialogFormVisible" title="审批报销申请" align-center draggable>
-                            <el-form :model="reim">
-                            <el-form-item label="申请时间" label-width="70px">
-                                <el-input disabled v-model="reim.reimApplyTime" autocomplete="off" />
-                            </el-form-item>
-                            <el-form-item label="申请理由" label-width="70px">
-                                <el-input disabled v-model="reim.reimApplyReason" autocomplete="off" type="textarea" :rows="3"/>
-                            </el-form-item>
-                            <el-form-item required v-if="display" label="反馈" label-width="70px">
-                                <el-input :disabled="reim.feedback != null" v-model="feedback" autocomplete="off" type="textarea" :rows="3"/>
-                            </el-form-item>
+                        <el-dialog v-model="dialogFormVisible" align-center draggable width="55vw" style="padding:0px 10px;" title="申请详情">
+                            <el-scrollbar height="450px">
+                                <div style="margin-left:15px;margin-right:20px;">
+                                    <el-descriptions 
+                                        border 
+                                        :model="reim" 
+                                        :column="4" 
+                                        direction="vertical"
+                                    >
+                                        <el-descriptions-item>
+                                            <template #label>
+                                                <div class="cell-item">
+                                                    <el-icon :style="iconStyle">
+                                                        <el-icon><Ship /></el-icon>
+                                                    </el-icon>
+                                                    <span class="cell-text">申请社团</span>
+                                                </div>
+                                            </template>
+                                            <el-tag size="small">{{ reim.clubName }}</el-tag>
+                                        </el-descriptions-item>
+                                        <el-descriptions-item>
+                                            <template #label>
+                                                <div class="cell-item">
+                                                    <el-icon :style="iconStyle">
+                                                        <user />
+                                                    </el-icon>
+                                                    <span class="cell-text">申请人</span>
+                                                </div>
+                                            </template>
+                                            <el-tag size="small">{{ reim.userName }}</el-tag>
+                                        </el-descriptions-item>
+                                        <el-descriptions-item>
+                                            <template #label>
+                                                <div class="cell-item">
+                                                    <el-icon :style="iconStyle">
+                                                        <el-icon><Money /></el-icon>
+                                                    </el-icon>
+                                                    <span class="cell-text">申请金额</span>
+                                                </div>
+                                            </template>
+                                            <h4 style="color:green">{{ reim.amount }}</h4>
+                                        </el-descriptions-item>
+                                        <el-descriptions-item>
+                                            <template #label>
+                                                <div class="cell-item">
+                                                    <el-icon :style="iconStyle">
+                                                        <el-icon><Calendar /></el-icon>
+                                                    </el-icon>
+                                                    <span class="cell-text">申请时间</span>
+                                                </div>
+                                            </template>
+                                            {{ reim.createTime }}
+                                        </el-descriptions-item>
+                                        <el-descriptions-item label="标题" :span="4">{{ reim.title }}</el-descriptions-item>
+                                        <el-descriptions-item label="申请理由" :span="4">{{ reim.description }}</el-descriptions-item>
+                                        <el-descriptions-item label="附件">
+                                            <el-carousel trigger="click" arrow="always" :autoplay="false">
+                                                <el-carousel-item  v-for="item of reim.attachments" :key="item" >
+                                                    <div style="text-align:center">
+                                                        <el-image style="width: 30vw;" src="https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg" fit="contain">
+                                                        </el-image>
+                                                        <!-- <el-image style="width: 30vw;" src="item.attachUrl" fit="contain">
+                                                        </el-image> -->
+                                                    </div>
+                                                </el-carousel-item>
+                                            </el-carousel>
+                                        </el-descriptions-item>
+                                    </el-descriptions>
+                                </div>
 
-                            <el-form-item required v-if="reim.feedback != null" label="反馈" label-width="70px">
-                                <el-input :disabled="reim.feedback != null" v-model="reim.feedback" autocomplete="off" type="textarea" :rows="3"/>
-                            </el-form-item>
-
-
-
-                            </el-form>
+                            </el-scrollbar>
                             <template #footer>
                             <span class="dialog-footer">
-                                <el-button :disabled="reim.feedback != null" v-if="!display" @click="display=true;">不通过</el-button>
-                                <el-button v-if="display" @click="display=false;feedback=null;">返回</el-button>
-                                <el-button v-if="display" @click="noPass">确认</el-button>
-                                <el-button :disabled="reim.feedback != null" v-if="!display" type="primary" @click="pass">通过</el-button>
+                                <el-button type="primary" @click="dialogFormVisible = false;dialogFormVisible1 = true">审核详情</el-button>
                             </span>
+                            </template>
+                        </el-dialog>
+                        <el-dialog v-model="dialogFormVisible1" align-center draggable width="55vw" style="padding:0px 10px;" title="审核详情">
+                            <el-scrollbar height="450px">
+                                <div style="margin-left:15px;margin-right:20px;">
+                                    <el-form :model="reim">
+                                        <el-form-item label="审核状态" label-width="70px">
+                                            <el-tag v-if="reim.status == '已通过'" type="success" disable-transitions>已通过</el-tag>
+                                            <el-tag v-if="reim.status =='已拒绝'" type="danger" disable-transitions >已拒绝</el-tag>
+                                            <el-tag v-if="reim.status =='待审批'" disable-transitions >待审批</el-tag>
+                                        </el-form-item>
+                                        <el-form-item v-if="reim.status == '已通过'||reim.status =='已拒绝'" label="反馈" label-width="70px">
+                                            <el-input disabled v-model="reim.feedback" autocomplete="off" type="textarea" :rows="17"/>
+                                        </el-form-item>
+                                        <el-form-item required v-if="reim.status =='待审批'" label="反馈" label-width="70px">
+                                            <el-input v-model="feedback" autocomplete="off" type="textarea" :rows="17"/>
+                                        </el-form-item>
+                                    </el-form>
+                                </div>
+                            </el-scrollbar>
+                            <template #footer>
+                                <span class="dialog-footer">
+                                    <el-button v-if="reim.status !='待审批'" type="primary" @click="dialogFormVisible1 = false;dialogFormVisible = true">申请详情</el-button>
+                                    <el-button v-if="reim.status =='待审批'" type="primary" @click="pass">通过</el-button>
+                                    <el-button v-if="reim.status =='待审批'" @click="noPass">驳回</el-button>
+                                    
+                                </span>
                             </template>
                         </el-dialog>
                     </el-card>
@@ -156,9 +227,8 @@
     
 <script>
 import FedNav from '@/components/FedHeader.vue'
-import { ElMessage,ElMessageBox } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import 'element-plus/es/components/message/style/index'
-import 'element-plus/es/components/message-box/style/index'
 
 export default {
 name: "clubFederationReim",
@@ -174,13 +244,7 @@ return {
     dialogFormVisible: false,
     dialogFormVisible1: false,
     feedback:null,
-    reim:{
-        reimApplyId: null,
-        reimApplyReason: "",
-        reimApplyIsPass: null,
-        reimApplyTime: "",
-        feedback:null,
-    },
+    reim:{},
     display:false,
     isPass:true,
 }
@@ -192,17 +256,11 @@ methods: {
     getCurrentRow(value){
         if(value!=null){
             console.log(value);
-            this.reim.reimApplyId=value.reimApplyId;
-            this.reim.reimApplyReason=value.reimApplyReason;
-            this.reim.reimApplyTime=value.reimApplyTime;
-            this.reim.reimApplyIsPass=value.reimApplyIsPass;
-            this.reim.feedback=value.feedback;
-            console.log("hhhhhh");
-            console.log(this.reim);
+            this.reim=value;
+            console.log("当前行"+this.reim);
         }
     },
     noPass(){
-        this.dialogFormVisible1 = false;
         console.log("不通过");
         console.log(this.reim);
         if(this.feedback==""||this.feedback==null){
@@ -212,14 +270,14 @@ methods: {
             })
             return;
         }
-
+        this.dialogFormVisible1 = false;
         this.$axios({
-            method: 'post',
-            url: '/api/examine/reim-apply',
+            method: 'put',
+            url: '/api/club-manage/reimbursements',
             data: {
-                id: this.reim.reimApplyId,
-                state: 0,
-                feedback: this.feedback,
+                reimId: this.reim.reimId,
+                status: "已拒绝",
+                feedback: this.feedback
             },
         })
         .then(res => {
@@ -231,7 +289,7 @@ methods: {
                 type: 'success',
             })
             }else{
-            ElMessage.error(res.data.message)
+                ElMessage.error(res.data.message)
             }
             this.$router.go(0)
         })
@@ -240,13 +298,23 @@ methods: {
         })
     },
     pass(){
+        console.log("通过");
+        console.log(this.reim);
+        if(this.feedback==""||this.feedback==null){
+            ElMessage({
+                message: "反馈不能为空",
+                type: 'error',
+            })
+            return;
+        }
         this.dialogFormVisible1 = false;
         this.$axios({
-            method: 'post',
-            url: '/api/examine/reim-apply',
+            method: 'put',
+            url: '/api/club-manage/reimbursements',
             data: {
-                id: this.reim.reimApplyId,
-                state: 1,
+                reimId: this.reim.reimId,
+                status: "已通过",
+                feedback: this.feedback
             },
         })
         .then(res => {
@@ -257,62 +325,22 @@ methods: {
                 type: 'success',
             })
             }else{
-            ElMessage.error(res.data.message)
+                ElMessage.error(res.data.message)
             }
             this.$router.go(0)
         })
         .catch(function (error) {
             console.log(error);
         })
-    },
-
-    deleteReim(){
-        this.$axios({
-            method: 'delete',
-            url: '/api/examine/reim-apply/'+this.reim.reimApplyId,
-        })
-        .then(res => {
-            console.log(res.data.message);
-            if(res.data.code==200){
-            ElMessage({
-                message: res.data.message,
-                type: 'success',
-            })
-            this.$router.go(0)
-            }else{
-            ElMessage.error(res.data.message)
-            }
-        })
-        .catch(function (error) {
-            console.log(error);
-            ElMessage.error("操作失败")
-        })
-    },
-    confirmDeleteReim(){
-        ElMessageBox.confirm(
-            '确认删除报销申请?',
-            '提示',
-            {
-                distinguishCancelAndClose: true,
-                confirmButtonText: '确认',
-                cancelButtonText: '取消',
-            }
-        )
-        .then(() => {
-            this.deleteReim();
-        })
-    },
-    filterTag(value, row) {
-        return row.reimApplyIsPass===value;
     },
 },
 created() {
     this.$axios({
         method: 'get',
-        url: '/api/examine/reim-apply',
+        url: '/api/club-manage/reimbursements',
     })
     .then(res => {
-        console.log(res.data.data);
+        console.log("报销申请"+res.data.data);
         this.reimList=res.data.data;
         this.total=res.data.data.length;
     })
@@ -335,7 +363,6 @@ created() {
     font-size: large;
     padding-left: 1vw;
 }
-
 
 .menu-item1{
     font-size: large;
@@ -375,5 +402,12 @@ created() {
 --el-pagination-button-disabled-bg-color:#fff;
 --el-pagination-button-bg-color:#fff;
 --el-pagination-hover-color: #167fdb;
+}
+.cell-item {
+  display: flex;
+  align-items: center;
+}
+.cell-text{
+    padding-left: 5px;
 }
 </style>

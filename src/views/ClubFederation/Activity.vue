@@ -51,7 +51,7 @@
                     </template>
                     </el-menu-item>
                 </el-menu>  
-            </el-aside>
+            </el-aside>     
             <el-container>
                 <el-main style="background-color: #F0F1F6;">
                     <el-card class="card">
@@ -60,6 +60,7 @@
                             <span class="title">活动申请列表</span>
                         </div>
                         </template>
+                        
                         <el-table
                         :data="activityList.slice((page-1) * limit, page * limit)" 
                         style="width: 100%"
@@ -119,6 +120,7 @@
                                 />
                             </div>
                         </el-row>
+
                         <el-dialog v-model="dialogFormVisible" title="审批活动申请" align-center draggable>
                             <el-form :model="activity">
                             <el-form-item label="申请时间" label-width="70px">

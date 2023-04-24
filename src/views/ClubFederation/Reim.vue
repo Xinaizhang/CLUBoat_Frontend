@@ -55,11 +55,15 @@
             <el-container>
                 <el-main style="background-color: #F0F1F6;">
                     <el-card class="card">
+
+                        <!-- Header -->
                         <template #header>
                         <div class="card-header">
                             <span class="title">报销申请列表</span>
                         </div>
                         </template>
+
+                        <!-- 表格 -->
                         <el-table
                             :data="reimList.slice((page-1) * limit, page * limit)" 
                             style="width: 100%"
@@ -101,6 +105,8 @@
                                 </template>
                             </el-table-column>
                         </el-table>
+                        
+                        <!-- 翻页 -->
                         <el-row justify="center">
                             <div class="pagination">
                                 <div class="pagination_style">&emsp;</div>
@@ -114,6 +120,8 @@
                                 />
                             </div>
                         </el-row>
+
+                        <!-- 申请详情弹窗 -->
                         <el-dialog v-model="dialogFormVisible" align-center draggable width="55vw" style="padding:0px 10px;" title="申请详情">
                             <el-scrollbar height="450px">
                                 <div style="margin-left:15px;margin-right:20px;">
@@ -191,6 +199,8 @@
                             </span>
                             </template>
                         </el-dialog>
+
+                        <!-- 审核详情弹窗 -->
                         <el-dialog v-model="dialogFormVisible1" align-center draggable width="55vw" style="padding:0px 10px;" title="审核详情">
                             <el-scrollbar height="450px">
                                 <div style="margin-left:15px;margin-right:20px;">
@@ -217,6 +227,7 @@
                                 </span>
                             </template>
                         </el-dialog>
+
                     </el-card>
                 </el-main>
             </el-container>

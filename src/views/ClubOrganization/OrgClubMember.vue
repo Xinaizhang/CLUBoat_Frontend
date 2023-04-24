@@ -5,15 +5,26 @@
         <OrgNav />
         <el-col :span="20" class="main">
             <el-card class="box-card-1">
+
+                <!-- Header -->
                 <template #header>
                     <div class="card-header">
                         <span>人员列表</span>
+
+                        <!-- 跳转至管理员/入社申请页面 -->
                         <div>
-                            <el-button color="#023764" @click="apply">管理员申请</el-button>
-                            <el-button color="#023764" @click="join">入社申请</el-button>
+                            <el-button color="#023764">
+                                <router-link to="/org_applyadmin" style="text-decoration:none;color:#fff;">管理员申请</router-link>
+                            </el-button>
+                            <el-button color="#023764">
+                                <router-link to="/org_applyjoin" style="text-decoration:none;color:#fff;">入社申请</router-link>
+                            </el-button>
                         </div>
+
                     </div>
                 </template>
+
+                <!-- 表格 -->
                 <el-table :data="buildList.slice((page-1) * limit, page * limit)" style="width: 100%" size="large"
                     height="430" highlight-current-row @current-change="getCurrentRow">
                     <el-table-column label="序号" type="index" width="150" />
@@ -101,7 +112,7 @@
         created() {
             this.$axios({
                 method: 'get',
-                url: '/api/club-manage/club-staff/1',
+                url: '/api/club-manage/club-staff/' + localStorage.getItem("clubId"),
             })
                 .then(res => {
                     console.log(res.data.data);
@@ -117,7 +128,6 @@
             OrgNav,
             OrgHeader,
         },
-
     }
 </script>
 
@@ -133,6 +143,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        min-height: 35px;
     }
 
     .box-card-1 {

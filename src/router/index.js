@@ -25,6 +25,8 @@ import OrgClubActivity from '../views/ClubOrganization/OrgClubActivity.vue'
 import OrgClubNews from '../views/ClubOrganization/OrgClubNews.vue'
 import OrgClubBudget from '../views/ClubOrganization/OrgClubBudget.vue'
 import OrgClubReim from '../views/ClubOrganization/OrgClubReim.vue'
+import OrgApplyJoin from '../views/ClubOrganization/OrgApplyJoin.vue'
+import OrgApplyAdmin from '../views/ClubOrganization/OrgApplyAdmin.vue'
 
 const routes = [
   {
@@ -151,7 +153,16 @@ const routes = [
     path:'/org_clubreim',
     name:'org_clubreim',
     component: OrgClubReim
-
+  },
+  {
+    path:'/org_applyjoin',
+    name:'org_applyjoin',
+    component: OrgApplyJoin
+  },
+  {
+    path:'/org_applyadmin',
+    name:'org_applyadmin',
+    component: OrgApplyAdmin
   }
 ]
 

@@ -1,11 +1,28 @@
 import { createRouter, createWebHistory } from 'vue-router'
+
+//登录
+import LoginPage from '../views/Login/LoginPage.vue'
+
+//主页
 import HomeView from '../views/HomeView.vue'
-import MyTest from '../views/MyTest.vue'
+
+// 个人中心
 import PersonInfo from '../views/Person/PersonInfo.vue'
 import MyActivity from '../views/Person/MyActivity.vue'
 import Notification from '../views/Person/Notification.vue'
 import MyClub from '../views/Person/MyClub.vue'
-import Collection from '../views/Collection.vue'
+
+//社团详情
+import ClubDetails from '../views/ClubDetails.vue'
+//活动详情
+import ActivityDetail from '../views/ActivityDetail.vue'
+
+
+//论坛
+import Forum from '../views/Forum.vue'
+
+
+// 社联后台
 import Pubnot from '../views/ClubFederation/Pubnot.vue'
 import CFNotification from '../views/ClubFederation/Notification.vue'
 import CFActivity from '../views/ClubFederation/Activity.vue'
@@ -14,10 +31,9 @@ import CFReim from '../views/ClubFederation/Reim.vue'
 import CFClubBuild from '../views/ClubFederation/ClubBuild.vue'
 import CFClubCancel from '../views/ClubFederation/ClubCancel.vue'
 import CFClubAdmin from '../views/ClubFederation/ClubAdmin.vue'
-import LoginPage from '../views/Login/LoginPage.vue'
-import Forum from '../views/Forum.vue'
 
-import ClubDetails from '../views/ClubDetails.vue'
+
+// 社团后台
 import OrgClubInfo from '../views/ClubOrganization/OrgClubInfo.vue'
 import OrgClubMember from '../views/ClubOrganization/OrgClubMember.vue'
 import OrgClubNotification from '../views/ClubOrganization/OrgClubNotification.vue'
@@ -27,6 +43,10 @@ import OrgClubBudget from '../views/ClubOrganization/OrgClubBudget.vue'
 import OrgClubReim from '../views/ClubOrganization/OrgClubReim.vue'
 import OrgApplyJoin from '../views/ClubOrganization/OrgApplyJoin.vue'
 import OrgApplyAdmin from '../views/ClubOrganization/OrgApplyAdmin.vue'
+
+
+import Collection from '../views/Collection.vue'
+import MyTest from '../views/MyTest.vue'
 
 const routes = [
   {
@@ -69,6 +89,8 @@ const routes = [
     name: 'Collection',
     component: Collection
   },
+
+
   {
     path: '/clubFederation/pubnot',
     name: 'pubnot',
@@ -163,6 +185,11 @@ const routes = [
     path:'/org_applyadmin',
     name:'org_applyadmin',
     component: OrgApplyAdmin
+  },
+  {
+    path:'/activitydetail',
+    name:'activitydetail',
+    component: ActivityDetail
   }
 ]
 

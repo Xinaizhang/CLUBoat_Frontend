@@ -110,7 +110,7 @@
                     <p class="item-name">{{ item.clubName }}</p>
                     <div class="review">
                       <p class="item-desc">{{ item.clubInformation }}</p>
-                      <a href="#" @click="clubDetail">
+                      <a href="#" @click="clubDetail(item)">
                         <span>查看详情</span>
                       </a>
                     </div>

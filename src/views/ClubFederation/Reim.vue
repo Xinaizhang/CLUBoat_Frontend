@@ -343,6 +343,9 @@ methods: {
             console.log(error);
         })
     },
+    filterTag(value, row) {
+        return row.status===value;
+    },
 },
 created() {
     this.$axios({

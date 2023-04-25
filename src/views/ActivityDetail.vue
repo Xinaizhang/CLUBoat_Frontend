@@ -1,104 +1,140 @@
 <template>
-    <div style="background:#FFC353">
+    <div style="background:#FFC353;min-height: 95vh;padding-bottom: 5vh;">
+        <!-- 返回按钮 -->
         <div class="back">
             <!-- 返回按钮 -->
             <el-button @click="goTo()" size="large" color="#023764" style="font-size:18px">
                 <el-icon>
                     <ArrowLeftBold />
                 </el-icon>
-                返回
+                <span style="margin-right: 10px;">返回</span>
             </el-button>
         </div>
-
-
-            <!-- 活动标题 -->
-            <div class="title-container">
-                <div>
-                    <img style="width: 100px; height: 100px; left: 10px" src="../assets/activitydetail.png">
-                    <div class="title">
-                        <span>活动标题标题标题标题</span>
-                    </div>
-                </div>
-            </div>
+        <!-- 活动标题 -->
+        <el-row justify="center" class="title-container">
+            <span class="titleText">{{ activity.activityTitle }}</span>
+        </el-row>
         
-        <el-row>
-            <el-col :span="4">
-            </el-col>
-
+        <el-row justify="center">
+            
             <!-- 活动详细信息表格 -->
-            <el-col :span="16" style="background:#ffffff" class="detail">
-                <el-descriptions :column="2" :size="large" border>
-
-                    <el-descriptions-item label-align="center" align="center" width="100px">
+            <div style="background:#ffffff;position:relative" class="detail">
+                <img class="Img" src="../assets/activitydetail.png">
+                <el-descriptions :model="activity" :column="2" border>
+                    <el-descriptions-item label-align="center" align="center" width="25%">
                         <template #label>
-                            <div class="cell-item">
-                                活动地点
-                            </div>
+                            <el-row justify="center" align="middle">
+                                <el-col :span="2" class="cell-icon">
+                                    <el-icon><School /></el-icon>
+                                </el-col>
+                                <el-col :span="10" class="cell-text">
+                                    <span>活动校区</span>
+                                </el-col>
+                            </el-row>
                         </template>
-                        <el-tag size="large" type="success" style="font-size:16px">广楼 204</el-tag>
+                        <el-tag size="large" type="success" style="width:60%;font-size:16px">{{ activity.activityCampus }}</el-tag>
                     </el-descriptions-item>
-
-                    <el-descriptions-item label-align="center" align="center" width="100px">
+                    <el-descriptions-item label-align="center" align="center" width="25%">
                         <template #label>
-                            <div class="cell-item">
-                                负责人
-                            </div>
+                            <el-row justify="center" align="middle">
+                                <el-col :span="2" class="cell-icon">
+                                    <el-icon><Location /></el-icon>
+                                </el-col>
+                                <el-col :span="10" class="cell-text">
+                                    <span>活动地点</span>
+                                </el-col>
+                            </el-row>
                         </template>
-                        <el-tag size="large" style="font-size:16px">闻珺慧</el-tag>
+                        <el-tag size="large" type="success" style="width:60%;font-size:16px">{{ activity.activityLocation }}</el-tag>
                     </el-descriptions-item>
-
-                    <el-descriptions-item label-align="center" align="center" width="100px">
+                    <el-descriptions-item label-align="center" align="center">
                         <template #label>
-                            <div class="cell-item">
-                                活动时间
-                            </div>
+                            <el-row justify="center" align="middle">
+                                <el-col :span="2" class="cell-icon">
+                                    <el-icon><Calendar /></el-icon>
+                                </el-col>
+                                <el-col :span="10" class="cell-text">
+                                    <span>活动日期</span>
+                                </el-col>
+                            </el-row>
                         </template>
-                        <div style="font-size:18px">
-                            2023/3/4 18:00-19:00
+                        <div style="font-size:16px">
+                            {{ activity.activityDate }}
+                        </div>
+                    </el-descriptions-item>
+                    <el-descriptions-item label-align="center" align="center">
+                        <template #label>
+                            <el-row justify="center" align="middle">
+                                <el-col :span="2" class="cell-icon">
+                                    <el-icon><Timer /></el-icon>
+                                </el-col>
+                                <el-col :span="10" class="cell-text">
+                                    <span>活动时间</span>
+                                </el-col>
+                            </el-row>
+                        </template>
+                        <div style="font-size:16px">
+                            {{ activity.activityTime }}
+                        </div>
+                    </el-descriptions-item>
+                    <el-descriptions-item label-align="center" align="center">
+                        <template #label>
+                            <el-row justify="center" align="middle">
+                                <el-col :span="2" class="cell-icon">
+                                    <el-icon><User /></el-icon>
+                                </el-col>
+                                <el-col :span="10" class="cell-text">
+                                    <span>总负责人</span>
+                                </el-col>
+                            </el-row>
+                        </template>
+                        <el-tag size="large" style="width:60%;font-size:16px">{{ activity.userName }}</el-tag>
+                    </el-descriptions-item>
+                    <el-descriptions-item label-align="center" align="center">
+                        <template #label>
+                            <el-row justify="center" align="middle">
+                                <el-col :span="2" class="cell-icon">
+                                    <el-icon><DataAnalysis /></el-icon>
+                                </el-col>
+                                <el-col :span="10" class="cell-text">
+                                    <span>预计人数</span>
+                                </el-col>
+                            </el-row>
+                        </template>
+                        <div style="font-size:16px">
+                            {{ activity.activityPeopleNum }}
                         </div>
                     </el-descriptions-item>
 
-                    <el-descriptions-item label-align="center" align="center" width="100px">
+                    <el-descriptions-item label-align="center" align="center">
                         <template #label>
-                            <div class="cell-item">
-                                预计参与人数
-                            </div>
+                            <el-row justify="center" align="middle">
+                                <el-col :span="2" class="cell-icon">
+                                    <el-icon><Edit /></el-icon>
+                                </el-col>
+                                <el-col :span="10" class="cell-text">
+                                    <span>活动详情</span>
+                                </el-col>
+                            </el-row>
                         </template>
-                        <div style="font-size:18px">
-                            20 ~ 30
+                        <div class="activityDescription" style="font-size:16px">
+                            &emsp;&emsp;{{ activity.activityDescription }}
                         </div>
                     </el-descriptions-item>
-
-                    <el-descriptions-item label-align="center" align="center" width="100px">
-                        <template #label>
-                            <div class="cell-item">
-                                活动详情
-                            </div>
-                        </template>
-                        <div style="font-size:18px">
-                            你对星空有着无限的向往吗？你想了解宇宙的奥秘和美丽吗？你想和志同道合的朋友一起探索天文学的魅力吗？
-                            如果你的答案是肯定的，那么欢迎你加入我们的天文社！
-                            本次天文讲座邀请了专业的天文学家或老师为我们分享最新的天文研究成果或基础知识，让我们开阔视野，增长见识。
-                        </div>
-                    </el-descriptions-item>
-
-
-
                 </el-descriptions>
                 <!-- 关注按钮 -->
-
-                <el-button type="primary" size="large" color="#023764" style="font-size:18px">关注活动</el-button>
-
-
-            </el-col>
-
-            <el-col :span="4">
-            </el-col>
+                <el-row justify="center">
+                    <el-button type="primary" color="#023764" style="font-size:16px;margin-top: 5vh;" @click="attentionActivity()">关注活动</el-button>
+                </el-row>
+            </div>
         </el-row>
     </div>
 </template>
 
 <script>
+import { ElMessage } from 'element-plus'
+import 'element-plus/es/components/message/style/index'
+
 export default {
     name: "ActivityDetail",
     components: {
@@ -106,7 +142,23 @@ export default {
     },
     data() {
         return {
-
+            activity:{
+                activityApplyId: 1,
+                userId: 1,
+                clubId: 1,
+                activityApplyTime: '2022-12-19 00:34:35',
+                status: '待审批',
+                activityTitle: '活动标题标题标题标题标题标题',
+                activityDate:'2023-3-4',
+                activityTime:'18:00 - 19:00',
+                activityCampus:'嘉定校区',
+                activityLocation:'嘉定广楼204',
+                activityPeopleNum:"20 ~ 30",
+                activityDescription:'同济大学学生社团联合会，简称“社团联合会”，是在同济大学党委领导下的同济大学学生社团的管理组织，接纳同济大学在校学生作为组织成员。同济大学社团联合会在工作上同时接受共青团同济大学委员会的指导。学生社团联合会的意义在与协调社团之间的资源支配。而随着社团的壮大，社团联也迅速成长起来。渐渐形成了以社团为特色，与社团做朋友的一个服务社团，统筹社团，规范社团，记录社团的大型组织。同济大学学生社团联合会，简称“社团联合会”，是在同济大学党委领导下的同济大学学生社团的管理组织，接纳同济大学在校学生作为组织成员。同济大学社团联合会在工作上同时接受共青团同济大学委员会的指导。学生社团联合会的意义在与协调社团之间的资源支配。而随着社团的壮大，社团联也迅速成长起来。渐渐形成了以社团为特色，与社团做朋友的一个服务社团，统筹社团，规范社团，记录社团的大型组织。同济大学学生社团联合会，简称“社团联合会”，是在同济大学党委领导下的同济大学学生社团的管理组织，接纳同济大学在校学生作为组织成员。同济大学社团联合会在工作上同时接受共青团同济大学委员会的指导。学生社团联合会的意义在与协调社团之间的资源支配。而随着社团的壮大，社团联也迅速成长起来。渐渐形成了以社团为特色，与社团做朋友的一个服务社团，统筹社团，规范社团，记录社团的大型组织。',
+                activityApplyReason: '申请理由',
+                feedback: '反馈',
+                userName: '文俊辉',
+            }
         }
     },
     methods: {
@@ -114,7 +166,30 @@ export default {
             this.$router.back();
             // this.$router.go(-1);
             // this.$router.push('/details')
-        }
+        },
+        attentionActivity() {
+            this.$axios({
+                method: 'post',
+                url: '/api/club-manage/my-activity',
+                data: {
+                    activityId: localStorage.getItem("activityId"),
+                    userId: localStorage.getItem("userId")
+                }
+            })
+                .then(res => {
+                    if (res.data.code == 200) {
+                        ElMessage({
+                            message: "关注成功",
+                            type: 'success',
+                        })
+                    } else {
+                        ElMessage.error("已关注该活动")
+                    }
+                })
+                .catch(function () {
+                    ElMessage.error("操作失败")
+                })
+        },
 
     },
     created() {
@@ -131,35 +206,42 @@ export default {
     padding-top: 20px;
 }
 
+.Img{
+    width: 200px; 
+    height: 200px;
+    position: absolute;
+    top: -15vh;
+    left: 60vw;
+}
 
 .detail {
-    min-height: 75ch;
-    border-radius: 30px 30px 0 0;
-    padding: 60px;
-    font-size: 16px;
+    border-radius: 30px;
+    padding: 60px 60px 5vh 60px;
+    width: 65%;
 }
-
-
-.cell-item {
-    font-size: 18px;
-    padding-top: 10px;
-    padding-bottom: 10px
-}
-
 .title-container {
-    text-align: center;
-    position: relative;
+    margin-bottom: 10px;
 }
-
-.title {
-    position: relative;
-    font-size: 26px;
-    margin: 0px auto 10px auto;
-    text-align: center;
+.titleText {
+    color: #023764;
+    font-size: 30px;
     font-weight: bold;
-    display: inline-block;
-    /* 指定相对位置 */
-    bottom: 30px;
-    left: 20px;
+    line-height: 10vh;
+    margin-top: 3vh;
+    letter-spacing: 2px;
+}
+.activityDescription{
+    margin: 10px 20px 10px 25px;
+    line-height: 24px;
+    text-align: left;
+}
+.cell-icon {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+}
+.cell-text{
+    font-size: 16px;
+    padding-left: 2px;
 }
 </style>

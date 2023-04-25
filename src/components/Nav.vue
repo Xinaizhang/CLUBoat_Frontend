@@ -13,11 +13,11 @@
                 <span>luBoat</span>
             </h1>
             <div class="box2">
-                <el-input v-model="input" class="search" placeholder="请输入关键字">
+                <!-- <el-input v-model="input" class="search" placeholder="请输入关键字">
                 <template #prefix>
                 <el-icon class="el-input__icon"><search/></el-icon>
                 </template>
-                </el-input>
+                </el-input> -->
                 <nav class="nav_icon">
                     <a href="/notification"><el-icon class="icon"><Bell /></el-icon></a>
                     <el-popover
@@ -156,7 +156,7 @@
         position: relative;
         left: 5vw;
         height: 50px;
-        width: 35vw;
+        width: 28vw;
         display: flex;
         align-items: center;
         background-color: #fff;
@@ -171,6 +171,7 @@
         align-items: center;
         width: 120px;
         font-size: 20px;
+        margin-left: 20vw;
     }
 
     .nav_icon a{

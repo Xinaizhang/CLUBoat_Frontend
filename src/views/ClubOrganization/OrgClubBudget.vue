@@ -15,6 +15,117 @@
                     </div>
                 </template>
 
+
+                <!--  -->
+
+                <!-- 预算列表 -->
+                <el-table :data="budgetList.slice((page - 1) * limit, page * limit)" style="width: 100%" size="large"
+                    height="400" highlight-current-row @current-change="getCurrentRow">
+                    <el-table-column label="序号" type="index" width="70" />
+                    <el-table-column prop="title" label="标题" />
+                    <el-table-column prop="amount" sortable label="报销金额" />
+                    <el-table-column prop="createTime" sortable label="申请时间" />
+                    <el-table-column prop="applicantName" label="申请人" />
+                    <el-table-column prop="status" label="审批状态" />
+
+                    <!-- 查看详情按钮 -->
+                    <el-table-column fixed="right" label="操作" width="120">
+                        <el-button link type="primary" size="small" @click="this.dialogTableVisible = true">查看详情</el-button>
+                    </el-table-column>
+                </el-table>
+
+                <!-- 翻页 -->
+                <el-row justify="center">
+                    <div class="pagination">
+                        <div class="pagination_style">&emsp;</div>
+                        <el-pagination :current-page="page" :page-size="limit" background layout="prev, pager, next"
+                            :total="total" @current-change="handleCurrentChange" />
+                    </div>
+                </el-row>
+
+                <!--  -->
+
+
+                <!-- 预算详情弹窗 -->
+                <el-dialog v-model="dialogTableVisible" align-center draggable width="55vw" style="padding:0px 10px;"
+                    title="预算申请详情">
+                    <el-scrollbar height="450px">
+                        <div style="margin-left:15px;margin-right:20px;">
+                            <el-descriptions border :model="budget" :column="4" direction="vertical">
+                                <el-descriptions-item>
+                                    <template #label>
+                                        <div class="cell-item">
+                                            <el-icon :style="iconStyle">
+                                                <el-icon>
+                                                    <Ship />
+                                                </el-icon>
+                                            </el-icon>
+                                            <span class="cell-text">申请社团</span>
+                                        </div>
+                                    </template>
+                                    <el-tag size="small">{{ budget.clubName }}</el-tag>
+                                </el-descriptions-item>
+                                <el-descriptions-item>
+                                    <template #label>
+                                        <div class="cell-item">
+                                            <el-icon :style="iconStyle">
+                                                <user />
+                                            </el-icon>
+                                            <span class="cell-text">申请人</span>
+                                        </div>
+                                    </template>
+                                    <el-tag size="small">{{ budget.applicantName }}</el-tag>
+                                </el-descriptions-item>
+                                <el-descriptions-item>
+                                    <template #label>
+                                        <div class="cell-item">
+                                            <el-icon :style="iconStyle">
+                                                <el-icon>
+                                                    <Money />
+                                                </el-icon>
+                                            </el-icon>
+                                            <span class="cell-text">申请金额</span>
+                                        </div>
+                                    </template>
+                                    <h4 style="color:green">{{ budget.amount }}</h4>
+                                </el-descriptions-item>
+                                <el-descriptions-item>
+                                    <template #label>
+                                        <div class="cell-item">
+                                            <el-icon :style="iconStyle">
+                                                <el-icon>
+                                                    <Calendar />
+                                                </el-icon>
+                                            </el-icon>
+                                            <span class="cell-text">申请时间</span>
+                                        </div>
+                                    </template>
+                                    {{ budget.createTime }}
+                                </el-descriptions-item>
+                                <el-descriptions-item label="标题" :span="4">{{ budget.title }}</el-descriptions-item>
+                                <el-descriptions-item label="申请项目" :span="4">
+                                    <el-table :data="budget.item" style="width: 100%" max-height="250">
+                                        <el-table-column prop="name" label="Name" width="180" />
+                                        <el-table-column prop="description" label="Description" width="420"/>
+                                        <el-table-column prop="money" label="Money" width="100" />
+                                    </el-table>
+                                </el-descriptions-item>
+
+                            </el-descriptions>
+                        </div>
+                    </el-scrollbar>
+
+                    <template #footer>
+                        <span class="dialog-footer">
+                            <el-button @click="dialogTableVisible = false">退出</el-button>
+                        </span>
+                    </template>
+                </el-dialog>
+
+
+                <!--  -->
+
+
                 <el-dialog width="80%" v-model="dialogFormVisible" title="New Budget Apply">
                     <el-form>
                         <el-form-item label="Title ">
@@ -58,9 +169,6 @@
                     <el-button type="primary" @click="addBudget">确认</el-button>
                 </el-dialog>
 
-
-                <br>
-                <el-tag class="ml-2" type="warning" size="large">Only main function operating. Still in process</el-tag>
             </el-card>
         </el-col>
     </el-row>
@@ -74,13 +182,17 @@ import { ref } from 'vue'
 import 'element-plus/es/components/message/style/index'
 // import 'element-plus/es/components/message-box/style/index'
 
-const now = new Date()
-
 export default {
     name: "OrgClubBudget",
     data() {
         return {
+            page: 1,
+            limit: 6,
+            total: 0,
+            row: ref(0),
+            budgetList: [],
             dialogFormVisible: false,
+            dialogTableVisible: false,
             tableData: ref([]),
             item: ref({
                 name: '',
@@ -94,12 +206,14 @@ export default {
                 title: '',
                 itemList: [],
             },
-            budget: {
-                userId: localStorage.getItem("userId"),
-                clubId: localStorage.getItem("clubId"),
-                budgetApplyReason: "",
-                budgetApplyTime: "",
-            }
+            budget: ref({
+                // clubName: '',
+                // applicantName: '',
+                // title: '',
+                // amount: 0,
+                // createTime: '',
+                // item: [],
+            })
         }
     },
     methods: {
@@ -120,16 +234,37 @@ export default {
                 money: 0,
             }
         },
-        onAddItem() {
-            now.setDate(now.getDate() + 1)
-            this.tableData.push({
-                name: 'Tom',
-                description: 'No. 189, Grove St, Los Angeles',
-                money: 100,
-            })
-        },
         deleteRow(index) {
             this.tableData.splice(index, 1)
+        },
+        handleCurrentChange(val) {
+            this.page = val
+        },
+        getCurrentRow(value){
+            if(value!=null && this.dialogTableVisible == true){
+                this.row=value.budgetId;
+                // alert(this.row);
+                console.log("row id is:" + this.row);
+                this.getBudgetDetail();
+            }
+        },
+        getBudgetDetail() {
+            if (this.row != null) {
+                console.log("id:" + this.row);
+                // this.dialogTableVisible = true;
+                this.$axios({
+                    method: 'get',
+                    url: '/api/club-manage/budgets/detail/' + this.row,
+                })
+                    .then(res => {
+                        console.log(res.data.data);
+                        this.budget = res.data.data;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    })
+            }
+
         },
         addBudget() {
             if (this.tableData.length == 0) {
@@ -163,6 +298,21 @@ export default {
                     console.log(error);
                 })
         },
+    },
+
+    created() {
+        this.$axios({
+            method: 'get',
+            url: '/api/club-manage/budgets/' + localStorage.getItem("clubId"),
+        })
+            .then(res => {
+                console.log(res.data.data);
+                this.budgetList = res.data.data;
+                this.total = res.data.data.length;
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
     },
 
     components: {

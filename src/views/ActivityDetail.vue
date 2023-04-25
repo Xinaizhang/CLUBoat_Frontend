@@ -1,5 +1,5 @@
 <template>
-    <div style="background:#FFC353;height: 100%;">
+    <div style="background:#FFC353;min-height: 95vh;padding-bottom: 5vh;">
         <!-- 返回按钮 -->
         <div class="back">
             <!-- 返回按钮 -->
@@ -12,13 +12,14 @@
         </div>
         <!-- 活动标题 -->
         <el-row justify="center" class="title-container">
-            <img class="titleImg" src="../assets/activitydetail.png">
             <span class="titleText">{{ activity.activityTitle }}</span>
         </el-row>
         
         <el-row justify="center">
+            
             <!-- 活动详细信息表格 -->
-            <div style="background:#ffffff" class="detail">
+            <div style="background:#ffffff;position:relative" class="detail">
+                <img class="Img" src="../assets/activitydetail.png">
                 <el-descriptions :model="activity" :column="2" border>
                     <el-descriptions-item label-align="center" align="center" width="25%">
                         <template #label>
@@ -123,7 +124,7 @@
                 </el-descriptions>
                 <!-- 关注按钮 -->
                 <el-row justify="center">
-                    <el-button type="primary" color="#023764" style="font-size:16px;margin-top: 20px;" @click="attentionActivity()">关注活动</el-button>
+                    <el-button type="primary" color="#023764" style="font-size:16px;margin-top: 5vh;" @click="attentionActivity()">关注活动</el-button>
                 </el-row>
             </div>
         </el-row>
@@ -153,7 +154,7 @@ export default {
                 activityCampus:'嘉定校区',
                 activityLocation:'嘉定广楼204',
                 activityPeopleNum:"20 ~ 30",
-                activityDescription:'同济大学学生社团联合会，简称“社团联合会”，是在同济大学党委领导下的同济大学学生社团的管理组织，接纳同济大学在校学生作为组织成员。同济大学社团联合会在工作上同时接受共青团同济大学委员会的指导。学生社团联合会的意义在与协调社团之间的资源支配。而随着社团的壮大，社团联也迅速成长起来。渐渐形成了以社团为特色，与社团做朋友的一个服务社团，统筹社团，规范社团，记录社团的大型组织。社团联服务社团，不仅为社团提供日常活动需要的场地和经费，还会为社团搭建一个更大的更有影响力的舞台，让社团发挥自己的才能展现自己的风采；同济大学社团联合会联规范同济大学校内的各个社团，每年定期举办合格社团联领导人资格认证。同时，社团联有完善的办公室规章制度，为规范社团，规范日常工作起到了很好的作用。同济大学校内的各个社团是围绕在社团联周围的组织，也是社团联核心的组织。',
+                activityDescription:'同济大学学生社团联合会，简称“社团联合会”，是在同济大学党委领导下的同济大学学生社团的管理组织，接纳同济大学在校学生作为组织成员。同济大学社团联合会在工作上同时接受共青团同济大学委员会的指导。学生社团联合会的意义在与协调社团之间的资源支配。而随着社团的壮大，社团联也迅速成长起来。渐渐形成了以社团为特色，与社团做朋友的一个服务社团，统筹社团，规范社团，记录社团的大型组织。同济大学学生社团联合会，简称“社团联合会”，是在同济大学党委领导下的同济大学学生社团的管理组织，接纳同济大学在校学生作为组织成员。同济大学社团联合会在工作上同时接受共青团同济大学委员会的指导。学生社团联合会的意义在与协调社团之间的资源支配。而随着社团的壮大，社团联也迅速成长起来。渐渐形成了以社团为特色，与社团做朋友的一个服务社团，统筹社团，规范社团，记录社团的大型组织。同济大学学生社团联合会，简称“社团联合会”，是在同济大学党委领导下的同济大学学生社团的管理组织，接纳同济大学在校学生作为组织成员。同济大学社团联合会在工作上同时接受共青团同济大学委员会的指导。学生社团联合会的意义在与协调社团之间的资源支配。而随着社团的壮大，社团联也迅速成长起来。渐渐形成了以社团为特色，与社团做朋友的一个服务社团，统筹社团，规范社团，记录社团的大型组织。',
                 activityApplyReason: '申请理由',
                 feedback: '反馈',
                 userName: '文俊辉',
@@ -205,24 +206,29 @@ export default {
     padding-top: 20px;
 }
 
+.Img{
+    width: 200px; 
+    height: 200px;
+    position: absolute;
+    top: -15vh;
+    left: 60vw;
+}
 
 .detail {
-    border-radius: 30px 30px 0 0;
-    padding: 60px;
+    border-radius: 30px;
+    padding: 60px 60px 5vh 60px;
     width: 65%;
 }
 .title-container {
     margin-bottom: 10px;
 }
-.titleImg{
-    width: 100px; 
-    height: 100px;
-}
 .titleText {
-    font-size: 26px;
+    color: #023764;
+    font-size: 30px;
     font-weight: bold;
-    line-height: 100px;
-    margin-left: 20px;
+    line-height: 10vh;
+    margin-top: 3vh;
+    letter-spacing: 2px;
 }
 .activityDescription{
     margin: 10px 20px 10px 25px;

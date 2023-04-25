@@ -9,13 +9,13 @@
 
                 <!-- Header -->
                 <template #header>
-                    <router-link 
-                     to="/org_clubmember" 
-                     style="position:absolute;
+                    <router-link to="/org_clubmember" style="position:absolute;
                             text-decoration:none;
                             color:#023764;
                             ">
-                        <el-icon><ArrowLeftBold /></el-icon>
+                        <el-icon>
+                            <ArrowLeftBold />
+                        </el-icon>
                     </router-link>
                     <div class="card-header">入社申请</div>
                 </template>
@@ -24,11 +24,10 @@
                 <el-table :data="joinList.slice((page - 1) * limit, page * limit)" style="width: 100%" size="large"
                     height="430" highlight-current-row @current-change="getCurrentRow">
                     <el-table-column label="序号" type="index" width="150" />
-                    <el-table-column prop="clubName" label="申请社团" sortable width="170" />
-                    <el-table-column prop="userName" label="申请人" sortable width="170" />
-                    <el-table-column prop="title" label="申请标题" />
-                    <el-table-column prop="amount" label="申请金额" />
-                    <el-table-column prop="createTime" sortable label="申请时间" />
+                    <el-table-column prop="userId" label="申请人Id" sortable width="170" />
+                    <el-table-column prop="userName" label="申请人姓名" sortable width="170" />
+                    <el-table-column prop="joinApplyContent" label="申请理由" />
+                    <el-table-column prop="joinApplyTime" sortable label="申请时间" />
                     <el-table-column prop="status" label="状态" width="100" :filters="[
                             { text: '已通过', value: '已通过' },
                             { text: '已拒绝', value: '已拒绝' },
@@ -41,7 +40,7 @@
                         </template>
                     </el-table-column>
                     <el-table-column fixed="right" label="操作" width="120">
-                            <el-button link type="primary" size="small" @click="dialogFormVisible = true">审核</el-button>
+                        <el-button link type="primary" size="small" @click="dialogFormVisible = true">审核</el-button>
                     </el-table-column>
                 </el-table>
 
@@ -55,7 +54,8 @@
                 </el-row>
 
                 <!-- 审核详情弹窗 -->
-                <el-dialog v-model="dialogFormVisible" align-center draggable width="55vw" style="padding:0px 10px;" title="审核详情">
+                <el-dialog v-model="dialogFormVisible" align-center draggable width="55vw" style="padding:0px 10px;"
+                    title="审核详情">
                     <el-scrollbar height="450px">
                         <div style="margin-left:15px;margin-right:20px;">
                             <el-form :model="join">
@@ -64,8 +64,10 @@
                                     <el-tag v-if="join.status == '已拒绝'" type="danger" disable-transitions>已拒绝</el-tag>
                                     <el-tag v-if="join.status == '待审批'" disable-transitions>待审批</el-tag>
                                 </el-form-item>
-                                <el-form-item v-if="join.status == '已通过' || join.status == '已拒绝'" label="反馈" label-width="70px">
-                                    <el-input disabled v-model="join.feedback" autocomplete="off" type="textarea" :rows="17" />
+                                <el-form-item v-if="join.status == '已通过' || join.status == '已拒绝'" label="反馈"
+                                    label-width="70px">
+                                    <el-input disabled v-model="join.feedback" autocomplete="off" type="textarea"
+                                        :rows="17" />
                                 </el-form-item>
                                 <el-form-item required v-if="join.status == '待审批'" label="反馈" label-width="70px">
                                     <el-input v-model="feedback" autocomplete="off" type="textarea" :rows="16" />
@@ -78,10 +80,6 @@
                         </div>
                     </el-scrollbar>
                 </el-dialog>
-
-
-
-
 
             </el-card>
         </el-col>
@@ -137,9 +135,9 @@ export default {
             this.dialogFormVisible1 = false;
             this.$axios({
                 method: 'put',
-                url: '',      //待填
-                data: {       //待改
-                    jId: this.reim.reimId,
+                url: '/api/examine/join-apply',
+                data: {
+                    joinApplyId: this.join.joinApplyId,
                     status: "已拒绝",
                     feedback: this.feedback
                 },
@@ -176,9 +174,9 @@ export default {
             this.dialogFormVisible1 = false;
             this.$axios({
                 method: 'put',
-                url: '',            //待填
-                data: {             //待改
-                    reimId: this.reim.reimId,
+                url: '/api/examine/join-apply',
+                data: {
+                    joinApplyId: this.join.joinApplyId,
                     status: "已通过",
                     feedback: this.feedback
                 },
@@ -199,11 +197,14 @@ export default {
                     console.log(error);
                 })
         },
+        filterTag(value, row) {
+            return row.status === value;
+        },
     },
     created() {
         this.$axios({
             method: 'get',
-            url: '',            //待填
+            url: '/api/examine/join-apply/' + localStorage.getItem("clubId"),
         })
             .then(res => {
                 console.log("报销申请" + res.data.data);
@@ -243,8 +244,7 @@ export default {
 }
 
 
-.pagination{
+.pagination {
     display: block;
     margin: 0 auto;
-    }
-</style>
+}</style>

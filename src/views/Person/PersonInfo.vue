@@ -47,11 +47,24 @@
       </el-header>
       <el-row>
         <el-col class="userPhoto" :span="8">
-          <el-avatar :size="100" fit="cover" :src="userInfo.userPhotoUrl" />
-          <el-upload>
-            <el-button color="#023764" class="btn" type="primary">修改头像</el-button>
-          </el-upload>
-          <el-button color="#023764" class="btn" type="primary" @click="display=true">修改密码</el-button>
+          <el-avatar v-if="picDisplay" :size="100" fit="cover" :src="userInfo.userPhotoUrl" />
+          <el-avatar v-if="!picDisplay" :size="100" fit="cover" :src="picUrlReview" />
+          <div>
+            <el-upload class="upload"
+              :show-file-list=false
+              :name="'iFile'"
+              limit=1
+              accept=".jpg,.jpeg,.png,.gif"
+              :http-request="upload"
+              :on-remove="handleRemove"
+            >
+              <el-button v-if="picDisplay" color="#023764" class="btn" type="primary">修改头像</el-button>
+            </el-upload>
+            <el-button v-if="!picDisplay" type="success" circle  @click="submit"><el-icon><Select /></el-icon></el-button>
+            <el-button v-if="!picDisplay" type="danger" circle  @click="cancel"><el-icon><CloseBold /></el-icon></el-button>
+          </div>
+          <div><el-button color="#023764" class="btn" type="primary" @click="display=true">修改密码</el-button></div>
+          
         </el-col>
         <el-col :span="14">
           <el-scrollbar max-height="500px">
@@ -112,39 +125,98 @@ import Nav from '@/components/Nav.vue'
 import { Bell, Football } from '@element-plus/icons-vue';
 import { ElMessage } from 'element-plus'
 import 'element-plus/es/components/message/style/index'
+import COS from "cos-js-sdk-v5"
+import {ref} from "vue"
+
+var cos = new COS({
+  SecretId: "AKIDkMkupY5TikiU0JVO2QZTAg183oOj2EBB",
+    SecretKey: "3uWv51iDUXM8qqrgHi2EHF5jBSccQ1Qg",
+})
 
 export default {
   name: "myPerson",
   data () {
   return {
+    picDisplay: true,
     display: false,
     input_show : true,
     btn_show : false,
-    userInfo:{
-      userId:1,
-      userName:"",
-      userPhone:"",
-      userSexual:"",
-      userCreateTime:"",
-      userPhotoUrl:"",
-      userSign:""
-    },
-    userInfoEdit:{
-      userId:1,
-      userName:"",
-      userPhone:"",
-      userPhotoUrl:"",
-      userSexual:"",
-      userSign:""
-    },
+    userInfo:{},
+    userInfoEdit:{},
     changePWD:{
       userId:1,
       inputPassword:null,
       newPassword:null,
-    }
+    },
+    uploadIcon:'https://cluboat-1314598070.cos.ap-nanjing.myqcloud.com/upload.png',
+    picUrlReview:ref('https://cluboat-1314598070.cos.ap-nanjing.myqcloud.com/test.png'),
+    picUrl:ref(''),
   }
   },
   methods: {
+    submit()
+    {
+      console.log('图片存储位置',this.picUrl)
+      //注意：
+      //此处要用axios请求将picUrl传到后端存入数据库（可随表单其他内容一起上传，以业务逻辑为准）
+      this.picDisplay=true;
+      this.userInfoEdit.userId=this.userInfo.userId
+      this.userInfoEdit.userName=this.userInfo.userName
+      this.userInfoEdit.userPhone=this.userInfo.userPhone
+      this.userInfoEdit.userPhotoUrl=this.picUrl
+      this.userInfoEdit.userSexual=this.userInfo.userSexual
+      this.userInfoEdit.userSign=this.userInfo.userSign
+      this.$axios({
+        method: 'put',
+        url: '/api/user-info/person-info',
+        data : this.userInfoEdit
+      })
+      .then(res => {
+        console.log(JSON.stringify(res.data));
+        if(res.data.code==200){
+            ElMessage({
+                message: "修改成功",
+                type: 'success',
+            })
+            this.$router.go(0)
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+        ElMessage({
+            message: "修改失败",
+            type: 'error',
+        })
+      })
+    },
+    cancel(){
+        this.picDisplay=true;
+    },
+    upload(picture) {
+        // 随机创建文件昵称
+        var suffix = picture.file.name.substring(picture.file.name.lastIndexOf("."));
+        var randomContent = Math.random().toString(36);
+        var picName = randomContent + suffix;
+        console.log(picName)
+        cos.putObject({
+          Bucket: 'cluboat-1314598070',
+          Region: 'ap-nanjing', // 地区
+          Key: picName, // 上传的文件名
+          StorageClass: 'STANDARD',
+          Body: picture.file, // 上传文件对象
+        }, function (err, data) {
+            console.log(err, data)
+        })
+        this.picUrl = 'https://cluboat-1314598070.cos.ap-nanjing.myqcloud.com/' + picName;
+        console.log(this.picUrlReview)
+        this.picDisplay=false;
+        setTimeout(() => {
+            this.picUrlReview = this.picUrl;
+        },500)
+    },
+    handleRemove(){
+        this.picDisplay=true;
+    },
     edit(){
       this.input_show=false
       this.btn_show=true

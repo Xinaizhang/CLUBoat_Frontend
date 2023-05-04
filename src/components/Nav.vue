@@ -50,15 +50,7 @@
         name: "NavHeader",
         data () {
             return {
-                userInfo:{
-                    "userId": 0,
-                    "userName": "",
-                    "userPhone": "",
-                    "userSexual": "",
-                    "userCreateTime": "",
-                    "userPhotoUrl": "",
-                    "userSign": ""
-                }
+                userInfo:{}
             }
         },   
         created(){

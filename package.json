@@ -11,6 +11,7 @@
     "@element-plus/icons-vue": "^2.0.10",
     "axios": "^1.2.0",
     "core-js": "^3.8.3",
+    "cos-js-sdk-v5": "^1.4.17",
     "element-plus": "^2.2.22",
     "store": "^2.0.12",
     "swiper": "^8.1.6",

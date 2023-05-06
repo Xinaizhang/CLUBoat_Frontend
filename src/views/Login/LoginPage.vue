@@ -2,7 +2,7 @@
     <div class="bg">
         <div class="headline">
             <div class="title">
-                CluBoat
+                CLUBoat
             </div>
 
             <div class="subtitle">
@@ -34,18 +34,19 @@
                 </div>
             </div>
             <div class="con-box left">
-                <h2>欢迎来到<span>CluBoat</span></h2>
+                <h2>欢迎来到<span>CLUBoat</span></h2>
                 <p>这里是一个一站式社团服务平台</p>
-                <img src="../../assets/CLUBOAT2.png" alt="">
+                <el-row justify="center"><img style="width:16vw;" src="../../assets/CLUBOAT2.png" alt=""/></el-row>
+                
                 <!-- <p class="p2">Hey!</p> -->
                 <p class="p2 p3">Hey! Sign up here👉🏻</p>
                 <p id="alter">已有账号</p>
                 <button id="login" @click='toLogin'>去登录</button>
             </div>
             <div class="con-box right">
-                <h2>欢迎来到<span>CluBoat</span></h2>
+                <h2>欢迎来到<span>CLUBoat</span></h2>
                 <p>你的一站式社团生活平台</p>
-                <img src="../../assets/CLUBOAT2.png" alt="">
+                <el-row justify="center"><img style="width:16vw;" src="../../assets/CLUBOAT2.png" alt=""/></el-row>
                 <!-- <p class="p2">Hey!</p> -->
                 <p class="p2 p3">👈🏻Hey! Login here</p>
                 <p id="alter">没有账号?</p>
@@ -393,7 +394,6 @@ input:focus::placeholder {
     align-self: center;
     justify-content: center;
     /* position: relative; */
-    margin-left: 120px;
     margin-top: 5px;
 }
 

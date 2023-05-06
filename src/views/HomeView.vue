@@ -2,7 +2,7 @@
   <Nav/>
   <div>
     <div class="head_bg">
-      <el-row justify="center" class="title">CluBoat</el-row>
+      <el-row justify="center" class="title">CLUBoat</el-row>
       <el-row justify="center" class="content">这里有最新鲜的社团资讯，最丰富的校园活动实况，最温暖友善的社团论坛，最温情的校园点滴，就是我，将承包你大学生活的所有幻想!</el-row>
     </div>
     <div class="cards body_bg">

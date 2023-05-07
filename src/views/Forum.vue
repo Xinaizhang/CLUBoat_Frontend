@@ -224,7 +224,7 @@ export default {
 
         this.$axios({
             method: 'get',
-            url: '/api/forum/post-list',
+            url: '/api/forum/post',
         })
         .then(res => {
             console.log(res.data.data);
@@ -237,12 +237,14 @@ export default {
 
         this.$axios({
             method: 'get',
-            url: '/api/forum/post-list/'+localStorage.getItem("userId"),
+            url: '/api/forum/post',
+            data:{
+                userId: localStorage.getItem("userId"),
+            }
         })
         .then(res => {
-            console.log(res.data.data);
+            console.log('我的帖子'+res.data.data);
             this.myPostList=res.data.data;
-            this.total=res.data.data.length;
         })
         .catch(function (error) {
             console.log(error);

@@ -42,27 +42,7 @@
         <span class="word">我的活动</span>
       </el-header>
       <el-row>
-        <el-tabs  v-if="activityList" v-model="tabs" class="tabs" style="width:100%;">
-          <el-tab-pane label="&emsp;未过期&emsp;" name="未过期">
-            <el-scrollbar max-height="400px">
-              <el-card class="box-card" v-for="item in activityList" v-show="activityTime(item.activityTime)" :key="item.activityId" shadow="hover">
-              <template #header>
-                <div class="card-header">
-                  <span>{{ item.activityTitle }}</span>
-                  <el-button color="#023764" class="button" icon="ArrowRightBold" circle></el-button>
-                </div>
-              </template>
-              <el-row>
-                <el-col class="textFather" :span="21">
-                  <div class="text">{{ item.activityDescription }}</div>
-                </el-col>
-                <el-col :span="3">
-                  <el-button class="button" color="#023764" @click="edit">取消关注</el-button>
-                </el-col>
-              </el-row>
-            </el-card>
-            </el-scrollbar>
-          </el-tab-pane>
+        <el-tabs v-if="activityList&&display" v-model="tabs" class="tabs" style="width:100%;">
           <el-tab-pane label="&emsp;&nbsp;全部&nbsp;&emsp;" name="全部">
             <el-scrollbar max-height="400px">
               <el-card class="box-card" v-for="item in activityList" :key="item.activityId" shadow="hover">
@@ -84,6 +64,27 @@
             </el-card>
             </el-scrollbar>
           </el-tab-pane>
+          <el-tab-pane label="&emsp;未过期&emsp;" name="未过期">
+            <el-scrollbar max-height="400px">
+              <el-card class="box-card" v-for="item in activityList" v-show="activityTime(item.activityTime)" :key="item.activityId" shadow="hover">
+              <template #header>
+                <div class="card-header">
+                  <span>{{ item.activityTitle }}</span>
+                  <el-button color="#023764" class="button" icon="ArrowRightBold" circle></el-button>
+                </div>
+              </template>
+              <el-row>
+                <el-col class="textFather" :span="21">
+                  <div class="text">{{ item.activityDescription }}</div>
+                </el-col>
+                <el-col :span="3">
+                  <el-button class="button" color="#023764" @click="edit">取消关注</el-button>
+                </el-col>
+              </el-row>
+            </el-card>
+            </el-scrollbar>
+          </el-tab-pane>
+
         </el-tabs>
         
       </el-row>
@@ -104,8 +105,9 @@ export default {
   data () {
   return {
     currentDate: "",
-    tabs: "未过期",
+    tabs: "全部",
     activityList: [{}],
+    display:true,
   }
   },
   methods: {
@@ -121,28 +123,28 @@ export default {
     },
     edit(value){
       this.$axios({
-        method: 'delete',
-        url: '/api/user-info/my-activity',
-        data:{
-          userId:localStorage.getItem('userId'),
-          activityId:value,
-        },
-      })
-      .then(res => {
-      if(res.data.code==200){
-        ElMessage({
-          message: res.data.message,
-          type: 'success',
+          method: 'delete',
+          url: '/api/user-info/my-activity',
+          data:{
+            userId:localStorage.getItem('userId'),
+            activityId:value,
+          },
         })
-      }else{
-        ElMessage.error(res.data.message)
-      }
-    })
-    .catch(function (error) {
-      console.log(error);
-      ElMessage.error("无记录")
-    })
-    this.$router.go(0)
+        .then(res => {
+        if(res.data.code==200){
+          ElMessage({
+            message: res.data.message,
+            type: 'success',
+          })
+          this.$router.go(0)
+        }else{
+          ElMessage.error(res.data.message)
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+        ElMessage.error("无记录")
+      })
     }
   },
   created() {

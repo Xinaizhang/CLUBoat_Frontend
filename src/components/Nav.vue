@@ -10,7 +10,7 @@
             </div>
             <h1 class="logo">
                 <img src="../assets/logo.svg">
-                <span>luBoat</span>
+                <span>LUBoat</span>
             </h1>
             <div class="box2">
                 <!-- <el-input v-model="input" class="search" placeholder="请输入关键字">

@@ -23,10 +23,21 @@
                     height="400" highlight-current-row @current-change="getCurrentRow">
                     <el-table-column label="序号" type="index" width="70" />
                     <el-table-column prop="title" label="标题" />
-                    <el-table-column prop="amount" sortable label="报销金额" />
+                    <el-table-column prop="amount" sortable label="申请金额" />
                     <el-table-column prop="createTime" sortable label="申请时间" />
                     <el-table-column prop="applicantName" label="申请人" />
-                    <el-table-column prop="status" label="审批状态" />
+                    <!-- <el-table-column prop="status" label="审批状态" /> -->
+                    <el-table-column prop="status" label="审批状态" :filters="[
+                            { text: '已通过', value: '已通过' },
+                            { text: '已拒绝', value: '已拒绝' },
+                            { text: '待审批', value: '待审批' },
+                        ]" :filter-method="filterTag" filter-placement="bottom-end">
+                        <template #default="scope">
+                            <el-tag v-if="scope.row.status == '已通过'" type="success" disable-transitions>已通过</el-tag>
+                            <el-tag v-if="scope.row.status == '已拒绝'" type="danger" disable-transitions>已拒绝</el-tag>
+                            <el-tag v-if="scope.row.status == '待审批'" disable-transitions>待审批</el-tag>
+                        </template>
+                    </el-table-column>
 
                     <!-- 查看详情按钮 -->
                     <el-table-column fixed="right" label="操作" width="120">
@@ -297,6 +308,9 @@ export default {
                 .catch(function (error) {
                     console.log(error);
                 })
+        },
+        filterTag(value, row) {
+            return row.status === value;
         },
     },
 

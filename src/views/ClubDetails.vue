@@ -119,9 +119,10 @@
                         <el-col :span="16" class="g5-2">
                             <el-scrollbar max-height="350px">
                                 <el-card class="activitybox" v-for="item in ActivityList" :key="item.id" shadow="hover">
+                                    <!-- <div class="text">{{ item.activityDate }}</div> -->
                                     <template #header>
                                         <div class="activityboxtitle">
-                                            <span>{{ item.activityName }}</span>
+                                            <span>{{ item.activityTitle }}</span>
                                             <router-link to="/activitydetail" style="text-decoration:none;color:#fff;">
                                                 <el-button color="#023764" class="button" icon="ArrowRightBold" circle>
                                                 </el-button>
@@ -133,7 +134,8 @@
                                     </template>
                                     <el-row>
                                         <el-col class="textFather" :span="21">
-                                            <div class="text">{{ item.activityContent }}</div>
+                                            <div class="text">{{ item.activityDescription }}</div>
+                                            
                                         </el-col>
                                         <el-col :span="3">
                                             <el-button class="button" color="#023764"
@@ -196,12 +198,10 @@ export default {
             ActivityList: [{}],
             Activity: {
                 activityId: 1,
-                clubId: 1,
-                activityName: 1,
-                activityArea: "",
-                activityStartTime: "",
-                activityEndTime: "",
-                activityContent: "",
+                activityTitle: "",
+                activityDate: "",
+                activityCampus: "",
+                activityDescription: "",
             },
 
             application: {
@@ -225,6 +225,7 @@ export default {
         }
     },
     methods: {
+        //关注社团活动
         attentionActivity(activity) {
             console.log(activity.activityId)
             this.$axios({
@@ -249,6 +250,7 @@ export default {
                     ElMessage.error("操作失败")
                 })
         },
+        //申请加入社团
         clubAdmin() {
             if (this.role == 2) {
                 this.$router.push('/org_clubinfo')
@@ -258,6 +260,7 @@ export default {
                 return;
             }
         },
+        //申请成为管理员
         becomeAdmin() {
             this.time = new Date();
             this.hour = this.time.getHours();
@@ -356,9 +359,13 @@ export default {
                     console.log(error);
                 })
         },
+
+        //进入论坛
         forum() {
             this.$router.push('/forum')
         },
+
+        //注销社团
         deleteClub() {
             this.time = new Date();
             this.hour = this.time.getHours();
@@ -412,7 +419,6 @@ export default {
         this.adminApplication.userId = localStorage.getItem("userId")
         this.clubInfo.clubId = localStorage.getItem("clubId"),
             this.clubNews.clubId = localStorage.getItem("clubId"),
-            this.Activity.clubId = localStorage.getItem("clubId"),
             this.application.joinClubId = localStorage.getItem("clubId"),
             this.adminApplication.adminClubId = localStorage.getItem("clubId"),
             this.$axios({
@@ -684,7 +690,7 @@ body {
 .text {
     font-size: 14px;
     font-weight: normal;
-    align-self: center;
+    align-self:center;
     display: -webkit-box;
     /* 垂直对齐 */
     -webkit-box-orient: vertical;

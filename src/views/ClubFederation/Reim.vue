@@ -106,7 +106,7 @@
                             </el-table-column>
                         </el-table>
                         
-                        <!-- 翻页 -->
+                        <!-- 分页器 -->
                         <el-row justify="center">
                             <div class="pagination">
                                 <div class="pagination_style">&emsp;</div>

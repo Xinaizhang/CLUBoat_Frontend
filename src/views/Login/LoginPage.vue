@@ -11,7 +11,7 @@
         </div>
         <div class="container">
             <div class="form-box" :style="{ 'transform': form_style }">
-                
+
                 <!-- 注册 -->
                 <div class="signup-box" :class="{ 'hidden': isHidden }">
                     <h2>Sign Up</h2>
@@ -175,9 +175,9 @@ export default {
                     })
                 }
             })
-                .catch(function (error) {
-                    console.log(error)
-                })
+            .catch(function (error) {
+                console.log(error)
+            })
         }
 
     }

@@ -381,7 +381,4 @@ margin-top: 10px;
     border: 2px solid #d2d4d6;
     border-radius: 10px;
 }
-.inputComment{
-    
-}
 </style>

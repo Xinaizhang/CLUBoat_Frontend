@@ -52,10 +52,7 @@
                 :span="7"
               >
               <el-card class="club">
-                <img
-                  :src="item.clubImageUrl"
-                  class="image"
-                />
+                <img :src="item.clubImageUrl" class="image"/>
                 <div class="bottom" style="padding: 14px">
                   <span class="clubName">{{ item.clubName }}</span>
                   <div class="bottom">

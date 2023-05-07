@@ -43,6 +43,7 @@
       </el-header>
       <el-row>
         <el-tabs v-if="activityList&&display" v-model="tabs" class="tabs" style="width:100%;">
+          <!-- 全部活动 -->
           <el-tab-pane label="&emsp;&nbsp;全部&nbsp;&emsp;" name="全部">
             <el-scrollbar max-height="400px">
               <el-card class="box-card" v-for="item in activityList" :key="item.activityId" shadow="hover">
@@ -60,10 +61,11 @@
                   <el-button class="button" color="#023764" @click="edit(item.activityId)">取消关注</el-button>
                 </el-col>
               </el-row>
-              
             </el-card>
             </el-scrollbar>
           </el-tab-pane>
+
+          <!-- 未过期活动 -->
           <el-tab-pane label="&emsp;未过期&emsp;" name="未过期">
             <el-scrollbar max-height="400px">
               <el-card class="box-card" v-for="item in activityList" v-show="activityTime(item.activityTime)" :key="item.activityId" shadow="hover">
@@ -84,7 +86,6 @@
             </el-card>
             </el-scrollbar>
           </el-tab-pane>
-
         </el-tabs>
         
       </el-row>

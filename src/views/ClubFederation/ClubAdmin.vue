@@ -56,25 +56,25 @@
                 <el-main style="background-color: #F0F1F6;">
                     <el-card class="card">
                         <template #header>
-                        <div class="card-header">
-                            <span class="title">社团列表</span>
-                        </div>
+                            <div class="card-header">
+                                <span class="title">社团列表</span>
+                            </div>
                         </template>
                         <el-table
-                        :data="clubList.slice((page-1) * limit, page * limit)" 
-                        style="width: 100%"
-                        size="large"
-                        height="430"
-                        highlight-current-row
-                        @current-change="getCurrentRow"
+                            :data="clubList.slice((page-1) * limit, page * limit)" 
+                            style="width: 100%"
+                            size="large"
+                            height="430"
+                            highlight-current-row
+                            @current-change="getCurrentRow"
                         >
-                            <el-table-column label="序号" type="index" width="150" />
-                            <el-table-column prop="clubId" label="社团ID" sortable width="150"/>
-                            <el-table-column prop="clubName" label="社团名称"/>
-                            <el-table-column prop="clubInformation" sortable label="社团简介" />
+                            <el-table-column label="序号" type="index" width="80" />
+                            <el-table-column prop="clubId" label="社团ID" sortable width="100"/>
+                            <el-table-column prop="clubName" label="社团名称" width="120"/>
+                            <el-table-column prop="clubInformation" sortable label="社团简介" width="400"/>
                             <el-table-column label="社团图片">
                                 <template #default="scope">
-                                    <el-image style="width: 100px; height: 100px" :src="scope.row.clubImageUrl" :fit="fit" />
+                                    <el-image style="width: 140px; height: 130px" :src="scope.row.clubImageUrl" :fit="fit" />
                                 </template>
                             </el-table-column>
                             <el-table-column prop="clubCreateTime" sortable label="社团创建时间" />
@@ -98,12 +98,12 @@
                                 />
                             </div>
                         </el-row>
+
                         <el-dialog v-model="dialogFormVisible" title="设置社长" align-center draggable>
                             <el-descriptions
                                 class="margin-top"
                                 title="社团信息"
                                 :column="2"
-                                :size="size"
                                 border
                             >
                                 <el-descriptions-item>
@@ -121,25 +121,12 @@
                                     <template #label>
                                         <div class="cell-item">
                                             <el-icon :style="iconStyle">
-                                                <Edit />
-                                            </el-icon>
-                                            社团简介
-                                        </div>
-                                    </template>
-                                    {{ club.clubInformation }}
-                                </el-descriptions-item>
-                                <el-descriptions-item>
-                                    <template #label>
-                                        <div class="cell-item">
-                                            <el-icon :style="iconStyle">
                                                 <Calendar />
                                             </el-icon>
                                             创建时间
                                         </div>
                                     </template>
                                     {{ club.clubCreateTime }}
-                                </el-descriptions-item>
-                                <el-descriptions-item>
                                 </el-descriptions-item>
                                 <el-descriptions-item>
                                     <template #label>
@@ -163,7 +150,17 @@
                                     </template>
                                     <div>用户ID：{{ clubadminInfo.userId }}</div>
                                     <div>用户名：{{ clubadminInfo.userName }}</div>
-                                    
+                                </el-descriptions-item>
+                                <el-descriptions-item :span="2">
+                                    <template #label>
+                                        <div>
+                                            <el-icon :style="iconStyle">
+                                                <Edit />
+                                            </el-icon>
+                                            社团简介
+                                        </div>
+                                    </template>
+                                    {{ club.clubInformation }}
                                 </el-descriptions-item>
                             </el-descriptions>
                             <h3 style="margin:20px 0px;color: #333;">更换社长</h3>
@@ -269,12 +266,12 @@ methods: {
         .then(res => {
             console.log(res.data.message);
             if(res.data.code==200){
-            ElMessage({
-                message: "社长更新为管理员，选中用户更新为社长",
-                type: 'success',
-            })
+                ElMessage({
+                    message: "社长更新为管理员，选中用户更新为社长",
+                    type: 'success',
+                })
             }else{
-            ElMessage.error(res.data.message)
+                ElMessage.error(res.data.message)
             }
         })
         .catch(function (error) {
@@ -390,5 +387,10 @@ created() {
 --el-pagination-button-disabled-bg-color:#fff;
 --el-pagination-button-bg-color:#fff;
 --el-pagination-hover-color: #167fdb;
+}
+.cell-item{
+    width:5vw;
+    height:6vh;
+    line-height: 6vh;
 }
 </style>

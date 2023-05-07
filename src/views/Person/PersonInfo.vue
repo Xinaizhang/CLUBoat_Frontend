@@ -46,6 +46,7 @@
         <el-button class="btn" color="#023764" @click="edit">编辑</el-button>
       </el-header>
       <el-row>
+        <!-- 修改头像 -->
         <el-col class="userPhoto" :span="8">
           <el-avatar v-if="picDisplay" :size="100" fit="cover" :src="userInfo.userPhotoUrl" />
           <el-avatar v-if="!picDisplay" :size="100" fit="cover" :src="picUrlReview" />
@@ -64,10 +65,10 @@
             <el-button v-if="!picDisplay" type="danger" circle  @click="cancel"><el-icon><CloseBold /></el-icon></el-button>
           </div>
           <div><el-button color="#023764" class="btn" type="primary" @click="display=true">修改密码</el-button></div>
-          
         </el-col>
         <el-col :span="14">
           <el-scrollbar max-height="500px">
+            <!-- 修改个人资料 -->
             <el-form v-if="!display" class="form"
               label-position="top"
               label-width="100px"
@@ -92,6 +93,7 @@
                 <el-button v-if="btn_show" :v-show="btn_show" class="btn2" color="#023764" @click="cancelEdit">取消</el-button>
               </el-form-item>
             </el-form>
+            <!-- 修改密码 -->
             <el-form v-if="display" class="form"
               label-position="top"
               label-width="100px"
@@ -109,10 +111,8 @@
               </el-form-item>
             </el-form>
           </el-scrollbar>
-
         </el-col>
       </el-row>
-
     </el-col>
   </el-row>
   </div>
@@ -193,26 +193,26 @@ export default {
         this.picDisplay=true;
     },
     upload(picture) {
-        // 随机创建文件昵称
-        var suffix = picture.file.name.substring(picture.file.name.lastIndexOf("."));
-        var randomContent = Math.random().toString(36);
-        var picName = randomContent + suffix;
-        console.log(picName)
-        cos.putObject({
-          Bucket: 'cluboat-1314598070',
-          Region: 'ap-nanjing', // 地区
-          Key: picName, // 上传的文件名
-          StorageClass: 'STANDARD',
-          Body: picture.file, // 上传文件对象
-        }, function (err, data) {
-            console.log(err, data)
-        })
-        this.picUrl = 'https://cluboat-1314598070.cos.ap-nanjing.myqcloud.com/' + picName;
-        console.log(this.picUrlReview)
-        this.picDisplay=false;
-        setTimeout(() => {
-            this.picUrlReview = this.picUrl;
-        },500)
+      // 随机创建文件昵称
+      var suffix = picture.file.name.substring(picture.file.name.lastIndexOf("."));
+      var randomContent = Math.random().toString(36);
+      var picName = randomContent + suffix;
+      console.log(picName)
+      cos.putObject({
+        Bucket: 'cluboat-1314598070',
+        Region: 'ap-nanjing', // 地区
+        Key: picName, // 上传的文件名
+        StorageClass: 'STANDARD',
+        Body: picture.file, // 上传文件对象
+      }, function (err, data) {
+          console.log(err, data)
+      })
+      this.picUrl = 'https://cluboat-1314598070.cos.ap-nanjing.myqcloud.com/' + picName;
+      console.log(this.picUrlReview)
+      this.picDisplay=false;
+      setTimeout(() => {
+          this.picUrlReview = this.picUrl;
+      },500)
     },
     handleRemove(){
         this.picDisplay=true;

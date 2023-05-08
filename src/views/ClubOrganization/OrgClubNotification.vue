@@ -9,8 +9,7 @@
                 <template #header>
                     <div class="card-header">
                         <span>通知管理</span>
-                        <el-button class="button" color="#023764" @click="dialogFormVisible = true">发布通知
-                        </el-button>
+                        <el-button class="button" color="#023764" @click="dialogFormVisible = true">发布通知</el-button>
                     </div>
                 </template>
 
@@ -68,16 +67,11 @@
                     <template #footer>
                         <span class="dialog-footer">
                             <el-button @click="dialogFormVisible = false">取消</el-button>
-                            <el-button type="primary" @click="addNotification">
-                                确认
-                            </el-button>
+                            <el-button type="primary" @click="addNotification">确认</el-button>
                         </span>
                     </template>
                 </el-dialog>
-
-
             </el-card>
-
         </el-col>
     </el-row>
 </template>

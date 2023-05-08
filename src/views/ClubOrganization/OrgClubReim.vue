@@ -13,9 +13,7 @@
                         <el-button class="button" color="#023764" @click="dialogFormVisible = true">提交申请
                         </el-button>
                     </div>
-
                 </template>
-
 
                 <!-- 报销列表 -->
                 <el-table :data="reimList.slice((page - 1) * limit, page * limit)" style="width: 100%" size="large"
@@ -25,7 +23,6 @@
                     <el-table-column prop="amount" sortable label="报销金额" />
                     <el-table-column prop="createTime" sortable label="申请时间" />
                     <el-table-column prop="userName" label="申请人" />
-                    <!-- <el-table-column prop="status" label="审批状态" /> -->
                     <el-table-column prop="status" label="状态" width="100" :filters="[
                             { text: '已通过', value: '已通过' },
                             { text: '已拒绝', value: '已拒绝' },
@@ -37,7 +34,6 @@
                             <el-tag v-if="scope.row.status == '待审批'" disable-transitions>待审批</el-tag>
                         </template>
                     </el-table-column>
-
                     <!-- 查看详情按钮 -->
                     <el-table-column fixed="right" label="操作" width="120">
                         <el-button link type="primary" size="small" @click="dialogFormVisible1 = true">查看详情</el-button>

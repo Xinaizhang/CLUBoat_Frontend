@@ -16,9 +16,6 @@
 
         <el-row>
           <el-col class="userPhoto" :span="6" :offset="2">
-            <!-- <div class="block">
-                  <el-avatar shape="square" :size="50" :src="squareUrl"></el-avatar>
-                </div> -->
             <el-avatar :size="100" fit="cover" :src="clubInfo.clubImageUrl" />
             <el-upload>
               <el-button color="#023764" class="btn" type="primary">修改头像</el-button>

@@ -33,7 +33,6 @@
                                                 @click=clubAdmin>后台管理</el-button>
                                         </el-row>
                                     </el-col>
-
                                 </div>
                             </template>
                             <div class="title2">社团简介</div>
@@ -71,6 +70,7 @@
                                     </span>
                                 </template>
                             </el-dialog>
+                            <!-- 注销社团申请弹窗 -->
                             <el-dialog v-model="dialogFormVisible2" title="注销社团申请" align-center draggable>
                                 <el-form :model="deleteApplication">
                                     <el-form-item label="申请理由" label-width="70px">
@@ -119,7 +119,6 @@
                         <el-col :span="16" class="g5-2">
                             <el-scrollbar max-height="350px">
                                 <el-card class="activitybox" v-for="item in ActivityList" :key="item.id" shadow="hover">
-                                    <!-- <div class="text">{{ item.activityDate }}</div> -->
                                     <template #header>
                                         <div class="activityboxtitle">
                                             <span>{{ item.activityTitle }}</span>
@@ -142,19 +141,15 @@
                                                 @click="attentionActivity(item)">关注</el-button>
                                         </el-col>
                                     </el-row>
-
                                 </el-card>
                             </el-scrollbar>
-
                         </el-col>
                     </el-row>
                     <el-row class="row-bg" justify="space-between">
                         <el-col :span="24" class="g5-3" @click="forum"></el-col>
                     </el-row>
-
                 </el-col>
             </el-row>
-
         </el-main>
     </el-container>
 </template>

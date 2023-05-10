@@ -40,7 +40,7 @@
             <div class="con-box left">
                 <h2>欢迎来到<span>CLUBoat</span></h2>
                 <p>这里是一个一站式社团服务平台</p>
-                <el-row justify="center"><img style="width:16vw;" src="../../assets/CLUBOAT2.png" alt=""/></el-row>
+                <el-row justify="center"><img style="width:16vw;" src="../../assets/CLUBoat4.png" alt=""/></el-row>
                 
                 <!-- <p class="p2">Hey!</p> -->
                 <p class="p2 p3">Hey! Sign up here👉🏻</p>
@@ -52,7 +52,7 @@
             <div class="con-box right">
                 <h2>欢迎来到<span>CLUBoat</span></h2>
                 <p>你的一站式社团生活平台</p>
-                <el-row justify="center"><img style="width:16vw;" src="../../assets/CLUBOAT2.png" alt=""/></el-row>
+                <el-row justify="center"><img style="width:16vw;" src="../../assets/CLUBoat4.png" alt=""/></el-row>
                 <!-- <p class="p2">Hey!</p> -->
                 <p class="p2 p3">👈🏻Hey! Login here</p>
                 <p id="alter">没有账号?</p>

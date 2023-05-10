@@ -125,12 +125,13 @@ import Nav from '@/components/Nav.vue'
 import { Bell, Football } from '@element-plus/icons-vue';
 import { ElMessage } from 'element-plus'
 import 'element-plus/es/components/message/style/index'
-import COS from "cos-js-sdk-v5"
 import {ref} from "vue"
+
+import COS from "cos-js-sdk-v5"
 
 var cos = new COS({
   SecretId: "AKIDkMkupY5TikiU0JVO2QZTAg183oOj2EBB",
-    SecretKey: "3uWv51iDUXM8qqrgHi2EHF5jBSccQ1Qg",
+  SecretKey: "3uWv51iDUXM8qqrgHi2EHF5jBSccQ1Qg",
 })
 
 export default {

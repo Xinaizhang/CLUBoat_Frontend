@@ -108,18 +108,8 @@
                                 <el-descriptions-item label="标题" :span="4">{{ reim.title }}</el-descriptions-item>
                                 <el-descriptions-item label="申请理由" :span="4">{{ reim.description }}</el-descriptions-item>
                                 <el-descriptions-item label="附件">
-                                    <el-image style="width: 30vw;" :src="reim.attachments[0].attachUrl" fit="contain">
+                                    <el-image style="width: 30vw;" :src="currentPic" fit="contain">
                                     </el-image>
-                                    <!-- <el-carousel trigger="click" arrow="always" :autoplay="false">
-                                        
-                                        <el-carousel-item v-for="item of reim.attachments" :key="item">
-                                            <div style="text-align:center">
-                                            
-                                                <el-image style="width: 30vw;" src="item.attachUrl" fit="contain">
-                                                </el-image>
-                                            </div>
-                                        </el-carousel-item>
-                                    </el-carousel> -->
                                 </el-descriptions-item>
                             </el-descriptions>
                         </div>
@@ -178,9 +168,9 @@
                                     </el-upload>
                                     <h2>预览</h2>
                                     <el-image :src="picUrlReview" style="width: 150px;height: 150px"></el-image>
-                                    <!-- <div>
+                                    <div>
                                         <el-button @click="addReim">提 交</el-button>
-                                    </div> -->
+                                    </div>
                                 </div>
 
                             </el-form-item>
@@ -218,6 +208,7 @@ export default {
     name: "OrgClubReim",
     data() {
         return {
+            currentPic:null,
             page: 1,
             limit: 8,
             total: 6,
@@ -225,7 +216,12 @@ export default {
             dialogFormVisible: false,
             dialogFormVisible1: false,
             feedback: null,
-            reim: {},
+            reim: {
+                title: null,
+                amount: 0,
+                description: null,
+                attachments: [{ attachUrl: null }]
+            },
             inputreim: {
                 title: null,
                 amount: 0,
@@ -236,6 +232,7 @@ export default {
             display: false,
             isPass: true,
             clubName: localStorage.getItem("clubName"),
+
             uploadIcon: 'https://cluboat-1314598070.cos.ap-nanjing.myqcloud.com/upload.png',
             picUrlReview: ref('https://cluboat-1314598070.cos.ap-nanjing.myqcloud.com/test.png'),
             picUrl: ref('')
@@ -245,14 +242,14 @@ export default {
         handleCurrentChange(val) {
             this.page = val
         },
+
         upload(picture) {
             // 随机创建文件昵称
             var suffix = picture.file.name.substring(picture.file.name.lastIndexOf("."));
             var randomContent = Math.random().toString(36);
             var picName = randomContent + suffix;
             console.log(picName)
-            let self = this;
-            self.$message.success('图片上传成功');
+            
             cos.putObject({
                 Bucket: 'cluboat-1314598070',
                 Region: 'ap-nanjing', // 地区
@@ -274,7 +271,7 @@ export default {
             if (value != null) {
                 console.log(value);
                 this.reim = value;
-                console.log("当前行" + this.reim);
+                this.currentPic=this.reim.attachments[0].attachUrl
             }
         },
 
@@ -297,33 +294,33 @@ export default {
             this.inputreim.attachments[0].attachUrl = this.picUrl;
             console.log("attachUrl" + this.inputreim.attachments[0].attachUrl)
 
-            // this.$axios({
-            //     method: 'post',
-            //     url: '/api/club-manage/reimbursements',
-            //     data: {
-            //         clubId: localStorage.getItem("clubId"),
-            //         userId: localStorage.getItem("userId"),
-            //         title: this.inputreim.title,
-            //         amount: this.inputreim.amount,
-            //         description: this.inputreim.description,
-            //         attachments: this.inputreim.attachments,
-            //     }
-            // })
-            //     .then(res => {
-            //         console.log(res.data.message);
-            //         if (res.data.code == 200) {
-            //             ElMessage({
-            //                 message: res.data.message,
-            //                 type: 'success',
-            //             })
-            //         } else {
-            //             ElMessage.error(res.data.message)
-            //         }
-            //         this.$router.go(0)
-            //     })
-            //     .catch(function (error) {
-            //         console.log(error);
-            //     })
+            this.$axios({
+                method: 'post',
+                url: '/api/club-manage/reimbursements',
+                data: {
+                    clubId: localStorage.getItem("clubId"),
+                    userId: localStorage.getItem("userId"),
+                    title: this.inputreim.title,
+                    amount: this.inputreim.amount,
+                    description: this.inputreim.description,
+                    attachments: this.inputreim.attachments,
+                }
+            })
+                .then(res => {
+                    console.log(res.data.message);
+                    if (res.data.code == 200) {
+                        ElMessage({
+                            message: res.data.message,
+                            type: 'success',
+                        })
+                    } else {
+                        ElMessage.error(res.data.message)
+                    }
+                    this.$router.go(0)
+                })
+                .catch(function (error) {
+                    console.log(error);
+                })
         },
         filterTag(value, row) {
             return row.status === value;
@@ -352,8 +349,6 @@ export default {
 
 }
 </script>
-
-
 
 
 

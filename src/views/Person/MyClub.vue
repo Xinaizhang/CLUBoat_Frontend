@@ -124,12 +124,7 @@ export default {
     total: 6,
     clubList: null,
     dialogFormVisible:false,
-    club: {
-      userId: 14,
-      clubName: null,
-      buildApplyReason: null,
-      buildApplyTime: null
-    },
+    club: {},
     // [{
       // clubId: '0001',
       // clubName: '书法社',
@@ -240,6 +235,31 @@ export default {
       .catch(function (error) {
           console.log(error);
       })
+  },
+  createClub(){
+    this.$axios({
+        method: 'post',
+        url: '/api/club-manage/club-build-apply',
+        data: {
+          userId: localStorage.getItem('userId'),
+          clubName: this.club.clubName,
+          buildApplyReason: this.club.buildApplyReason,
+        }
+    })
+    .then(res => {
+        if (res.data.code == 200) {
+            ElMessage({
+                message: res.data.message,
+                type: 'success',
+            })
+        } else {
+            ElMessage.error(res.data.message)
+        }
+        this.$router.go(0)
+    })
+    .catch(function (error) {
+        console.log(error);
+    })
   },
   },
   created() {

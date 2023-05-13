@@ -62,8 +62,8 @@
                         <el-table :data="notificationList.slice((page - 1) * limit, page * limit)"
                             :default-sort="{ prop: 'notificationTime', order: 'descending' }" style="width: 100%"
                             size="large" height="430">
-                            <el-table-column label="序号" type="index" width="150" />
-                            <el-table-column prop="sendUserId" label="用户ID" sortable width="170" />
+                            <el-table-column label="序号" type="index" width="80" />
+                            <el-table-column prop="receiverName" label="用户名" width="160" />
                             <el-table-column prop="notificationTitle" label="标题" />
                             <el-table-column prop="notificationContent" label="内容" />
                             <el-table-column prop="notificationTime" sortable label="发布时间" />

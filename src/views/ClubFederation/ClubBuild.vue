@@ -253,7 +253,7 @@ methods: {
         .then(res => {
             console.log(res.data.message);
             if(res.data.code==200){
-                this.clubId=res.data.data.clubId;
+                this.clubId=res.data.data;
                 this.setAdmin();
                 ElMessage({
                     message: '已通过该申请',
@@ -269,7 +269,6 @@ methods: {
         })
     },
     setAdmin(){
-        this.dialogFormVisible1 = false;
         this.$axios({
             method: 'post',
             url: '/api/examine/club-admin/master',

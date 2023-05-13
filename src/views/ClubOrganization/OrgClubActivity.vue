@@ -72,7 +72,8 @@
                         </el-form-item>
                         <el-form-item label="活动日期" label-width="110px">
                             <!-- <el-input v-model="activity.activityDate" autocomplete="off" /> -->
-                            <el-date-picker v-model="activity.activityDate" type="date" placeholder="Pick a day" />
+                            <el-date-picker v-model="activity.activityDate" type="date" format="YYYY/MM/DD"
+                                value-format="YYYY-MM-DD" placeholder="Pick a day" />
                         </el-form-item>
                         <el-form-item label="活动时间" label-width="110px">
                             <!-- <el-input v-model="activity.activityTime" autocomplete="off" /> -->
@@ -286,9 +287,6 @@ export default {
             dialogFormVisible1: false,
             feedback: null,
 
-            userId: localStorage.getItem("userId"),
-            clubId: localStorage.getItem("clubId"),
-
             startTime: null,
             endTime: null,
             activity: {
@@ -340,15 +338,16 @@ export default {
                 })
                 return;
             }
-            console.log("activity:"+this.activity.activityApplyReason)
 
             this.dialogFormVisible1 = false;
             this.activity.activityTime=this.startTime + "-" + this.endTime;
+            console.log("activity:"+this.activity.activityDate)
+
             this.$axios({
                 method: 'post',
                 url: '/api/club-manage/activity-apply',
                 data: {
-                    userID: localStorage.getItem("userId"),
+                    userId: localStorage.getItem("userId"),
                     clubId: localStorage.getItem("clubId"),
                     activityApplyReason: this.activity.activityApplyReason,
                     activityTitle: this.activity.activityTitle,

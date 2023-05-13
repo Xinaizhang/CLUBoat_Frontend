@@ -14,9 +14,9 @@
         <el-row justify="center" class="title-container">
             <span class="titleText">{{ activity.activityTitle }}</span>
         </el-row>
-        
+
         <el-row justify="center">
-            
+
             <!-- 活动详细信息表格 -->
             <div style="background:#ffffff;position:relative" class="detail">
                 <img class="Img" src="../assets/activitydetail.png">
@@ -25,33 +25,41 @@
                         <template #label>
                             <el-row justify="center" align="middle">
                                 <el-col :span="2" class="cell-icon">
-                                    <el-icon><School /></el-icon>
+                                    <el-icon>
+                                        <School />
+                                    </el-icon>
                                 </el-col>
                                 <el-col :span="10" class="cell-text">
                                     <span>活动校区</span>
                                 </el-col>
                             </el-row>
                         </template>
-                        <el-tag size="large" type="success" style="width:60%;font-size:16px">{{ activity.activityCampus }}</el-tag>
+                        <el-tag size="large" type="success" style="width:60%;font-size:16px">{{ activity.activityCampus
+                        }}</el-tag>
                     </el-descriptions-item>
                     <el-descriptions-item label-align="center" align="center" width="25%">
                         <template #label>
                             <el-row justify="center" align="middle">
                                 <el-col :span="2" class="cell-icon">
-                                    <el-icon><Location /></el-icon>
+                                    <el-icon>
+                                        <Location />
+                                    </el-icon>
                                 </el-col>
                                 <el-col :span="10" class="cell-text">
                                     <span>活动地点</span>
                                 </el-col>
                             </el-row>
                         </template>
-                        <el-tag size="large" type="success" style="width:60%;font-size:16px">{{ activity.activityLocation }}</el-tag>
+                        <el-tag size="large" type="success" style="width:60%;font-size:16px">{{ activity.activityLocation
+                        }}</el-tag>
                     </el-descriptions-item>
                     <el-descriptions-item label-align="center" align="center">
                         <template #label>
                             <el-row justify="center" align="middle">
                                 <el-col :span="2" class="cell-icon">
-                                    <el-icon><Calendar /></el-icon>
+                                    <el-icon>
+                                        <Calendar />
+                                    </el-icon>
                                 </el-col>
                                 <el-col :span="10" class="cell-text">
                                     <span>活动日期</span>
@@ -66,7 +74,9 @@
                         <template #label>
                             <el-row justify="center" align="middle">
                                 <el-col :span="2" class="cell-icon">
-                                    <el-icon><Timer /></el-icon>
+                                    <el-icon>
+                                        <Timer />
+                                    </el-icon>
                                 </el-col>
                                 <el-col :span="10" class="cell-text">
                                     <span>活动时间</span>
@@ -81,7 +91,9 @@
                         <template #label>
                             <el-row justify="center" align="middle">
                                 <el-col :span="2" class="cell-icon">
-                                    <el-icon><User /></el-icon>
+                                    <el-icon>
+                                        <User />
+                                    </el-icon>
                                 </el-col>
                                 <el-col :span="10" class="cell-text">
                                     <span>总负责人</span>
@@ -94,7 +106,9 @@
                         <template #label>
                             <el-row justify="center" align="middle">
                                 <el-col :span="2" class="cell-icon">
-                                    <el-icon><DataAnalysis /></el-icon>
+                                    <el-icon>
+                                        <DataAnalysis />
+                                    </el-icon>
                                 </el-col>
                                 <el-col :span="10" class="cell-text">
                                     <span>预计人数</span>
@@ -110,7 +124,9 @@
                         <template #label>
                             <el-row justify="center" align="middle">
                                 <el-col :span="2" class="cell-icon">
-                                    <el-icon><Edit /></el-icon>
+                                    <el-icon>
+                                        <Edit />
+                                    </el-icon>
                                 </el-col>
                                 <el-col :span="10" class="cell-text">
                                     <span>活动详情</span>
@@ -124,7 +140,8 @@
                 </el-descriptions>
                 <!-- 关注按钮 -->
                 <el-row justify="center">
-                    <el-button type="primary" color="#023764" style="font-size:16px;margin-top: 5vh;" @click="attentionActivity()">关注活动</el-button>
+                    <el-button type="primary" color="#023764" style="font-size:16px;margin-top: 5vh;"
+                        @click="attentionActivity()">关注活动</el-button>
                 </el-row>
             </div>
         </el-row>
@@ -142,22 +159,18 @@ export default {
     },
     data() {
         return {
-            activity:{
-                activityApplyId: 1,
-                userId: 1,
-                clubId: 1,
-                activityApplyTime: '2022-12-19 00:34:35',
-                status: '待审批',
-                activityTitle: '活动标题标题标题标题标题标题',
-                activityDate:'2023-3-4',
-                activityTime:'18:00 - 19:00',
-                activityCampus:'嘉定校区',
-                activityLocation:'嘉定广楼204',
-                activityPeopleNum:"20 ~ 30",
-                activityDescription:'同济大学学生社团联合会，简称“社团联合会”，是在同济大学党委领导下的同济大学学生社团的管理组织，接纳同济大学在校学生作为组织成员。同济大学社团联合会在工作上同时接受共青团同济大学委员会的指导。学生社团联合会的意义在与协调社团之间的资源支配。而随着社团的壮大，社团联也迅速成长起来。渐渐形成了以社团为特色，与社团做朋友的一个服务社团，统筹社团，规范社团，记录社团的大型组织。同济大学学生社团联合会，简称“社团联合会”，是在同济大学党委领导下的同济大学学生社团的管理组织，接纳同济大学在校学生作为组织成员。同济大学社团联合会在工作上同时接受共青团同济大学委员会的指导。学生社团联合会的意义在与协调社团之间的资源支配。而随着社团的壮大，社团联也迅速成长起来。渐渐形成了以社团为特色，与社团做朋友的一个服务社团，统筹社团，规范社团，记录社团的大型组织。同济大学学生社团联合会，简称“社团联合会”，是在同济大学党委领导下的同济大学学生社团的管理组织，接纳同济大学在校学生作为组织成员。同济大学社团联合会在工作上同时接受共青团同济大学委员会的指导。学生社团联合会的意义在与协调社团之间的资源支配。而随着社团的壮大，社团联也迅速成长起来。渐渐形成了以社团为特色，与社团做朋友的一个服务社团，统筹社团，规范社团，记录社团的大型组织。',
-                activityApplyReason: '申请理由',
-                feedback: '反馈',
-                userName: '文俊辉',
+            activity: {
+                activityId: null,
+                userId: null,
+                clubId: null, 
+                activityTitle: null,
+                activityDate: null,
+                activityTime:null,
+                activityCampus: null,
+                activityLocation: null,
+                activityPeopleNum: null,
+                activityDescription: null,
+                userName: null,
             }
         }
     },
@@ -193,6 +206,17 @@ export default {
 
     },
     created() {
+        this.$axios({
+            method: 'get',
+            url: '/api/club-manage/activity/detail/'+localStorage.getItem("activityId"),
+        })
+            .then(res => {
+                console.log(res.data.data);
+                this.activity = res.data.data;
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
 
     },
 }
@@ -206,8 +230,8 @@ export default {
     padding-top: 20px;
 }
 
-.Img{
-    width: 200px; 
+.Img {
+    width: 200px;
     height: 200px;
     position: absolute;
     top: -15vh;
@@ -219,9 +243,11 @@ export default {
     padding: 60px 60px 5vh 60px;
     width: 65%;
 }
+
 .title-container {
     margin-bottom: 10px;
 }
+
 .titleText {
     color: #023764;
     font-size: 30px;
@@ -230,17 +256,20 @@ export default {
     margin-top: 3vh;
     letter-spacing: 2px;
 }
-.activityDescription{
+
+.activityDescription {
     margin: 10px 20px 10px 25px;
     line-height: 24px;
     text-align: left;
 }
+
 .cell-icon {
-  display: flex;
-  align-items: center;
-  font-size: 16px;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
 }
-.cell-text{
+
+.cell-text {
     font-size: 16px;
     padding-left: 2px;
 }

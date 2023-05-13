@@ -122,10 +122,14 @@
                                     <template #header>
                                         <div class="activityboxtitle">
                                             <span>{{ item.activityTitle }}</span>
-                                            <router-link to="/activitydetail" style="text-decoration:none;color:#fff;">
+                                            <!-- <router-link to="/activitydetail" style="text-decoration:none;color:#fff;">
                                                 <el-button color="#023764" class="button" icon="ArrowRightBold" circle>
                                                 </el-button>
-                                            </router-link>
+                                            </router-link> -->
+                                            <el-button color="#023764" class="button" icon="ArrowRightBold"
+                                                @click="goActivityDetail(item)" circle>
+                                            </el-button>
+
 
                                             <!-- <el-button color="#023764" class="button" icon="ArrowRightBold" circle>
                                             </el-button> -->
@@ -134,7 +138,7 @@
                                     <el-row>
                                         <el-col class="textFather" :span="21">
                                             <div class="text">{{ item.activityDescription }}</div>
-                                            
+
                                         </el-col>
                                         <el-col :span="3">
                                             <el-button class="button" color="#023764"
@@ -220,6 +224,16 @@ export default {
         }
     },
     methods: {
+        goActivityDetail(activity) {
+            console.log("activityId:" + activity.activityId)
+            localStorage.setItem('activityId', activity.activityId);
+            this.$router.push({
+                path: '/activitydetail',
+            })
+
+        },
+
+
         //关注社团活动
         attentionActivity(activity) {
             console.log(activity.activityId)
@@ -685,7 +699,7 @@ body {
 .text {
     font-size: 14px;
     font-weight: normal;
-    align-self:center;
+    align-self: center;
     display: -webkit-box;
     /* 垂直对齐 */
     -webkit-box-orient: vertical;

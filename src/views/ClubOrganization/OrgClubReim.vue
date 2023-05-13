@@ -289,8 +289,8 @@ export default {
                 })
                 return;
             }
+            
             this.dialogFormVisible = false;
-
             this.inputreim.attachments[0].attachUrl = this.picUrl;
             console.log("attachUrl" + this.inputreim.attachments[0].attachUrl)
 

@@ -51,7 +51,8 @@
                     </template>
                     </el-menu-item>
                 </el-menu>  
-            </el-aside>     
+            </el-aside>   
+
             <el-container>
                 <el-main style="background-color: #F0F1F6;">
                     <el-card class="card">
@@ -415,8 +416,8 @@ methods: {
         })
     },
     filterTag(value, row) {
-        return row.activityApplyIsPass===value;
-    },
+            return row.status === value;
+        },
 },
 created() {
     this.$axios({

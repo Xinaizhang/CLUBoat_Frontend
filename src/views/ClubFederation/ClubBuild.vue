@@ -68,42 +68,36 @@
                         highlight-current-row
                         @current-change="getCurrentRow"
                         >
-                            <el-table-column label="序号" type="index" width="150" />
-                            <el-table-column prop="userId" label="用户ID" sortable width="150"/>
-                            <el-table-column prop="adminClubName" label="社团名称"/>
+                            <el-table-column label="序号" type="index" width="80" />
+                            <el-table-column prop="userName" label="用户名" width="180"/>
+                            <el-table-column prop="adminClubName" label="社团名称" width="180"/>
                             <el-table-column prop="buildApplyReason" label="申请理由"/>
                             <el-table-column prop="buildApplyTime" sortable label="申请时间" />
                             <el-table-column
-                                prop="buildApplyIsPass"
+                                prop="status"
                                 label="状态"
                                 width="100"
                                 :filters="[
-                                    { text: '已通过', value: 1 },
-                                    { text: '未通过', value: 0 },
+                                    { text: '待审批', value: '待审批' },
+                                    { text: '已通过', value: '已通过' },
+                                    { text: '未通过', value: '未通过' },
                                 ]"
                                 :filter-method="filterTag"
                                 filter-placement="bottom-end"
                                 >
                                 <template #default="scope">
-                                    <el-tag
-                                    v-if="scope.row.buildApplyIsPass == '1'"
-                                    :type="success"
-                                    disable-transitions
-                                    >已通过</el-tag>
-                                    <el-tag
-                                    v-if="scope.row.buildApplyIsPass =='0'"
-                                    :type="scope.row.buildApplyIsPass === '1' ? 'success' : 'danger'"
-                                    disable-transitions
-                                    >未通过</el-tag>
+                                    <el-tag v-if="scope.row.status == '已通过'" type="success" disable-transitions>已通过</el-tag>
+                                    <el-tag v-if="scope.row.status =='已拒绝'" type="danger" disable-transitions >已拒绝</el-tag>
+                                    <el-tag v-if="scope.row.status =='待审批'" disable-transitions >待审批</el-tag>
                                 </template>
                             </el-table-column>
                             <el-table-column fixed="right" label="操作" width="120">
                                 <template #default="operation">
-                                    <el-button v-if="operation.row.feedback == null" :disabled="operation.row.buildApplyIsPass =='1'" link type="primary" size="small" @click="dialogFormVisible = true"
+                                    <el-button v-if="operation.row.status == '待审批'" link type="primary" size="small" @click="dialogFormVisible = true"
                                     >审核</el-button>
-                                    <el-button v-if="operation.row.feedback != null" :disabled="operation.row.buildApplyIsPass =='1'" link type="primary" size="small" @click="dialogFormVisible = true"
+                                    <el-button v-if="operation.row.status != '待审批'" link type="primary" size="small" @click="dialogFormVisible = true"
                                     >查看</el-button>
-                                    <el-button link type="primary" size="small" @click="confirmDeleteBuild">删除</el-button>
+                                    <el-button link type="warning" size="small" @click="confirmDeleteBuild">删除</el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -120,7 +114,7 @@
                                 />
                             </div>
                         </el-row>
-                        <el-dialog v-model="dialogFormVisible" title="审批创建社团申请" align-center draggable>
+                        <el-dialog v-model="dialogFormVisible" title="申请详情" align-center draggable>
                             <el-form :model="build">
                             <el-form-item label="社团名称" label-width="70px">
                                 <el-input disabled v-model="build.adminClubName" autocomplete="off" />
@@ -131,23 +125,23 @@
                             <el-form-item label="申请理由" label-width="70px">
                                 <el-input disabled v-model="build.buildApplyReason" autocomplete="off" type="textarea" :rows="3"/>
                             </el-form-item>
-                            <el-form-item required v-if="display" label="反馈" label-width="70px">
-                                <el-input :disabled="build.feedback != null" v-model="feedback" autocomplete="off" type="textarea" :rows="3"/>
+                            <el-form-item required v-if="build.status == '待审批'" label="反馈" label-width="70px">
+                                <el-input v-model="feedback" autocomplete="off" type="textarea" :rows="3"/>
                             </el-form-item>
 
-                            <el-form-item required v-if="build.feedback != null" label="反馈" label-width="70px">
-                                <el-input :disabled="build.feedback != null" v-model="build.feedback" autocomplete="off" type="textarea" :rows="3"/>
+                            <el-form-item required v-if="build.status != '待审批'" label="反馈" label-width="70px">
+                                <el-input disabled v-model="build.feedback" autocomplete="off" type="textarea" :rows="3"/>
                             </el-form-item>
-
-
-
+                            <el-form-item v-if="build.status != '待审批'" label="审核状态" label-width="70px">
+                                <el-tag v-if="build.status == '已通过'" type="success" disable-transitions>已通过</el-tag>
+                                <el-tag v-if="build.status =='已拒绝'" type="danger" disable-transitions >已拒绝</el-tag>
+                            </el-form-item>
                             </el-form>
                             <template #footer>
                             <span class="dialog-footer">
-                                <el-button :disabled="build.feedback != null" v-if="!display" @click="display=true;">不通过</el-button>
-                                <el-button v-if="display" @click="display=false;feedback=null;">返回</el-button>
-                                <el-button v-if="display" @click="noPass">确认</el-button>
-                                <el-button :disabled="build.feedback != null" v-if="!display" type="primary" @click="pass">通过</el-button>
+                                <el-button  v-if="build.status != '待审批'" @click="dialogFormVisible = false">返回</el-button>
+                                <el-button v-if="build.status == '待审批'" @click="noPass">不通过</el-button>
+                                <el-button v-if="build.status == '待审批'" type="primary" @click="pass">通过</el-button>
                             </span>
                             </template>
                         </el-dialog>
@@ -199,21 +193,13 @@ methods: {
     getCurrentRow(value){
         if(value!=null){
             console.log(value);
-            this.build.userId=value.userId;
-            this.build.buildApplyId=value.buildApplyId;
-            this.build.buildApplyReason=value.buildApplyReason;
-            this.build.buildApplyTime=value.buildApplyTime;
-            this.build.buildApplyIsPass=value.buildApplyIsPass;
-            this.build.feedback=value.feedback;
-            this.build.adminClubName=value.adminClubName;
+            this.build=value;
             console.log("hhhhhh");
             console.log(this.build);
         }
     },
     noPass(){
-        this.dialogFormVisible1 = false;
         console.log("不通过");
-        console.log(this.build);
         if(this.feedback==""||this.feedback==null){
             ElMessage({
                 message: "反馈不能为空",
@@ -221,26 +207,24 @@ methods: {
             })
             return;
         }
-
         this.$axios({
-            method: 'post',
+            method: 'put',
             url: '/api/examine/club-build-apply',
             data: {
-                id: this.build.buildApplyId,
-                state: 0,
+                buildApplyId: this.build.buildApplyId,
+                status: '已拒绝',
                 feedback: this.feedback,
             },
         })
         .then(res => {
-            this.build.feedback=this.feedback;
             console.log(res.data.message);
             if(res.data.code==200){
             ElMessage({
-                message: res.data.message,
+                message: '已拒绝该申请',
                 type: 'success',
             })
             }else{
-            ElMessage.error(res.data.message)
+                ElMessage.error(res.data.message)
             }
             this.$router.go(0)
         })
@@ -249,13 +233,21 @@ methods: {
         })
     },
     pass(){
-        this.dialogFormVisible1 = false;
+        console.log("通过");
+        if(this.feedback==""||this.feedback==null){
+            ElMessage({
+                message: "反馈不能为空",
+                type: 'error',
+            })
+            return;
+        }
         this.$axios({
-            method: 'post',
+            method: 'put',
             url: '/api/examine/club-build-apply',
             data: {
-                id: this.build.buildApplyId,
-                state: 1,
+                buildApplyId: this.build.buildApplyId,
+                status: '已通过',
+                feedback: this.feedback,
             },
         })
         .then(res => {
@@ -264,7 +256,7 @@ methods: {
                 this.clubId=res.data.data.clubId;
                 this.setAdmin();
                 ElMessage({
-                    message: res.data.message,
+                    message: '已通过该申请',
                     type: 'success',
                 })
             }else{

@@ -69,41 +69,37 @@
                         highlight-current-row
                         @current-change="getCurrentRow"
                         >
-                            <el-table-column label="序号" type="index" width="150" />
-                            <el-table-column prop="userId" label="用户ID" sortable width="170"/>
+                            <el-table-column label="序号" type="index" width="80" />
+                            <el-table-column prop="userName" label="用户名" width="160"/>
+                            <el-table-column prop="clubName" label="社团名" width="160"/>
+                            <el-table-column prop="activityTitle" label="活动标题"/>
                             <el-table-column prop="activityApplyReason" label="申请理由"/>
                             <el-table-column prop="activityApplyTime" sortable label="申请时间" />
                             <el-table-column
-                                prop="activityApplyIsPass"
+                                prop="status"
                                 label="状态"
                                 width="100"
                                 :filters="[
-                                    { text: '已通过', value: 1 },
-                                    { text: '未通过', value: 0 },
+                                    { text: '待审批', value: '待审批' },
+                                    { text: '已通过', value: '已通过' },
+                                    { text: '未通过', value: '未通过' },
                                 ]"
                                 :filter-method="filterTag"
                                 filter-placement="bottom-end"
                                 >
                                 <template #default="scope">
-                                    <el-tag
-                                    v-if="scope.row.activityApplyIsPass == '1'"
-                                    :type="success"
-                                    disable-transitions
-                                    >已通过</el-tag>
-                                    <el-tag
-                                    v-if="scope.row.activityApplyIsPass =='0'"
-                                    :type="scope.row.activityApplyIsPass === '1' ? 'success' : 'danger'"
-                                    disable-transitions
-                                    >未通过</el-tag>
+                                    <el-tag v-if="scope.row.status == '已通过'" type="success" disable-transitions>已通过</el-tag>
+                                    <el-tag v-if="scope.row.status =='已拒绝'" type="danger" disable-transitions >已拒绝</el-tag>
+                                    <el-tag v-if="scope.row.status =='待审批'" disable-transitions >待审批</el-tag>
                                 </template>
                             </el-table-column>
                             <el-table-column fixed="right" label="操作" width="120">
                                 <template #default="operation">
-                                    <el-button v-if="operation.row.feedback == null" :disabled="operation.row.activityApplyIsPass =='1'" link type="primary" size="small" @click="dialogFormVisible = true"
+                                    <el-button v-if="operation.row.status == '待审批'" link type="primary" size="small" @click="dialogFormVisible = true"
                                     >审核</el-button>
-                                    <el-button v-if="operation.row.feedback != null" :disabled="operation.row.activityApplyIsPass =='1'" link type="primary" size="small" @click="dialogFormVisible = true"
+                                    <el-button v-if="operation.row.status != '待审批'" link type="primary" size="small" @click="dialogFormVisible = true"
                                     >查看</el-button>
-                                    <el-button link type="primary" size="small" @click="confirmDeleteActivity">删除</el-button>
+                                    <el-button link type="warning" size="small" @click="confirmDeleteActivity">删除</el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -123,29 +119,141 @@
 
                         <el-dialog v-model="dialogFormVisible" title="审批活动申请" align-center draggable>
                             <el-form :model="activity">
-                            <el-form-item label="申请时间" label-width="70px">
-                                <el-input disabled v-model="activity.activityApplyTime" autocomplete="off" />
+                                <el-scrollbar max-height="300px">
+                                    <el-descriptions :model="activity" :column="2" border>
+                                        <el-descriptions-item label-align="center" align="center" width="25%">
+                                            <template #label>
+                                                <el-row justify="center" align="middle">
+                                                    <el-col :span="2" class="cell-icon">
+                                                        <el-icon><School /></el-icon>
+                                                    </el-col>
+                                                    <el-col :span="10" class="cell-text">
+                                                        <span>活动校区</span>
+                                                    </el-col>
+                                                </el-row>
+                                            </template>
+                                            <el-tag size="large" type="success" style="width:60%;font-size:16px">{{ activity.activityCampus }}</el-tag>
+                                        </el-descriptions-item>
+                                        <el-descriptions-item label-align="center" align="center" width="25%">
+                                            <template #label>
+                                                <el-row justify="center" align="middle">
+                                                    <el-col :span="2" class="cell-icon">
+                                                        <el-icon><Location /></el-icon>
+                                                    </el-col>
+                                                    <el-col :span="10" class="cell-text">
+                                                        <span>活动地点</span>
+                                                    </el-col>
+                                                </el-row>
+                                            </template>
+                                            <el-tag size="large" type="success" style="width:60%;font-size:16px">{{ activity.activityLocation }}</el-tag>
+                                        </el-descriptions-item>
+                                        <el-descriptions-item label-align="center" align="center">
+                                            <template #label>
+                                                <el-row justify="center" align="middle">
+                                                    <el-col :span="2" class="cell-icon">
+                                                        <el-icon><Calendar /></el-icon>
+                                                    </el-col>
+                                                    <el-col :span="10" class="cell-text">
+                                                        <span>活动日期</span>
+                                                    </el-col>
+                                                </el-row>
+                                            </template>
+                                            <div style="font-size:16px">
+                                                {{ activity.activityDate }}
+                                            </div>
+                                        </el-descriptions-item>
+                                        <el-descriptions-item label-align="center" align="center">
+                                            <template #label>
+                                                <el-row justify="center" align="middle">
+                                                    <el-col :span="2" class="cell-icon">
+                                                        <el-icon><Timer /></el-icon>
+                                                    </el-col>
+                                                    <el-col :span="10" class="cell-text">
+                                                        <span>活动时间</span>
+                                                    </el-col>
+                                                </el-row>
+                                            </template>
+                                            <div style="font-size:16px">
+                                                {{ activity.activityTime }}
+                                            </div>
+                                        </el-descriptions-item>
+                                        <el-descriptions-item label-align="center" align="center">
+                                            <template #label>
+                                                <el-row justify="center" align="middle">
+                                                    <el-col :span="2" class="cell-icon">
+                                                        <el-icon><User /></el-icon>
+                                                    </el-col>
+                                                    <el-col :span="10" class="cell-text">
+                                                        <span>总负责人</span>
+                                                    </el-col>
+                                                </el-row>
+                                            </template>
+                                            <el-tag size="large" style="width:60%;font-size:16px">{{ activity.userName }}</el-tag>
+                                        </el-descriptions-item>
+                                        <el-descriptions-item label-align="center" align="center">
+                                            <template #label>
+                                                <el-row justify="center" align="middle">
+                                                    <el-col :span="2" class="cell-icon">
+                                                        <el-icon><DataAnalysis /></el-icon>
+                                                    </el-col>
+                                                    <el-col :span="10" class="cell-text">
+                                                        <span>预计人数</span>
+                                                    </el-col>
+                                                </el-row>
+                                            </template>
+                                            <div style="font-size:16px">
+                                                {{ activity.activityPeopleNum }}
+                                            </div>
+                                        </el-descriptions-item>
+                                        <el-descriptions-item label-align="center" align="center" :span="2">
+                                            <template #label>
+                                                <el-row justify="center" align="middle">
+                                                    <el-col :span="2" class="cell-icon">
+                                                        <el-icon><Edit /></el-icon>
+                                                    </el-col>
+                                                    <el-col :span="10" class="cell-text">
+                                                        <span>活动标题</span>
+                                                    </el-col>
+                                                </el-row>
+                                            </template>
+                                            <div class="activityDescription" style="font-size:16px">
+                                                {{ activity.activityTitle }}
+                                            </div>
+                                        </el-descriptions-item>
+                                        <el-descriptions-item label-align="center" align="center" :span="2">
+                                            <template #label>
+                                                <el-row justify="center" align="middle">
+                                                    <el-col :span="2" class="cell-icon">
+                                                        <el-icon><Edit /></el-icon>
+                                                    </el-col>
+                                                    <el-col :span="10" class="cell-text">
+                                                        <span>活动详情</span>
+                                                    </el-col>
+                                                </el-row>
+                                            </template>
+                                            <div class="activityDescription" style="font-size:16px">
+                                                {{ activity.activityDescription }}
+                                            </div>
+                                        </el-descriptions-item>
+                                    </el-descriptions>
+                                </el-scrollbar>
+                                <br>
+                            <el-form-item required v-if="activity.status == '待审批'" label="反馈" label-width="70px">
+                                <el-input v-model="feedback" autocomplete="off" type="textarea" :rows="3"/>
                             </el-form-item>
-                            <el-form-item label="申请理由" label-width="70px">
-                                <el-input disabled v-model="activity.activityApplyReason" autocomplete="off" type="textarea" :rows="3"/>
+                            <el-form-item required v-if="activity.status != '待审批'" label="反馈" label-width="70px">
+                                <el-input disabled v-model="activity.feedback" autocomplete="off" type="textarea" :rows="3"/>
                             </el-form-item>
-                            <el-form-item required v-if="display" label="反馈" label-width="70px">
-                                <el-input :disabled="activity.feedback != null" v-model="feedback" autocomplete="off" type="textarea" :rows="3"/>
+                            <el-form-item v-if="activity.status != '待审批'" label="审核状态" label-width="70px">
+                                <el-tag v-if="activity.status == '已通过'" type="success" disable-transitions>已通过</el-tag>
+                                <el-tag v-if="activity.status =='已拒绝'" type="danger" disable-transitions >已拒绝</el-tag>
                             </el-form-item>
-
-                            <el-form-item required v-if="activity.feedback != null" label="反馈" label-width="70px">
-                                <el-input :disabled="activity.feedback != null" v-model="activity.feedback" autocomplete="off" type="textarea" :rows="3"/>
-                            </el-form-item>
-
-
-
                             </el-form>
                             <template #footer>
                             <span class="dialog-footer">
-                                <el-button :disabled="activity.feedback != null" v-if="!display" @click="display=true;">不通过</el-button>
-                                <el-button v-if="display" @click="display=false;feedback=null;">返回</el-button>
-                                <el-button v-if="display" @click="noPass">确认</el-button>
-                                <el-button :disabled="activity.feedback != null" v-if="!display" type="primary" @click="pass">通过</el-button>
+                                <el-button  v-if="activity.status != '待审批'" @click="dialogFormVisible = false">返回</el-button>
+                                <el-button v-if="activity.status == '待审批'" @click="noPass">不通过</el-button>
+                                <el-button v-if="activity.status == '待审批'" type="primary" @click="pass">通过</el-button>
                             </span>
                             </template>
                         </el-dialog>
@@ -194,17 +302,12 @@ methods: {
     getCurrentRow(value){
         if(value!=null){
             console.log(value);
-            this.activity.activityApplyId=value.activityApplyId;
-            this.activity.activityApplyReason=value.activityApplyReason;
-            this.activity.activityApplyTime=value.activityApplyTime;
-            this.activity.activityApplyIsPass=value.activityApplyIsPass;
-            this.activity.feedback=value.feedback;
+            this.activity=value;
             console.log("hhhhhh");
             console.log(this.activity);
         }
     },
     noPass(){
-        this.dialogFormVisible1 = false;
         console.log("不通过");
         console.log(this.activity);
         if(this.feedback==""||this.feedback==null){
@@ -216,11 +319,11 @@ methods: {
         }
 
         this.$axios({
-            method: 'post',
+            method: 'put',
             url: '/api/examine/activity-apply',
             data: {
-                id: this.activity.activityApplyId,
-                state: 0,
+                activityApplyId: this.activity.activityApplyId,
+                status: '已拒绝',
                 feedback: this.feedback,
             },
         })
@@ -242,13 +345,20 @@ methods: {
         })
     },
     pass(){
-        this.dialogFormVisible1 = false;
+        if(this.feedback==""||this.feedback==null){
+            ElMessage({
+                message: "反馈不能为空",
+                type: 'error',
+            })
+            return;
+        }
         this.$axios({
-            method: 'post',
+            method: 'put',
             url: '/api/examine/activity-apply',
             data: {
-                id: this.activity.activityApplyId,
-                state: 1,
+                activityApplyId: this.activity.activityApplyId,
+                status: '已通过',
+                feedback: this.feedback,
             },
         })
         .then(res => {

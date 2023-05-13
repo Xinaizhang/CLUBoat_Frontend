@@ -12,7 +12,7 @@
                             <template #header>
                                 <div class="card-header">
                                     <el-col :span="5">
-                                        <el-avatar shape="square" :size="50" :src="clubInfo.clubImageUrl" />
+                                        <el-avatar shape="square" :fit="cover" :size="60" :src="clubInfo.clubImageUrl" />
                                     </el-col>
                                     <el-col :span="14">
                                         <div class="title1" style="text-align:center">{{ clubInfo.clubName }}</div>

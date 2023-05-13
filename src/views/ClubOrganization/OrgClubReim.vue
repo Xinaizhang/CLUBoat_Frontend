@@ -108,16 +108,18 @@
                                 <el-descriptions-item label="标题" :span="4">{{ reim.title }}</el-descriptions-item>
                                 <el-descriptions-item label="申请理由" :span="4">{{ reim.description }}</el-descriptions-item>
                                 <el-descriptions-item label="附件">
-                                    <el-carousel trigger="click" arrow="always" :autoplay="false">
+                                    <el-image style="width: 30vw;" :src="reim.attachments[0].attachUrl" fit="contain">
+                                    </el-image>
+                                    <!-- <el-carousel trigger="click" arrow="always" :autoplay="false">
+                                        
                                         <el-carousel-item v-for="item of reim.attachments" :key="item">
                                             <div style="text-align:center">
-                                                <!-- <el-image style="width: 30vw;" src="https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg" fit="contain">
-                                                        </el-image> -->
+                                            
                                                 <el-image style="width: 30vw;" src="item.attachUrl" fit="contain">
                                                 </el-image>
                                             </div>
                                         </el-carousel-item>
-                                    </el-carousel>
+                                    </el-carousel> -->
                                 </el-descriptions-item>
                             </el-descriptions>
                         </div>
@@ -155,8 +157,7 @@
                             </el-form-item>
 
                             <el-form-item label="附件:" style="font-weight:bold" label-width="80px">
-                                <!-- <el-input v-model="inputreim.attachments" autocomplete="off" /> -->
-                                <el-upload v-model="inputreim.attachments" class="upload-demo"
+                                <!-- <el-upload v-model="inputreim.attachments" class="upload-demo"
                                     action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
                                     :on-preview="handlePreview" :on-remove="handleRemove" list-type="picture">
                                     <el-button type="primary">上传附件</el-button>
@@ -165,7 +166,23 @@
                                             jpg/png files with a size less than 500kb
                                         </div>
                                     </template>
-                                </el-upload>
+                                </el-upload> -->
+
+                                <div class="home">
+                                    <div>
+                                        <h2>上传图片</h2>
+                                    </div>
+                                    <el-upload class="upload" drag :name="'iFile'" limit=1 accept=".jpg,.jpeg,.png,.gif"
+                                        :http-request="upload">
+                                        <el-image :src="uploadIcon" style="width: 50px;height: 50px"></el-image>
+                                    </el-upload>
+                                    <h2>预览</h2>
+                                    <el-image :src="picUrlReview" style="width: 150px;height: 150px"></el-image>
+                                    <!-- <div>
+                                        <el-button @click="addReim">提 交</el-button>
+                                    </div> -->
+                                </div>
+
                             </el-form-item>
                         </el-form>
 
@@ -188,7 +205,13 @@
 import OrgNav from '@/components/OrgNav.vue'
 import OrgHeader from '@/components/OrgHeader.vue'
 import { ElMessage } from 'element-plus'
+import { ref } from "vue";
 import 'element-plus/es/components/message/style/index'
+import COS from "cos-js-sdk-v5";
+var cos = new COS({
+    SecretId: "AKIDkMkupY5TikiU0JVO2QZTAg183oOj2EBB",
+    SecretKey: "3uWv51iDUXM8qqrgHi2EHF5jBSccQ1Qg",
+})
 
 
 export default {
@@ -203,16 +226,49 @@ export default {
             dialogFormVisible1: false,
             feedback: null,
             reim: {},
-            inputreim: {},
+            inputreim: {
+                title: null,
+                amount: 0,
+                description: null,
+                attachments: [{ attachUrl: null }]
+
+            },
             display: false,
             isPass: true,
             clubName: localStorage.getItem("clubName"),
+            uploadIcon: 'https://cluboat-1314598070.cos.ap-nanjing.myqcloud.com/upload.png',
+            picUrlReview: ref('https://cluboat-1314598070.cos.ap-nanjing.myqcloud.com/test.png'),
+            picUrl: ref('')
         }
     },
     methods: {
         handleCurrentChange(val) {
             this.page = val
         },
+        upload(picture) {
+            // 随机创建文件昵称
+            var suffix = picture.file.name.substring(picture.file.name.lastIndexOf("."));
+            var randomContent = Math.random().toString(36);
+            var picName = randomContent + suffix;
+            console.log(picName)
+            let self = this;
+            self.$message.success('图片上传成功');
+            cos.putObject({
+                Bucket: 'cluboat-1314598070',
+                Region: 'ap-nanjing', // 地区
+                Key: picName, // 上传的文件名
+                StorageClass: 'STANDARD',
+                Body: picture.file, // 上传文件对象
+            }, function (err, data) {
+                console.log(err, data)
+            })
+            this.picUrl = 'https://cluboat-1314598070.cos.ap-nanjing.myqcloud.com/' + picName;
+            console.log(this.picUrlReview)
+            setTimeout(() => {
+                this.picUrlReview = this.picUrl;
+            }, 500)
+        },
+
 
         getCurrentRow(value) {
             if (value != null) {
@@ -222,13 +278,14 @@ export default {
             }
         },
 
-
-
         //提交报销申请
         addReim() {
+            console.log('图片存储位置', this.picUrl)
+
             if (this.inputreim.title == ""
                 || this.inputreim.amount == ""
-                || this.inputreim.description == "") {
+                || this.inputreim.description == ""
+                || this.inputreim.attachments[0].attachUrl == "") {
                 ElMessage({
                     message: "不能为空?",
                     type: 'error',
@@ -237,33 +294,36 @@ export default {
             }
             this.dialogFormVisible = false;
 
-            this.$axios({
-                method: 'post',
-                url: '/api/club-manage/reimbursements',
-                data: {
-                    clubId: localStorage.getItem("clubId"),
-                    userId: localStorage.getItem("userId"),
-                    title: this.inputreim.title,
-                    amount: this.inputreim.amount,
-                    description: this.inputreim.description,
-                    attachments: this.inputreim.attachments,
-                }
-            })
-                .then(res => {
-                    console.log(res.data.message);
-                    if (res.data.code == 200) {
-                        ElMessage({
-                            message: res.data.message,
-                            type: 'success',
-                        })
-                    } else {
-                        ElMessage.error(res.data.message)
-                    }
-                    this.$router.go(0)
-                })
-                .catch(function (error) {
-                    console.log(error);
-                })
+            this.inputreim.attachments[0].attachUrl = this.picUrl;
+            console.log("attachUrl" + this.inputreim.attachments[0].attachUrl)
+
+            // this.$axios({
+            //     method: 'post',
+            //     url: '/api/club-manage/reimbursements',
+            //     data: {
+            //         clubId: localStorage.getItem("clubId"),
+            //         userId: localStorage.getItem("userId"),
+            //         title: this.inputreim.title,
+            //         amount: this.inputreim.amount,
+            //         description: this.inputreim.description,
+            //         attachments: this.inputreim.attachments,
+            //     }
+            // })
+            //     .then(res => {
+            //         console.log(res.data.message);
+            //         if (res.data.code == 200) {
+            //             ElMessage({
+            //                 message: res.data.message,
+            //                 type: 'success',
+            //             })
+            //         } else {
+            //             ElMessage.error(res.data.message)
+            //         }
+            //         this.$router.go(0)
+            //     })
+            //     .catch(function (error) {
+            //         console.log(error);
+            //     })
         },
         filterTag(value, row) {
             return row.status === value;
@@ -277,6 +337,7 @@ export default {
         })
             .then(res => {
                 console.log(res.data.data);
+
                 this.reimList = res.data.data;
                 this.total = res.data.data.length;
             })
@@ -322,5 +383,10 @@ export default {
 
 .cell-text {
     padding-left: 5px;
+}
+
+.upload {
+    height: 200px;
+    width: 200px;
 }
 </style>

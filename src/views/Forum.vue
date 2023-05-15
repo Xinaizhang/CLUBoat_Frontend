@@ -15,41 +15,53 @@
                 </el-carousel-item>
             </el-carousel>
             <el-card style="width:56vw; background-color: #023764;border-radius: 20px;margin-bottom: 20px;">
-                <div style="margin:20px 0px;">
-                    <span class="tagTitle">筛选:</span>
-                    <el-button v-for="item in tags" :key="item.tagName" class="tagList" color="#FFC353" @click="edit">{{
-                        item.tagName }}
-                    </el-button>
-                </div>
+                <!-- 筛选标签 -->
+                <el-row justify="center">
+                    <el-col :span="2">
+                        <span class="tagTitle">筛选:</span>
+                    </el-col>
+                    <el-col :span="22">
+                        <el-space wrap :size="15">
+                            <el-button class="tagList" color="#FFC353" @click="currentTagName('全部')">全部</el-button>
+                            <el-button v-for="item in tags" :key="item.tagName" class="tagList" color="#FFC353" @click="currentTagName(item.tagName)">{{
+                                item.tagName }}
+                            </el-button>
+                        </el-space>
+                    </el-col>
+                </el-row>
 
-                <el-scrollbar max-height="1000px">
-                    <el-card class="box-card" v-for="item in postList.slice((page - 1) * limit, page * limit)"
-                        :key="item.postId" shadow="hover">
-                        <template #header>
-                            <div class="card-header">
-                                <span>{{ item.postTitle }}</span>
-                                <el-button color="#FFC353" class="button" icon="ArrowRightBold" circle
-                                    @click="detail(item)"></el-button>
-                            </div>
-                        </template>
-                        <el-row>
-                            <el-col :span="19">
-                                <el-tag class="postTag" type="danger" size="large" v-for="i in item.postTag"
-                                    :key="i.tagName">
-                                    {{ i.tagName }}
-                                </el-tag>
-                            </el-col>
-                            <el-col style="text-align:right;" class="textfather" :span="5">
-                                <span class="text">{{ item.postTime }}</span>
-                            </el-col>
-                        </el-row>
-                    </el-card>
-                </el-scrollbar>
+                <el-empty v-if="filterPost.length<=0" :image-size="260" description="没有符合条件的帖子" image="https://jbgz-1312275634.cos.ap-shanghai.myqcloud.com/0.ndphwzhxl18.png"/>
+
+                <!-- 帖子列表 -->
+                <el-card class="box-card" v-for="item in filterPost.slice((page - 1) * limit, page * limit)"
+                    :key="item.postId" shadow="hover">
+                    <template #header>
+                        <div class="card-header">
+                            <span>{{ item.postTitle }}</span>
+                            <el-button color="#FFC353" class="button" icon="ArrowRightBold" circle
+                                @click="detail(item)"></el-button>
+                        </div>
+                    </template>
+                    <el-row>
+                        <p class="postContent">{{ item.postContent }}</p>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="19">
+                            <el-tag class="postTag" type="danger" size="large" v-for="i in item.postTag"
+                                :key="i.tagName">
+                                {{ i.tagName }}
+                            </el-tag>
+                        </el-col>
+                        <el-col style="text-align:right;" class="textfather" :span="5">
+                            <span class="text">{{ item.postTime }}</span>
+                        </el-col>
+                    </el-row>
+                </el-card>
                 <el-row>
                     <div class="pagination">
                         <div class="pagination_style">&emsp;</div>
                         <el-pagination :current-page="page" :page-size="limit" background layout="prev, pager, next"
-                            :total="total" @current-change="handleCurrentChange" />
+                            :total="filterPost.length" @current-change="handleCurrentChange" />
                     </div>
                 </el-row>
             </el-card>
@@ -198,7 +210,8 @@ export default {
                 userName: "钟离",
                 content: "期待下一次观星！",
                 image: "https://s2.loli.net/2022/11/20/sK9DCVWY7qLyIhw.jpg"
-            }]
+            }],
+            currentTag:'全部',
         }
     },
     methods: {
@@ -209,37 +222,60 @@ export default {
             this.dialogFormVisible = true;
             console.log(value);
             this.postDetail = value;
+        },
+        currentTagName(tagName){
+            this.currentTag=tagName;
+            
         }
+    },
+    computed:{
+        filterPost(){
+            if(this.currentTag=='全部'){
+                return this.postList;
+            }
+            else{
+                return this.postList.filter((post) => {
+                    return post.postTag.some((tag) => tag.tagName === this.currentTag);
+                });
+            }
+        },
     },
     created() {
         this.clubName = localStorage.getItem("clubName");
         this.clubId = localStorage.getItem("clubId");
 
+        // 获取tag列表
         this.$axios({
             method: 'get',
             url: '/api/forum/tag/' + this.clubId,
         })
-            .then(res => {
-                console.log(res.data.data);
-                this.tags = res.data.data;
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
+        .then(res => {
+            console.log(res.data.data);
+            this.tags = res.data.data;
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
 
+        // 获取该社团论坛的帖子列表
         this.$axios({
             method: 'get',
-            url: '/api/forum/post',
+            url: '/api/forum/post/club',
+            data: {
+                clubId: localStorage.getItem("clubId"),
+                status: "正常"
+            }
         })
-            .then(res => {
-                console.log(res.data.data);
-                this.postList = res.data.data;
-                this.total = res.data.data.length;
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
+        .then(res => {
+            this.postList = res.data.data;
+            this.total = this.postList.length;
+            console.log('帖子列表'+this.postList);
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
 
+        // 获取我发布的帖子
         this.$axios({
             method: 'get',
             url: '/api/forum/post',
@@ -247,25 +283,26 @@ export default {
                 userId: localStorage.getItem("userId"),
             }
         })
-            .then(res => {
-                console.log('我的帖子' + res.data.data);
-                this.myPostList = res.data.data;
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
+        .then(res => {
+            console.log('我的帖子' + res.data.data);
+            this.myPostList = res.data.data;
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
 
+        // 获取用户信息
         this.$axios({
             method: 'get',
             url: '/api/user-info/person-info/' + localStorage.getItem("userId"),
         })
-            .then(res => {
-                console.log(res.data.data);
-                this.userInfo = res.data.data;
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
+        .then(res => {
+            console.log(res.data.data);
+            this.userInfo = res.data.data;
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
 
     }
 }
@@ -322,7 +359,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 600;
 }
 
@@ -365,7 +402,16 @@ export default {
 
 .postTag {
     width: 5vw;
-    margin-right: 20px;
+    margin-right: 1vw;
+}
+.postContent{
+    margin-bottom:2vh;   
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2; /* 这里是超出几行省略 */
+    overflow: hidden;
+    color: rgb(85, 84, 84);
+    font-size:14px;
 }
 
 .pagination {

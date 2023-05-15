@@ -30,7 +30,7 @@
                     </el-col>
                 </el-row>
 
-                <el-empty v-if="filterPost.length<=0" :image-size="260" description="没有符合条件的帖子" image="https://jbgz-1312275634.cos.ap-shanghai.myqcloud.com/0.ndphwzhxl18.png"/>
+                <el-empty v-if="filterPost.length<=0" :image-size="260" description="没有符合条件的帖子" :image="emptyPicUrl"/>
 
                 <!-- 帖子列表 -->
                 <el-card class="box-card" v-for="item in filterPost.slice((page - 1) * limit, page * limit)"
@@ -79,7 +79,7 @@
                 <hr>
                 <el-row style="margin: 10px 0px;font-size:14px;font-weight: 600;">我的帖子</el-row>
                 <el-scrollbar height="160px">
-                    <div class="myPostList" v-for="item in myPostList" :key="item.postId" shadow="hover">
+                    <div class="myPostList" v-for="item in myPostList" :key="item" shadow="hover">
                         <span>{{ item.postTitle }}</span>
                         <el-button color="#FFC353" class="button" icon="ArrowRightBold" circle
                             @click="detail(item)"></el-button>
@@ -95,84 +95,83 @@
             </template>
             <el-row justify="center">
                 <el-col :span="17">
-                    <el-scrollbar class="dPost" height="70vh">
-                        <el-row justify="center">
-                            <h1 class="dTitle">{{ postDetail.postTitle }}</h1>
-                        </el-row>
-                        <el-row justify="center">
-                            <h3 class="dTime">{{ postDetail.postTime }}</h3>
-                        </el-row>
-                        <p class="dContent">
-                            &emsp;&emsp;这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情。
-                        </p>
-                        <p class="dContent">
-                            &emsp;&emsp;这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情。
-                        </p>
-                        <p class="dContent">
-                            &emsp;&emsp;这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情。
-                        </p>
-                        <p class="dContent">
-                            &emsp;&emsp;这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情。
-                        </p>
-                        <p class="dContent">
-                            &emsp;&emsp;这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情。
-                        </p>
-                        <p class="dContent">
-                            &emsp;&emsp;这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情。
-                        </p>
-                        <p class="dContent">
-                            &emsp;&emsp;这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情。
-                        </p>
-                        <p class="dContent">
-                            &emsp;&emsp;这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情，这是帖子详情。
-                        </p>
-                    </el-scrollbar>
+                    <el-container style="height:80vh;">
+                        <el-header>
+                            <el-row justify="center">
+                                <h1 class="dTitle">{{ postDetail.postTitle }}</h1>
+                            </el-row>
+                            <el-row justify="center">
+                                <h3 class="dTime">{{ postDetail.postTime }}</h3>
+                            </el-row>
+                        </el-header>
+                        <el-main>
+                            <el-scrollbar class="dPost" height="60vh">
+                                <p class="dContent">
+                                    {{ postDetail.postContent }}
+                                </p>
+                            </el-scrollbar>
+                        </el-main>
+                        <el-footer>
+                            <el-row justify="center">
+                                <el-button size="large" v-if="!isCollected" type="warning" plain circle  @click="collect"><el-icon><Star /></el-icon></el-button>
+                                <el-button size="large" v-if="isCollected" type="warning" circle @click="cancelCollect"><el-icon><Star /></el-icon></el-button>
+                                &nbsp;
+                                <el-button size="large" v-if="!isLiked" type="danger" circle plain @click="like"><el-icon><Pointer /></el-icon></el-button>
+                                <el-button size="large" v-if="isLiked" type="danger" circle @click="cancelLike"><el-icon><Pointer /></el-icon></el-button>
+                            </el-row>
+                            
+                        </el-footer>
+                    </el-container>
                 </el-col>
                 <el-col class="dcomment" :span="7">
-                    <el-container style="height:70vh;">
+                    <el-container style="height:80vh;">
                         <el-header>
                             <el-row justify="center">
                                 <h3 style="margin-top:20px;">
-                                    发表评论
+                                    评论
                                 </h3>
                             </el-row>
                         </el-header>
                         <el-main>
-                            <el-scrollbar height="60vh">
+                            <el-scrollbar height="58vh" style="padding-right:10px;">
                                 <div v-for="item in comment" :key="item">
-                                    <el-row>
-                                        <el-avatar :size="25" :src="item.image" />
-                                        <span style="font-size:20px;margin-left: 10px;margin-bottom: 10px;">{{ item.userName
-                                        }}</span>
+                                    <el-row align="middle">
+                                        <el-col :span="3">
+                                            <el-avatar :size="25" :src="item.userPhotoUrl" />
+                                        </el-col>
+                                        <el-col :span="5">
+                                            <span style="font-size:16px;color:#023764">{{ item.userName}}</span>
+                                        </el-col>
+                                        <el-col :span="13">
+                                            <span style="font-size:12px;color:grey">发布于{{ item.commentTime}}</span>
+                                        </el-col>
                                     </el-row>
                                     <el-row>
-                                        <el-input style="margin-bottom:10px;" v-model="item.content" disabled
-                                            placeholder="item.content" />
+                                        <p style="margin-top:10px;line-height: 20px;">{{ item.commentContent }}</p>
+                                        <el-divider />
                                     </el-row>
+                                    
                                 </div>
                             </el-scrollbar>
                         </el-main>
                         <el-footer>
                             <el-input class="inputComment" v-model="dComment" maxlength="30" placeholder="Please input"
                                 show-word-limit type="text">
-                                <template #append><el-button type="primary">发送</el-button></template>
+                                <template #append><el-button type="primary" @click="submitComment">发送</el-button></template>
                             </el-input>
                         </el-footer>
                     </el-container>
                 </el-col>
             </el-row>
-            <template #footer>
-                <span class="dialog-footer">
-                    <el-button type="warning" plain>收藏</el-button>
-                    <el-button type="danger" plain>点赞</el-button>
-                </span>
-            </template>
         </el-dialog>
     </div>
 </template>
 
 <script>
 import Nav from '@/components/Nav.vue'
+import { ElMessage,ElMessageBox } from 'element-plus'
+import 'element-plus/es/components/message/style/index'
+import 'element-plus/es/components/message-box/style/index'
 
 export default {
     name: "ClubForum",
@@ -193,25 +192,16 @@ export default {
             dialogFormVisible: false,
             postDetail: [],
             dComment: null,
+            emptyPicUrl:"https://jbgz-1312275634.cos.ap-shanghai.myqcloud.com/0.ndphwzhxl18.png",
             img: [{
                 image: "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Ffile.moyublog.com%2Fd%2Ffile%2F2021-06-28%2F89492d68481e7e090ee8a94ee0d076ca.jpg&refer=http%3A%2F%2Ffile.moyublog.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1674183589&t=617a541099be638fd23511b659d1d231"
             }, {
                 image: "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.yipic.cn%2Fthumb%2Fb81cf77a%2Fa7fc306f%2F09c435cb%2Fa8db1a18%2Fbig_b81cf77aa7fc306f09c435cba8db1a18.png&refer=http%3A%2F%2Fimg.yipic.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1674186787&t=a4b8b2443d08c8a8f75829ef9a09363f"
             }],
-            comment: [{
-                userName: "刻晴",
-                content: "好极了！",
-                image: "https://s2.loli.net/2022/11/20/sK9DCVWY7qLyIhw.jpg"
-            }, {
-                userName: "行秋",
-                content: "中规中矩吧！",
-                image: "https://s2.loli.net/2022/11/20/sK9DCVWY7qLyIhw.jpg"
-            }, {
-                userName: "钟离",
-                content: "期待下一次观星！",
-                image: "https://s2.loli.net/2022/11/20/sK9DCVWY7qLyIhw.jpg"
-            }],
+            comment: [{}],
             currentTag:'全部',
+            isCollected:false,
+            isLiked:false,
         }
     },
     methods: {
@@ -219,14 +209,259 @@ export default {
             this.page = val
         },
         detail(value) {
-            this.dialogFormVisible = true;
             console.log(value);
             this.postDetail = value;
+
+            // 获取帖子的评论列表
+            this.$axios({
+                method: 'get',
+                url: '/api/forum/comment/' + value.postId,
+            })
+            .then(res => {
+                console.log(res.data.data);
+                this.comment = res.data.data;
+                this.comment.sort(function(a, b) {
+                    return b.commentTime< a.commentTime? -1 : 1
+                })
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+
+            // 判断帖子是否收藏
+            this.$axios({
+                method: 'post',
+                url: '/api/forum/collection/judge',
+                data: {
+                    postId: value.postId,
+                    userId: localStorage.getItem("userId"),
+                }
+            })
+            .then(res => {
+                console.log('是否收藏'+res.data.message);
+                if(res.data.code==200){
+                    this.isCollected=true;
+                }
+                else{
+                    this.isCollected=false;
+                }
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+
+            // 判断帖子是否点赞
+            this.$axios({
+                method: 'post',
+                url: '/api/forum/likes/judge',
+                data: {
+                    postId: value.postId,
+                    userId: localStorage.getItem("userId"),
+                }
+            })
+            .then(res => {
+                console.log('是否收藏'+res.data.message);
+                if(res.data.code==200){
+                    this.isLiked=true;
+                }
+                else{
+                    this.isLiked=false;
+                }
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+
+            this.dialogFormVisible = true;
         },
         currentTagName(tagName){
             this.currentTag=tagName;
-            
-        }
+        },
+        submitComment(){
+            if(this.dComment==""||this.dComment==null){
+                ElMessage({
+                    message: "评论不能为空",
+                    type: 'error',
+                })
+                return;
+            }
+            this.$axios({
+                method: 'post',
+                url: '/api/forum/comment',
+                data: {
+                    userId: localStorage.getItem("userId"),
+                    postId: this.postDetail.postId,
+                    commentContent: this.dComment
+                },
+            })
+            .then(res => {
+                console.log(res.data.message);
+                if(res.data.code==200){
+                ElMessage({
+                    message: '成功发表评论！',
+                    type: 'success',
+                })
+                }else{
+                    ElMessage.error('发表失败！')
+                }
+                this.dialogFormVisible = false;
+                this.dComment=null;
+                this.detail(this.postDetail);
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+        },
+        confirmDeleteCancel(){
+            ElMessageBox.confirm(
+                '确认删除注销社团申请?',
+                '提示',
+                {
+                    distinguishCancelAndClose: true,
+                    confirmButtonText: '确认',
+                    cancelButtonText: '取消',
+                }
+            )
+            .then(() => {
+                this.deleteCancel();
+            })
+        },
+        collect(){
+            // 收藏帖子
+            this.$axios({
+                method: 'post',
+                url: '/api/forum/collection',
+                data: {
+                    postId: this.postDetail.postId,
+                    userId: localStorage.getItem("userId"),
+                }
+            })
+            .then(res => {
+                if(res.data.code==200){
+                    ElMessage({
+                        message: '收藏成功！',
+                        type: 'success',
+                    })
+                    this.dialogFormVisible = false;
+                    this.detail(this.postDetail);
+                }
+                else{
+                    ElMessage.error('收藏失败！')
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+                ElMessage.error('收藏失败！')
+            })
+        },
+        cancelCollect(){
+            ElMessageBox.confirm(
+                '确认取消收藏?',
+                '提示',
+                {
+                    distinguishCancelAndClose: true,
+                    confirmButtonText: '确认',
+                    cancelButtonText: '取消',
+                }
+            )
+            .then(() => {
+                // 取消收藏帖子
+                this.$axios({
+                    method: 'delete',
+                    url: '/api/forum/collection',
+                    data: {
+                        postId: this.postDetail.postId,
+                        userId: localStorage.getItem("userId"),
+                    }
+                })
+                .then(res => {
+                    if(res.data.code==200){
+                        ElMessage({
+                            message: '已取消收藏！',
+                            type: 'success',
+                        })
+                        this.dialogFormVisible = false;
+                        this.detail(this.postDetail);
+                    }
+                    else{
+                        ElMessage.error('操作失败！')
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    ElMessage.error('操作失败！')
+                })
+            })
+        },
+        like(){
+            // 点赞帖子
+            this.$axios({
+                method: 'post',
+                url: '/api/forum//likes',
+                data: {
+                    postId: this.postDetail.postId,
+                    userId: localStorage.getItem("userId"),
+                }
+            })
+            .then(res => {
+                if(res.data.code==200){
+                    ElMessage({
+                        message: '点赞成功！',
+                        type: 'success',
+                    })
+                    this.dialogFormVisible = false;
+                    this.detail(this.postDetail);
+                }
+                else{
+                    ElMessage.error('点赞失败！')
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+                ElMessage.error('点赞失败！')
+            })
+        },
+        cancelLike(){
+            ElMessageBox.confirm(
+                '确认取消点赞?',
+                '提示',
+                {
+                    distinguishCancelAndClose: true,
+                    confirmButtonText: '确认',
+                    cancelButtonText: '取消',
+                }
+            )
+            .then(() => {
+                // 取消收藏帖子
+                this.$axios({
+                    method: 'delete',
+                    url: '/api/forum//likes',
+                    data: {
+                        postId: this.postDetail.postId,
+                        userId: localStorage.getItem("userId"),
+                    }
+                })
+                .then(res => {
+                    if(res.data.code==200){
+                        ElMessage({
+                            message: '已取消点赞！',
+                            type: 'success',
+                        })
+                        this.dialogFormVisible = false;
+                        this.detail(this.postDetail);
+                    }
+                    else{
+                        ElMessage.error('操作失败！')
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    ElMessage.error('操作失败！')
+                })
+            })
+        },
     },
     computed:{
         filterPost(){
@@ -259,7 +494,7 @@ export default {
 
         // 获取该社团论坛的帖子列表
         this.$axios({
-            method: 'get',
+            method: 'post',
             url: '/api/forum/post/club',
             data: {
                 clubId: localStorage.getItem("clubId"),
@@ -277,10 +512,11 @@ export default {
 
         // 获取我发布的帖子
         this.$axios({
-            method: 'get',
-            url: '/api/forum/post',
+            method: 'post',
+            url: '/api/forum/post/user',
             data: {
                 userId: localStorage.getItem("userId"),
+                status: "正常"
             }
         })
         .then(res => {
@@ -303,7 +539,6 @@ export default {
         .catch(function (error) {
             console.log(error);
         })
-
     }
 }
 </script>

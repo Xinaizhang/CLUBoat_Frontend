@@ -61,7 +61,7 @@
                 <el-menu-item index="6">
                     <template #title>
                         <el-icon>
-                            <TrendCharts />
+                            <Coin />
                         </el-icon>
                         <text style="font-size:17px">预算管理</text>
                     </template>
@@ -69,7 +69,7 @@
             </router-link>
 
             <router-link to="/org_clubreim">
-                <el-menu-item index="6">
+                <el-menu-item index="7">
                     <template #title>
                         <el-icon>
                             <TrendCharts />
@@ -79,25 +79,34 @@
                 </el-menu-item>
             </router-link>
 
+            <router-link to="/org_forum">
+                <el-menu-item index="8">
+                    <template #title>
+                        <el-icon>
+                            <Promotion />
+                        </el-icon>
+                        <text style="font-size:17px">论坛管理</text>
+                    </template>
+                </el-menu-item>
+            </router-link>
+
         </el-menu>
     </el-col>
-
-
 </template>
 
 <script>
-    export default {
-        name: "OrgNav",
-    }
+export default {
+    name: "OrgNav",
+}
 </script>
 
 
 <style scoped>
-    .router-link-active {
-        text-decoration: none;
-    }
+.router-link-active {
+    text-decoration: none;
+}
 
-    .sidenav {
-        font-size: 20px;
-    }
+.sidenav {
+    font-size: 20px;
+}
 </style>

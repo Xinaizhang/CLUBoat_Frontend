@@ -92,6 +92,7 @@
 
         </el-col>
 
+        <!-- tag管理 -->
         <el-col :span="5" class="main">
             <el-card class="box-card-1">
                 <template #header>
@@ -100,11 +101,11 @@
                     </div>
                 </template>
 
-                <el-tag v-for="tag in tagList" :key="tag" class="mx-1" size="large" style="margin:5px; ">
+                <el-tag v-for="tag in tagList" :key="tag" class="mx-1" size="large" type="warning" style="margin:5px; " >
                     {{ tag.tagName }}
                 </el-tag>
 
-                <el-input v-if="inputVisible" v-model="inputValue" class="ml-1 w-20" @keyup.enter="handleInputConfirm"
+                <el-input v-if="inputVisible" v-model="inputValue" class="ml-1 w-20" 
                     @blur="handleInputConfirm" style="margin:5px; " />
                 <el-button v-else class="button-new-tag ml-1" @click="showInput" style="margin:5px; ">
                     + New Tag

@@ -93,7 +93,7 @@
         align-items: center;
         vertical-align: middle;
         background-color: #023764;
-        width: 55vw;
+        width: 53vw;
     }
     .box_style{
         width: 10vw;
@@ -114,7 +114,7 @@
         font: bolder 28px Cookie, Arial, Helvetica, sans-serif;
         padding: 0px 100px;
         border-radius: 0% 0% 60px 60px;
-        margin-left: -250px;
+        margin-left: -240px;
     }
     img{
         width: 30px;
@@ -146,7 +146,7 @@
 
     .box2{
         position: relative;
-        left: 5vw;
+        left: 6vw;
         height: 50px;
         width: 28vw;
         display: flex;

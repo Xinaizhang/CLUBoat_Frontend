@@ -1,7 +1,5 @@
 <template>
   <Nav/>
-  <br>
-  <br>
   <el-row class="content">
     <el-col :span="3" :offset="3">
       <el-menu class="sidebar"
@@ -12,25 +10,25 @@
         text-color="#fff"
       >
         <el-menu-item index="/personInfo">
-          <p style="margin: 0 auto;">
+          <p style="margin: 0 auto;font-size:2.3vh;">
             <el-icon><User/></el-icon>
             <span>我的信息</span>
           </p>
         </el-menu-item>
         <el-menu-item index="/myActivity">
-          <p style="margin: 0 auto;">
+          <p style="margin: 0 auto;font-size:2.3vh;">
             <el-icon><Football/></el-icon>
             <span>我的活动</span>
           </p>
         </el-menu-item>
         <el-menu-item index="/myClub">
-        <p style="margin: 0 auto;">
+        <p style="margin: 0 auto;font-size:2.3vh;">
           <el-icon><Ship/></el-icon>
           <span>我的社团</span>
         </p>
       </el-menu-item>
       <el-menu-item index="/notification">
-        <p style="margin: 0 auto;">
+        <p style="margin: 0 auto;font-size:2.3vh;">
           <el-icon><Bell/></el-icon>
           <span>我的通知</span>
         </p>
@@ -44,7 +42,7 @@
       </el-header>
       <el-main>
         <div v-if="clubList" class="clubList">
-          <div style="margin-left: 80px;margin-top: 40px;">
+          <div style="margin-top: 4vh;margin-left: 5vw;">
             <el-row :gutter="20">
               <el-col
                 v-for="item in clubList.slice((page-1) * limit, page * limit)"
@@ -287,21 +285,25 @@ export default {
 <style scoped>
   .card_hd .btn{
     color: #FFC353;
-    height: 30px;
-    width: 80px;
+    height: 4vh;
+    line-height: 4vh;
+    width: 6vw;
+    font-size:2vh;
     position: relative; 
     left: 74%;
     top: -12px
   }
   .content{
-    height: 600px;
+    height: auto;
+    margin-top:5vh;
   }
   .sidebar{
     text-align: center;
-    height: 600px;
+    height: 82vh;
   }
   .card{
     border: 1px solid #023764;
+    height: 82vh;
   }
   .card_hd{
     background-color: #0236641d;
@@ -314,34 +316,36 @@ export default {
     padding-left: 10px;
     color: #023764;
     border-left: 8px solid #FFC353;
-    font-size: 20px;
+    font-size: 2.7vh;
   }
   .clubList{
-    height: 400px;
-    margin-top: 30px;
+    height: 60vh;
+    vertical-align: middle;
   }
   .club{
     text-align: center;
+    height: 50vh;
   }
   .bottom {
     margin: 0 auto;
   }
   .clubName{
-    font-size: 25px;
+    font-size: 3vh;
     font-weight: 600;
     color: #023764;
   }
   .image {
     width: 100%;
-    height:20vh;
+    height:25vh;
     display: block;
   }
   .btn{
-    font-weight: 600;
-    margin-top: 20px;
+    margin-top: 3vh;
     color: #023764;
-    height: 30px;
-    width: 120px;
+    height: 4vh;
+    line-height: 4vh;
+    width: 7vw;
+    font-size:2vh;
   }
   
   .pagination{

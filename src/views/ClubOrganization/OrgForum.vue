@@ -22,18 +22,18 @@
                     <el-table-column prop="targetType" label="申请标题" />
                     <el-table-column prop="reportTime" label="申请金额" />
                     <el-table-column prop="status" label="状态" width="100" :filters="[
-                            { text: '已审核', value: '已审核' },
-                            { text: '待审核', value: '待审核' },
+                            { text: '已审批', value: '已审批' },
+                            { text: '待审批', value: '待审批' },
                         ]" :filter-method="filterTag" filter-placement="bottom-end">
                         <template #default="scope">
-                            <el-tag v-if="scope.row.status == '已审核'" type="danger" disable-transitions>已审核</el-tag>
-                            <el-tag v-if="scope.row.status == '待审核'" disable-transitions>待审核</el-tag>
+                            <el-tag v-if="scope.row.status == '已审批'" type="success" disable-transitions>已审批</el-tag>
+                            <el-tag v-if="scope.row.status == '待审批'" disable-transitions>待审批</el-tag>
                         </template>
                     </el-table-column>
 
-                    <!-- 审核按钮 -->
+                    <!-- 审批按钮 -->
                     <el-table-column fixed="right" label="操作" width="120">
-                        <el-button link type="primary" size="small" @click="dialogFormVisible1 = true">审核</el-button>
+                        <el-button link type="primary" size="small" @click="dialogFormVisible1 = true">审批</el-button>
                     </el-table-column>
                 </el-table>
 
@@ -46,38 +46,42 @@
                     </div>
                 </el-row>
 
-                <!-- 审核详情弹窗 -->
+                <!-- 审批详情弹窗 -->
                 <el-dialog v-model="dialogFormVisible1" align-center draggable width="55vw" style="padding:0px 10px;"
-                    title="审核详情">
+                    title="审批详情">
                     <el-scrollbar height="450px">
                         <div style="margin-left:15px;margin-right:20px;">
                             <el-form :model="report">
 
                                 <el-form-item label="违规内容" label-width="70px">
                                     <el-input disabled v-model="report.reportContent" autocomplete="off" type="textarea"
-                                        :rows="5" />
+                                        :rows="3" />
                                 </el-form-item>
 
-                                <el-form-item label="审核状态" label-width="70px">
-                                    <el-tag v-if="report.status == '已审核'" type="danger" disable-transitions>已审核</el-tag>
-                                    <el-tag v-if="report.status == '待审核'" disable-transitions>待审核</el-tag>
+                                <el-form-item label="审批状态" label-width="70px">
+                                    <el-tag v-if="report.status == '已审批'" type="success" disable-transitions>已审批</el-tag>
+                                    <el-tag v-if="report.status == '待审批'" disable-transitions>待审批</el-tag>
                                 </el-form-item>
 
                                 <el-form-item label="惩罚措施" label-width="70px">
+                                    <el-select v-model="report.punish" class="m-2" placeholder="请选择">
+                                        <el-option v-for="item in punish" :key="item.value" :label="item.label"
+                                            :value="item.value" />
+                                    </el-select>
 
                                 </el-form-item>
 
-                                <el-form-item v-if="report.status == '已审核'" label="反馈" label-width="70px">
+                                <el-form-item v-if="report.status == '已审批'" label="反馈" label-width="70px">
                                     <el-input disabled v-model="report.feedback" autocomplete="off" type="textarea"
-                                        :rows="17" />
+                                        :rows="7" />
                                 </el-form-item>
-                                <el-form-item required v-if="report.status == '待审核'" label="反馈" label-width="70px">
-                                    <el-input v-model="feedback" autocomplete="off" type="textarea" :rows="16" />
+                                <el-form-item required v-if="report.status == '待审批'" label="反馈" label-width="70px">
+                                    <el-input v-model="report.feedback" autocomplete="off" type="textarea" :rows="7" />
                                 </el-form-item>
 
 
-                                <!-- 提交审核结果 -->
-                                <el-button v-if="report.status == '待审核'" style="width:80px;" type="success" plain
+                                <!-- 提交审批结果 -->
+                                <el-button v-if="report.status == '待审批'" style="width:80px;" type="primary"
                                     @click="pass">提交</el-button>
 
                             </el-form>
@@ -132,40 +136,26 @@ export default {
             page: 1,
             limit: 8,
             total: 6,
-            // dialogFormVisible: false,
             dialogFormVisible1: false,
-            feedback: null,
             report: {
                 reportContent: "我是美美姐的狗",
             },
-            // display: false,
-            // isPass: true,
-
-            reportList: [
+            value : "",
+            punish :[
                 {
-                    "reportId": 1,
-                    "targetId": 10,
-                    "reportReason": "这个帖子有问题，不利于团结",
-                    "reporterId": 1,
-                    "targetType": "帖子",
-                    "reportTime": "2023-05-01 17:30:38",
-                    "status": "待审批",
-                    "punish": null,
-                    "feedback": null
+                    value: '无',
+                    label: '无',
                 },
                 {
-                    "reportId": 2,
-                    "targetId": 15,
-                    "reportReason": "这个评论有问题，不利于团结",
-                    "reporterId": 1,
-                    "targetType": "评论",
-                    "reportTime": "2023-05-01 17:38:38",
-                    "status": "待审批",
-                    "punish": null,
-                    "feedback": null
+                    value: '删除',
+                    label: '删除',
+                },
+                {
+                    value: '删除并封禁用户',
+                    label: '删除并封禁用户',
                 }
             ],
-
+            reportList: [],
             inputValue: '',
             tagList: ['Tag 1', 'Tag 2', 'Tag 3'],
             inputVisible: false,
@@ -181,10 +171,6 @@ export default {
         },
 
         handleInputConfirm() {
-            // if (inputValue.value) {
-            //     tagList.value.push("tagName:" + inputValue.value)
-            // }
-
             if (this.inputValue == "") {
                 ElMessage({
                     message: "tag不能为空",
@@ -222,51 +208,65 @@ export default {
             if (value != null) {
                 console.log(value);
                 this.report = value;
-                console.log("当前行" + this.report);
+                console.log("当前行", this.report);
+
+                this.$axios({
+                    method: 'get',
+                    url: '/api/forum/report/detail/' + this.report.reportId,
+                })
+                    .then(res => {
+                        console.log("reportDetail", res.data.data.reportContent);
+                        this.report.reportContent = res.data.data.reportContent;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    })
+
+
             }
         },
 
-        // pass() {
-        //     console.log("通过");
-        //     console.log(this.report);
-        //     if (this.feedback == "" || this.feedback == null) {
-        //         ElMessage({
-        //             message: "反馈不能为空",
-        //             type: 'error',
-        //         })
-        //         return;
-        //     }
-        //     this.dialogFormVisible1 = false;
-        //     this.$axios({
-        //         method: 'put',
-        //         url: '/api/club-manage/reportbursements',
-        //         data: {
-        //             reportId: this.report.reportId,
-        //             status: "已通过",
-        //             feedback: this.feedback
-        //         },
-        //     })
-        //         .then(res => {
-        //             console.log(res.data.message);
-        //             if (res.data.code == 200) {
-        //                 ElMessage({
-        //                     message: res.data.message,
-        //                     type: 'success',
-        //                 })
-        //             } else {
-        //                 ElMessage.error(res.data.message)
-        //             }
-        //             this.$router.go(0)
-        //         })
-        //         .catch(function (error) {
-        //             console.log(error);
-        //         })
-        // },
+        pass() {
+            console.log("提交");
+            if (this.report.feedback == "" || this.report.punish == null) {
+                ElMessage({
+                    message: "反馈/惩罚不能为空",
+                    type: 'error',
+                })
+                return;
+            }
+            this.dialogFormVisible1 = false;
+            this.$axios({
+                method: 'put',
+                url: '/api/forum/report',
+                data: {
+                    reportId: this.report.reportId,
+                    status: "已审批",
+                    punish:this.report.punish,
+                    feedback: this.report.feedback
+                },
+            })
+                .then(res => {
+                    console.log(res.data.message);
+                    if (res.data.code == 200) {
+                        ElMessage({
+                            message: res.data.message,
+                            type: 'success',
+                        })
+                    } else {
+                        ElMessage.error(res.data.message)
+                    }
+                    this.$router.go(0)
+                })
+                .catch(function (error) {
+                    console.log(error);
+                })
+        },
+
         filterTag(value, row) {
             return row.status === value;
         },
     },
-
 
     created() {
         // 获取违规列表

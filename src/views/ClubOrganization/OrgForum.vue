@@ -3,7 +3,7 @@
 
     <el-row style="background:#EEEEEE">
         <OrgNav />
-        <el-col :span="15" class="main">
+        <el-col :span="14" class="main">
 
             <!-- 违规管理：帖子/评论 -->
             <el-card class="box-card-1" style="text-align:center">
@@ -16,12 +16,12 @@
                 <!-- 表格 -->
                 <el-table :data="reportList.slice((page - 1) * limit, page * limit)" style="width: 100%" size="large"
                     height="430" highlight-current-row @current-change="getCurrentRow">
-                    <el-table-column label="序号" type="index" width="80" />
-                    <el-table-column prop="reportReason" label="申请社团" sortable width="170" />
-                    <el-table-column prop="reporterId" label="申请人" sortable width="100" />
-                    <el-table-column prop="targetType" label="申请标题" />
-                    <el-table-column prop="reportTime" label="申请金额" />
-                    <el-table-column prop="status" label="状态" width="100" :filters="[
+                    <el-table-column label="序号" type="index" width="70" />
+                    <el-table-column prop="reportReason" label="举报理由" sortable width="185" />
+                    <el-table-column prop="reporterId" label="举报人" width="80" />
+                    <el-table-column prop="targetType" label="类型" width="80" />
+                    <el-table-column prop="reportTime" label="举报时间" width="120"/>
+                    <el-table-column prop="status" label="状态" width="90" :filters="[
                             { text: '已审批', value: '已审批' },
                             { text: '待审批', value: '待审批' },
                         ]" :filter-method="filterTag" filter-placement="bottom-end">
@@ -64,7 +64,11 @@
                                 </el-form-item>
 
                                 <el-form-item label="惩罚措施" label-width="70px">
-                                    <el-select v-model="report.punish" class="m-2" placeholder="请选择">
+                                    <el-select v-if="report.status == '已审批'" disabled v-model="report.punish" class="m-2" placeholder="请选择">
+                                        <el-option v-for="item in punish" :key="item.value" :label="item.label"
+                                            :value="item.value" />
+                                    </el-select>
+                                    <el-select v-if="report.status == '待审批'" v-model="report.punish" class="m-2" placeholder="请选择">
                                         <el-option v-for="item in punish" :key="item.value" :label="item.label"
                                             :value="item.value" />
                                     </el-select>
@@ -93,26 +97,50 @@
         </el-col>
 
         <!-- tag管理 -->
-        <el-col :span="5" class="main">
-            <el-card class="box-card-1">
-                <template #header>
-                    <div class="card-header">
-                        <span>tag管理</span>
-                    </div>
-                </template>
+        <el-col :span="6" class="main">
+            <el-row :span="12">
+                <el-card class="box-card-2">
+                    <template #header>
+                        <div class="card-header">
+                            <span>tag管理</span>
+                        </div>
+                    </template>
 
-                <el-tag v-for="tag in tagList" :key="tag" class="mx-1" size="large" type="warning" style="margin:5px; " >
-                    {{ tag.tagName }}
-                </el-tag>
+                    <el-scrollbar height="25vh">
+                        <div style="margin:10px">
 
-                <el-input v-if="inputVisible" v-model="inputValue" class="ml-1 w-20" 
-                    @blur="handleInputConfirm" style="margin:5px; " />
-                <el-button v-else class="button-new-tag ml-1" @click="showInput" style="margin:5px; ">
-                    + New Tag
-                </el-button>
+                            <el-tag v-for="tag in tagList" :key="tag" class="mx-1" size="large" type="warning"
+                                style="margin:5px; ">
+                                {{ tag.tagName }}
+                            </el-tag>
+
+                            <el-input v-if="inputVisible" v-model="inputValue" class="ml-1 w-20" @blur="handleInputConfirm"
+                                style="margin:5px; " />
+                            <el-button v-else class="button-new-tag ml-1" @click="showInput" style="margin:5px; ">
+                                + New Tag
+                            </el-button>
+                        </div>
+
+                    </el-scrollbar>
 
 
-            </el-card>
+                </el-card>
+            </el-row>
+
+            <!-- 论坛词云图 -->
+            <el-row :span="12">
+                <el-card class="box-card-2">
+                    <template #header>
+                        <div class="card-header">
+                            <span>论坛词云图</span>
+                        </div>
+                    </template>
+                    <!-- <el-scrollbar height="25vh"> -->
+                        <el-image style="height:25vh"  :src="url" :fit="contain" />
+                    <!-- </el-scrollbar> -->
+                </el-card>
+            </el-row>
+
         </el-col>
     </el-row>
 </template>
@@ -141,8 +169,8 @@ export default {
             report: {
                 reportContent: "我是美美姐的狗",
             },
-            value : "",
-            punish :[
+            value: "",
+            punish: [
                 {
                     value: '无',
                     label: '无',
@@ -160,9 +188,7 @@ export default {
             inputValue: '',
             tagList: ['Tag 1', 'Tag 2', 'Tag 3'],
             inputVisible: false,
-
-
-
+            url: '',
         }
     },
     methods: {
@@ -243,7 +269,7 @@ export default {
                 data: {
                     reportId: this.report.reportId,
                     status: "已审批",
-                    punish:this.report.punish,
+                    punish: this.report.punish,
                     feedback: this.report.feedback
                 },
             })
@@ -296,11 +322,25 @@ export default {
             .then(res => {
                 console.log("tag", res.data.data);
                 this.tagList = res.data.data;
-                this.total = res.data.data.length;
+
             })
             .catch(function (error) {
                 console.log(error);
             })
+
+        //获取 词云图
+        this.$axios({
+            method: 'get',
+            url: '/api/forum/post/topic/' + localStorage.getItem("clubId"),
+        })
+            .then(res => {
+                console.log("url", res.data.data);
+                this.url = res.data.data;
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+
     },
 
 
@@ -330,9 +370,14 @@ export default {
 
 .box-card-1 {
     margin: 10px;
-    min-height: 600px;
+    height: 83vh;
 }
 
+.box-card-2 {
+    margin: 10px;
+    height: 40vh;
+    width:100%;
+}
 
 .cell-item {
     display: flex;

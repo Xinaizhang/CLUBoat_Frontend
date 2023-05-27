@@ -267,7 +267,7 @@ export default {
 
 .box-card-1 {
   margin: 10px;
-  min-height: 600px;
+  height: 83vh;
 }
 
 .userPhoto .btn {

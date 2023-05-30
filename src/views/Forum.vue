@@ -28,16 +28,16 @@
                     </el-row>
                     <hr>
                     <el-row style="margin: 10px 0px;font-size:14px;font-weight: 600;">
-                        <el-col :span="22">我的帖子</el-col>
-                        <el-col :span="2"><el-button color="#FFC353" class="button" link @click="1"><el-icon><More /></el-icon></el-button></el-col>
+                        <el-col :span="22">我的推荐</el-col>
+                        <!-- <el-col :span="2"><el-button color="#FFC353" class="button" link @click="1"><el-icon><More /></el-icon></el-button></el-col> -->
                     </el-row>
-                    <el-scrollbar height="30vh">
-                        <div class="myPostList" v-for="item in myPostList" :key="item" shadow="hover" style="margin-right:10px;">
+                    <el-scrollbar height="30vh" style="padding-right:10px;">
+                        <div class="myPostList" v-for="item in recommendPostList" :key="item" shadow="hover">
                             <el-row>
-                                <el-col :span="23">
+                                <el-col :span="22">
                                     <span class="myPostText">{{ item.postTitle }}</span>
                                 </el-col>
-                                <el-col :span="1">
+                                <el-col :span="2">
                                     <el-button color="#FFC353" class="button" icon="ArrowRightBold" circle @click="detail(item)"></el-button>
                                 </el-col>
                             </el-row>
@@ -54,6 +54,22 @@
                                     <span class="myPostText">{{ item.postTitle }}</span>
                                 </el-col>
                                 <el-col :span="2">
+                                    <el-button color="#FFC353" class="button" icon="ArrowRightBold" circle @click="detail(item)"></el-button>
+                                </el-col>
+                            </el-row>
+                        </div>
+                    </el-scrollbar>
+                </el-card>
+                <!-- 我的推荐 -->
+                <el-card style="background-color: #e6e9ec;margin-top: 3vh;margin-bottom: 20px;" class="user">
+                    <el-row style="margin: 10px 0px;font-size:14px;font-weight: 600;">我的帖子</el-row>
+                    <el-scrollbar height="30vh">
+                        <div class="myPostList" v-for="item in myPostList" :key="item" shadow="hover" style="margin-right:10px;">
+                            <el-row>
+                                <el-col :span="23">
+                                    <span class="myPostText">{{ item.postTitle }}</span>
+                                </el-col>
+                                <el-col :span="1">
                                     <el-button color="#FFC353" class="button" icon="ArrowRightBold" circle @click="detail(item)"></el-button>
                                 </el-col>
                             </el-row>
@@ -132,7 +148,12 @@
                     <el-container style="height:80vh;">
                         <el-header>
                             <el-row justify="center">
-                                <h1 class="dTitle">{{ postDetail.postTitle }}</h1>
+                                <el-tooltip placement="bottom" effect="dark">
+                                    <template #content>
+                                        摘要：{{ abstract }}
+                                    </template>
+                                    <h1 class="dTitle">{{ postDetail.postTitle }}</h1>
+                                </el-tooltip>
                             </el-row>
                             <el-row justify="center">
                                 <h3 class="dTime">{{ postDetail.postTime }}</h3>
@@ -304,6 +325,7 @@ export default {
             postList: [{}],
             myPostList: [{}],
             collectedPostList: [{}],
+            recommendPostList: [{}],
             userInfo: [],
             newPost:{
                 userId: localStorage.getItem("userId"),
@@ -330,6 +352,7 @@ export default {
                 image: "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.yipic.cn%2Fthumb%2Fb81cf77a%2Fa7fc306f%2F09c435cb%2Fa8db1a18%2Fbig_b81cf77aa7fc306f09c435cba8db1a18.png&refer=http%3A%2F%2Fimg.yipic.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1674186787&t=a4b8b2443d08c8a8f75829ef9a09363f"
             }],
             comment: [{}],
+            abstract: null,
             currentTag:'全部',
             isCollected:false,
             isLiked:false,
@@ -340,8 +363,22 @@ export default {
             this.page = val
         },
         detail(value) {
+            this.abstract = null;
             console.log(value);
             this.postDetail = value;
+
+            // 获取帖子的摘要
+            this.$axios({
+                method: 'get',
+                url: '/api/forum/post/abstract/' + value.postId,
+            })
+            .then(res => {
+                console.log(res.data.data);
+                this.abstract = res.data.data;
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
 
             // 获取帖子的评论列表
             this.$axios({
@@ -802,6 +839,18 @@ export default {
         .then(res => {
             console.log(res.data.data);
             this.userInfo = res.data.data;
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+
+        // 获取我的推荐
+        this.$axios({
+            method: 'get',
+            url: '/api/forum/post/recommend/'+localStorage.getItem("userId"),
+        })
+        .then(res => {
+            this.recommendPostList = res.data.data;
         })
         .catch(function (error) {
             console.log(error);

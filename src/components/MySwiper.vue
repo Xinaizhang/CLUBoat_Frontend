@@ -55,8 +55,8 @@ export default {
 </script>
 <style>
   .swiper-container {
-    width: 600px;
-    height: auto;
+    width: 40vw;
+    height: 57vh;
     --swiper-pagination-color: #023764;
   }
   .swiper-slide img{
@@ -64,8 +64,8 @@ export default {
     height: 100%;
   }
   .swiper-pagination{
-    height: 20px;
-    margin-bottom: -10px;
+    height: 3vh;
+    margin-bottom: -2vh;
     background-color: #fff;
   }
 </style>

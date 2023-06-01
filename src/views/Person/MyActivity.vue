@@ -1,13 +1,11 @@
 <template>
   <Nav />
-  <br>
-  <br>
   <el-row class="content">
     <el-col :span="3" :offset="3">
       <el-menu class="sidebar" default-active="/myActivity" router=true active-text-color="#FFC353"
         background-color="#023764" text-color="#fff">
         <el-menu-item index="/personInfo">
-          <p style="margin: 0 auto;">
+          <p style="margin: 0 auto;font-size:2.3vh;">
             <el-icon>
               <User />
             </el-icon>
@@ -15,7 +13,7 @@
           </p>
         </el-menu-item>
         <el-menu-item index="/myActivity">
-          <p style="margin: 0 auto;">
+          <p style="margin: 0 auto;font-size:2.3vh;">
             <el-icon>
               <Football />
             </el-icon>
@@ -23,7 +21,7 @@
           </p>
         </el-menu-item>
         <el-menu-item index="/myClub">
-          <p style="margin: 0 auto;">
+          <p style="margin: 0 auto;font-size:2.3vh;">
             <el-icon>
               <Ship />
             </el-icon>
@@ -31,7 +29,7 @@
           </p>
         </el-menu-item>
         <el-menu-item index="/notification">
-          <p style="margin: 0 auto;">
+          <p style="margin: 0 auto;font-size:2.3vh;">
             <el-icon>
               <Bell />
             </el-icon>
@@ -48,32 +46,35 @@
         <el-tabs v-if="activityList && display" v-model="tabs" class="tabs" style="width:100%;">
           <!-- 全部活动 -->
           <el-tab-pane label="&emsp;&nbsp;全部&nbsp;&emsp;" name="全部">
-            <el-scrollbar max-height="400px">
-              <el-card class="box-card" v-for="item in activityList" :key="item.activityId" shadow="hover">
-                <template #header>
-                  <div class="card-header">
-                    <span>{{ item.activityTitle }}</span>
-                    <!-- <el-button color="#023764" class="button" icon="ArrowRightBold" circle></el-button> -->
-                    <el-button color="#023764" class="button" icon="ArrowRightBold" @click="goActivityDetail(item)"
-                      circle>
-                    </el-button>
-                  </div>
-                </template>
-                <el-row>
-                  <el-col class="textFather" :span="21">
-                    <div class="text">{{ item.activityDescription }}</div>
-                  </el-col>
-                  <el-col :span="3">
-                    <el-button class="button" color="#023764" @click="edit(item.activityId)">取消关注</el-button>
-                  </el-col>
-                </el-row>
-              </el-card>
+            <el-scrollbar max-height="55vh" style="padding-right:10px;">
+              <el-row justify="center">
+                <el-card class="box-card" v-for="item in activityList" :key="item.activityId" shadow="hover">
+                  <template #header>
+                    <div class="card-header">
+                      <span>{{ item.activityTitle }}</span>
+                      <!-- <el-button color="#023764" class="button" icon="ArrowRightBold" circle></el-button> -->
+                      <el-button color="#023764" class="button" icon="ArrowRightBold" @click="goActivityDetail(item)"
+                        circle>
+                      </el-button>
+                    </div>
+                  </template>
+                  <el-row>
+                    <el-col class="textFather" :span="21">
+                      <div class="text">{{ item.activityDescription }}</div>
+                    </el-col>
+                    <el-col :span="3">
+                      <el-button class="button" color="#023764" @click="edit(item.activityId)">取消关注</el-button>
+                    </el-col>
+                  </el-row>
+                </el-card>
+              </el-row>
+
             </el-scrollbar>
           </el-tab-pane>
 
           <!-- 未过期活动 -->
           <el-tab-pane label="&emsp;未过期&emsp;" name="未过期">
-            <el-scrollbar max-height="400px">
+            <el-scrollbar max-height="55vh" style="padding-right:10px;">
               <el-card class="box-card" v-for="item in activityList" v-show="activityTime(item.activityTime)"
                 :key="item.activityId" shadow="hover">
                 <template #header>
@@ -200,17 +201,17 @@ export default {
 </script>
 
 <style scoped>
-.content {
-  height: 600px;
+.content{
+  height: auto;
+  margin-top:5vh;
 }
-
-.sidebar {
+.sidebar{
   text-align: center;
-  height: 600px;
+  height: 82vh;
 }
-
-.card {
+.card{
   border: 1px solid #023764;
+  height: 82vh;
 }
 
 .card_hd {
@@ -225,7 +226,7 @@ export default {
   padding-left: 10px;
   color: #023764;
   border-left: 8px solid #FFC353;
-  font-size: 20px;
+  font-size: 2.7vh;
 }
 
 .card .tabs {
@@ -239,14 +240,14 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 20px;
+  font-size: 2.5vh;
   font-weight: 600;
 }
 
 .card-header .button {
   color: #fff;
-  height: 30px;
-  width: 30px;
+  height: 4vh;
+  width: 4vh;
 }
 
 .textFather {
@@ -254,7 +255,7 @@ export default {
 }
 
 .text {
-  font-size: 14px;
+  font-size: 2vh;
   font-weight: normal;
   align-self: center;
   display: -webkit-box;
@@ -270,6 +271,10 @@ export default {
 
 .button {
   color: #FFC353;
+  height: 4vh;
+    line-height: 4vh;
+    width: 6vw;
+    font-size: 2vh;
 }
 
 .button:hover {
@@ -277,7 +282,7 @@ export default {
 }
 
 .box-card {
-  width: 780px;
-  margin-bottom: 8px;
+  width: 50vw;
+  margin-bottom: 1vh;
 }
 </style>

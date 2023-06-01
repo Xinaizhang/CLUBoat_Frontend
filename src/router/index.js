@@ -44,6 +44,7 @@ import OrgClubBudget from '../views/ClubOrganization/OrgClubBudget.vue'
 import OrgClubReim from '../views/ClubOrganization/OrgClubReim.vue'
 import OrgApplyJoin from '../views/ClubOrganization/OrgApplyJoin.vue'
 import OrgApplyAdmin from '../views/ClubOrganization/OrgApplyAdmin.vue'
+import OrgForum from '../views/ClubOrganization/OrgForum.vue'
 
 
 import Collection from '../views/Collection.vue'
@@ -196,6 +197,11 @@ const routes = [
     path:'/activitydetail',
     name:'activitydetail',
     component: ActivityDetail
+  },
+  {
+    path:'/org_forum',
+    name:'org_forum',
+    component: OrgForum
   }
 ]
 

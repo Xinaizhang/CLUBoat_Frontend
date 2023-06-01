@@ -1,8 +1,6 @@
 <template>
   <Nav/>
   <div class="bg">
-    <br>
-  <br>
   <el-row class="content">
     <el-col :span="3" :offset="3">
       <el-menu class="sidebar"
@@ -15,25 +13,25 @@
         @close="handleClose"
       >
         <el-menu-item index="/personInfo">
-          <p style="margin: 0 auto;">
+          <p style="margin: 0 auto;font-size:2.3vh;">
             <el-icon><User/></el-icon>
             <span>我的信息</span>
           </p>
         </el-menu-item>
         <el-menu-item index="/myActivity">
-          <p style="margin: 0 auto;">
+          <p style="margin: 0 auto;font-size:2.3vh;">
             <el-icon><Football/></el-icon>
             <span>我的活动</span>
           </p>
         </el-menu-item>
         <el-menu-item index="/myClub">
-          <p style="margin: 0 auto;">
+          <p style="margin: 0 auto;font-size:2.3vh;">
             <el-icon><Ship/></el-icon>
             <span>我的社团</span>
           </p>
         </el-menu-item>
         <el-menu-item index="/notification">
-          <p style="margin: 0 auto;">
+          <p style="margin: 0 auto;font-size:2.3vh;">
             <el-icon><Bell/></el-icon>
             <span>我的通知</span>
           </p>
@@ -48,8 +46,8 @@
       <el-row>
         <!-- 修改头像 -->
         <el-col class="userPhoto" :span="8">
-          <el-avatar v-if="picDisplay" :size="100" fit="cover" :src="userInfo.userPhotoUrl" />
-          <el-avatar v-if="!picDisplay" :size="100" fit="cover" :src="picUrlReview" />
+          <el-avatar v-if="picDisplay" :size="115" fit="cover" :src="userInfo.userPhotoUrl" />
+          <el-avatar v-if="!picDisplay" :size="115" fit="cover" :src="picUrlReview" />
           <div>
             <el-upload class="upload"
               :show-file-list=false
@@ -67,26 +65,38 @@
           <div><el-button color="#023764" class="btn" type="primary" @click="display=true">修改密码</el-button></div>
         </el-col>
         <el-col :span="14">
-          <el-scrollbar max-height="500px">
+          <el-scrollbar max-height="62vh" style="margin-top:5vh;width:50vw">
             <!-- 修改个人资料 -->
             <el-form v-if="!display" class="form"
               label-position="top"
-              label-width="100px"
+              label-width="10vw"
             >
-              <el-form-item label="用户名">
-                <el-input v-model="userInfo.userName" :disabled="input_show"/>
+              <el-form-item style="margin-bottom:2vh;">
+                <template #label>
+                  <span style="font-size:2.2vh;">用户名</span>
+                </template>
+                <el-input v-model="userInfo.userName" :disabled="input_show" style="font-size:2.2vh;"/>
               </el-form-item>
-              <el-form-item label="性别">
+              <el-form-item style="margin-bottom:2vh;">
+                <template #label>
+                  <span style="font-size:2.2vh;">性别</span>
+                </template>
                 <el-radio-group v-model="userInfo.userSexual" :disabled="input_show">
-                  <el-radio label="男" size="large">男</el-radio>
-                  <el-radio label="女" size="large">女</el-radio>
+                  <el-radio label="男" size="large"><span style="font-size:2.2vh;">男</span></el-radio>
+                  <el-radio label="女" size="large"><span style="font-size:2.2vh;">女</span></el-radio>
                 </el-radio-group>
               </el-form-item>
-              <el-form-item label="电话号码">
-                <el-input v-model="userInfo.userPhone" :disabled="input_show"/>
+              <el-form-item style="margin-bottom:2vh;">
+                <template #label>
+                  <span style="font-size:2.2vh;">电话号码</span>
+                </template>
+                <el-input v-model="userInfo.userPhone" :disabled="input_show" style="font-size:2.2vh;"/>
               </el-form-item>
-              <el-form-item label="个性签名">
-                <el-input v-model="userInfo.userSign" type="textarea" :rows="5" :disabled="input_show"/>
+              <el-form-item style="margin-bottom:2vh;">
+                <template #label>
+                  <span style="font-size:2.2vh;">个性签名</span>
+                </template>
+                <el-input v-model="userInfo.userSign" type="textarea" :rows="3" :disabled="input_show" style="font-size:2.2vh;"/>
               </el-form-item>
               <el-form-item>
                 <el-button v-if="btn_show" class="btn1" type="primary" color="#023764" @click="onSubmit">保存</el-button>
@@ -99,10 +109,16 @@
               label-width="100px"
               style="margin-top:63px;"
             >
-              <el-form-item label="密码">
+              <el-form-item style="margin-bottom:2vh;">
+                <template #label>
+                  <span style="font-size:2.2vh;">密码</span>
+                </template>
                 <el-input show-password v-model="changePWD.inputPassword"/>
               </el-form-item>
-              <el-form-item label="新密码">
+              <el-form-item style="margin-bottom:2vh;">
+                <template #label>
+                  <span style="font-size:2.2vh;">新密码</span>
+                </template>
                 <el-input show-password v-model="changePWD.newPassword"/>
               </el-form-item>
               <el-form-item>
@@ -319,14 +335,16 @@ export default {
 
 <style scoped>
   .content{
-    height: 600px;
+    height: auto;
+    margin-top:5vh;
   }
   .sidebar{
     text-align: center;
-    height: 600px;
+    height: 82vh;
   }
   .card{
     border: 1px solid #023764;
+    height: 82vh;
   }
   .card_hd{
     background-color: #0236641d;
@@ -339,34 +357,37 @@ export default {
     padding-left: 10px;
     color: #023764;
     border-left: 8px solid #FFC353;
-    font-size: 20px;
+    font-size: 2.7vh;
   }
   .card_hd .btn{
     color: #FFC353;
-    height: 30px;
-    width: 80px;
+    height: 4vh;
+    line-height: 4vh;
+    width: 6vw;
     position: relative; 
     left: 74%;
+    font-size: 2vh;
   }
   .form{
-    max-width: 460px;
-    margin: 40px  0px;
+    max-width: 35vw;
   }
   .form .btn1{
     color: #FFC353;
-    height: 30px;
-    width: 80px;
+    height: 4vh;
+    line-height: 4vh;
+    width: 5vw;
+    font-size: 2vh;
   }
   .form .btn2{
     color: #023764;
-    height: 30px;
-    width: 80px;
+    height: 4vh;
+    line-height: 4vh;
+    width: 5vw;
     background-color: #fff;
+    font-size: 2vh;
   }
   .form .btn2:hover{
     color: #023764;
-    height: 30px;
-    width: 80px;
     background-color: #0236641d;
   }
   .userPhoto{
@@ -379,8 +400,10 @@ export default {
   .userPhoto .btn{
     margin-top: 20px;
     color: #FFC353;
-    height: 30px;
-    width: 100px;
+    height: 4vh;
+    line-height: 4vh;
+    width: 7vw;
+    font-size: 2vh;
   }
 
 </style>

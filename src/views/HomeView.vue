@@ -7,30 +7,39 @@
     </div>
     <div class="cards body_bg">
       <el-row justify="center">
-        <el-col :span="10" style="text-align:center;">
+        <el-col :span="10">
           <div class="card">
           <div class="card_hd">
-              <el-icon class="card_hd_icon"><Orange /></el-icon>
-              <div class="card_hd_word">
+            <el-row justify="center" align="middle" style="height:14vh">
+              <el-col :span="2" style="margin-right:2vw;">
+                <el-icon class="card_hd_icon"><Orange /></el-icon>
+              </el-col>
+              <el-col :span="10.5">
                 <div style="font-size:24px;color: #023764;font-weight: bolder;margin-bottom: 5px;">社团风采</div>
-                <div style="font-size:16px;color: #023764;">你我的社团，你我的文化</div>
-              </div>
+                <div style="font-size:16px;color: #023764;margin-bottom: 5px;">你我的社团，你我的文化</div>
+              </el-col>
+            </el-row>
           </div>
-          <div style="width: 600px;">
+          <div style="width: 40vw;">
             <MySwiper/>
           </div>
           </div>
         </el-col>
-        <el-col :span="10" style="text-align:center;">
+        &emsp;&emsp;
+        <el-col :span="10">
           <div class="card">
             <div class="card_hd">
-                <el-icon class="card_hd_icon"><MessageBox /></el-icon>
-                <div class="card_hd_word">
+              <el-row justify="center" align="middle" style="height:14vh">
+                <el-col :span="2" style="margin-right:2vw;">
+                  <el-icon class="card_hd_icon"><MessageBox /></el-icon>
+                </el-col>
+                <el-col :span="10.5">
                   <div style="font-size:24px;color: #023764;font-weight: bolder;margin-bottom: 5px;">社联公告</div>
-                  <div style="font-size:16px;color: #023764;">特色社团展风采，百花齐放竞风流 </div>
-                </div>
+                  <div style="font-size:16px;color: #023764;margin-bottom: 5px;">特色社团展风采，百花齐放竞风流 </div>
+                </el-col>
+              </el-row>
             </div>
-            <div class="card_bd">
+            <div class="card_bd" style="text-align:center;">
               <ul class="card_bd_list">
                 <li
                   class="item"
@@ -60,7 +69,7 @@
                 </li>
 
               </ul>
-              <div class="pagination" style="position: relative;bottom: 0px;">
+              <div class="pagination">
                 <div>
                   <el-pagination
                   :current-page="page1"
@@ -82,40 +91,46 @@
             <div class="card2">
               <div class="card2_hd">
                 <div class="card_hd">
-                  <el-icon class="card_hd_icon"><List /></el-icon>
-                  <div class="card_hd_word">
-                    <div style="font-size:24px;color: #023764;font-weight: bolder;margin-bottom: 5px;">社团列表</div>
-                    <div style="font-size:16px;color: #023764;">与其在别处迷茫，不如在这里徜徉 </div>
-                  </div>
-                  <div class="search">
-                    <el-input
-                    class="clubSearch"
+                  <el-row align="middle" style="height:13vh">
+                    <el-col :span="1" style="margin-right:1.5vw;">
+                      <el-icon class="card_hd_icon"><List /></el-icon>
+                    </el-col>
+                    <el-col :span="17">
+                      <div style="font-size:24px;color: #023764;font-weight: bolder;margin-bottom: 5px;">社团列表</div>
+                      <div style="font-size:16px;color: #023764;margin-bottom: 5px;">与其在别处迷茫，不如在这里徜徉 </div>
+                    </el-col>
+                    <el-col :span="3">
+                      <el-input
+                      class="clubSearch"
                       v-model="search"
                       placeholder="请输入关键词"
                       suffix-icon="Search"
                       style="width:15vw"
                       @input ="changeTotal(searchResult)"
                     />
-                  </div>
+                    </el-col>
+                  </el-row>
                 </div>
               </div>
               <div class="club">
-                <ul class="club_list">
-                  <li class="item" v-for="item of searchResult.slice((page-1) * limit, page * limit)" :key="item.clubId">
-                    <div class="club-img">
-                      <a href="#">
-                        <img class="item-img" :src="item.clubImageUrl" />
-                      </a>
+                <el-row :gutter="21" style="margin:0 auto;width:90vw;padding-left:0.5vw;">
+                  <el-col :span="4.5" v-for="item of searchResult.slice((page-1) * limit, page * limit)" :key="item.clubId">
+                    <div class="item">
+                      <div class="club-img">
+                        <a href="#">
+                          <img class="item-img" :src="item.clubImageUrl" />
+                        </a>
+                      </div>
+                      <p class="item-name">{{ item.clubName }}</p>
+                      <div class="review">
+                        <p class="item-desc">{{ item.clubInformation }}</p>
+                        <a href="#" @click="clubDetail(item)">
+                          <span>查看详情</span>
+                        </a>
+                      </div>
                     </div>
-                    <p class="item-name">{{ item.clubName }}</p>
-                    <div class="review">
-                      <p class="item-desc">{{ item.clubInformation }}</p>
-                      <a href="#" @click="clubDetail(item)">
-                        <span>查看详情</span>
-                      </a>
-                    </div>
-                  </li>
-                </ul>
+                  </el-col>
+                </el-row>
                 <div class="pagination">
                   <div class="pagination_style">&emsp;</div>
                   <el-pagination
@@ -339,7 +354,7 @@ export default {
   }
   .head_bg .title{
     color: #fff;
-    font-size: 40px;
+    font-size: 5vh;
     font-weight: bolder;
     padding-top: 10vh;
   }
@@ -353,7 +368,7 @@ export default {
   .body_bg{
     background-color: #023764;
     background-image: url("../assets/bg2.svg");
-    height: 300px;
+    height: 40vh;
     background-size:cover;
     background-position:center center;
     margin-top: -1px;
@@ -361,38 +376,22 @@ export default {
   .tail_bg img{
     width: 100%;
     position: relative;
-    bottom: -820px;
-  }
-
-  .cards{
-    position: relative;
+    bottom: -110vh;
   }
   .card{
     display: inline-block;
     background-color: #fff;
     border:8px solid #FFC353;
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px #023764;
-    width: 600px;
-    height: 508px;
-    border-radius:20px 20px 0px 0px;
-    margin: 20px 0px;
+    width: 40vw;
+    height: 72vh;
+    border-radius:3vh 3vh 0px 0px;
+    margin: 3vh 0px;
   }
-  .card_hd{
-    margin-left: 190px;
-    text-align: left;
-    height: 100px;
-  }
+
   .card_hd_icon{
-    position: relative;
-    top: 20px;
-    left: -20px;
     color: #023764; 
-    font-size: 60px;
-  }
-  .card_hd_word{
-    position: relative;
-    top: -44px;
-    left: 60px;
+    font-size: 9vh;
   }
   
   .card_bd{
@@ -404,45 +403,39 @@ export default {
     list-style: none;
     padding: 0px;
     margin: 0px;
-    height: 388px;
+    height: 55vh;
   }
   .card_bd_list .item{
     border:1px solid #ccc;
     text-align: left;
     position: relative;
-    height: 126px;
-    width: 600px;
+    height: 18vh;
+    width: 40vw;
   }
   .card_bd_list .item:hover {
     transform: translate3d(0, -2px, 0);
     cursor: pointer;
   }
   .card_bd_list .item .item-img{
-    width: 220px;
-    height: 126px;
+    width: 15vw;
+    height: 18vh;
   }
   .card_bd_list .item .item-info{
-    height: 126px;
+    height: 18vh;
     display: inline-block;
   }
   .card_bd_list .item .item-title{
-    width: 340px;
+    width: 15vw;
     position: absolute;
     top: 25%;
     left: 40%;
   }
-  /* .card_bd_list .item .item-author{
-    color: #023764; 
-    display: inline;
-    margin-right: 220px;
-  } */
   .card_bd_list .item .item-date{
     color: #023764;
     position: absolute;
     top: 70%;
     left: 40%;
   }
-
   .drawer{
     text-align: left;
   }
@@ -456,44 +449,43 @@ export default {
     margin-bottom: 20px;
   }
   .drawer img{
-    width:420px;
+    width:28.5vw;
   }
 
   .drawer p{
-    width: 420px;
+    width: 28.5vw;
     height: auto;
     display: block;
     padding-bottom: 10px;
   }
 
   .card2{
-    margin-top: 20px;
+    margin-top: 2vh;
     display: inline-block;
     background-color: #FFC353;
     border:8px solid #FFC353;
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px #023764;
-    width: 81vw;
+    width: 83.5vw;
     height: auto;
-    border-radius:20px;
+    border-radius:2vh;
   }
   .card2 .card_hd{
-    margin-left: 60px;
-    
+    margin-left: 2vw;
   }
   .card2 .card2_hd{
     background-color: #FFC353;
     border-bottom:2px solid #023764;
-    margin-bottom: 8px;
+    margin-bottom: 2vh;
   }
   .card2 .search{
     width: 20vw;
     position: relative;
-    top: -80px;
+    top: -10vh;
     left: 60vw;
   }
   .card2 .text{
-        height: 22px;
-        line-height: 22px;
+        height: 2vh;
+        line-height: 2vh;
         font-size: 14px;
         border: 1px solid #ccc;
         padding: 3px 16px;
@@ -525,25 +517,13 @@ export default {
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 3px #023764;
     border-radius: 4px;
   }
-  .club_list{
-    list-style: none;
-    padding: 0px;
-    margin: 0px;
-    margin-top: 50px;
-    height: 288px;
-  }
-  .clearfix::after {
-    clear: both;
-  }
-  .club li {
+  .club .item {
     border-radius: 20px;
     float: left;
-    width: 234px;
-    height: 220px;
-    padding: 20px 0 20px;
-    z-index: 1;
-    margin-left: 14px;
-    margin-bottom: 14px;
+    width: 15vw;
+    height: 30vh;
+    padding: 3vh 0 3vh;
+    margin-top: 2vh;
     background: #fff;
     -webkit-transition: all .2s linear;
     transition: all .2s linear;
@@ -553,9 +533,9 @@ export default {
     color: #023764;
   }
   .club-img {
-    width: 150px;
-    height: 150px;
-    margin: 0 auto 18px;
+    width: 22vh;
+    height: 22vh;
+    margin: 0 auto 2vh;
   }
   .club-img img {
     display: block;
@@ -563,7 +543,8 @@ export default {
     height: 100%;
   }
   .card2 .item-desc {
-    height: 18px;
+    height: 22px;
+    line-height: 22px;
     font-size: 18px;
   }
 
@@ -571,8 +552,8 @@ export default {
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 234px;
-    height: 260px;
+    width: 15vw;
+    height: 30vh;
     border-radius:20px;
     overflow: hidden;
     font-size: 12px;
@@ -583,8 +564,8 @@ export default {
   .review .item-desc{
     background: #fff;
     color: #023764;
-    height: 170px;
-    padding: 20px;
+    height: 23vh;
+    padding: 1.5vw;
     font-size: 16px;
     font-weight: normal;
     overflow:hidden;
@@ -592,23 +573,23 @@ export default {
   .review a {
     color: #757575;
     display: block;
-    padding: 10px 30px;
+    padding-top: 1.5vh;
   }
   .review a span {
     font-weight: normal;
     font-size: 18px;
     color: #fff;
-    height: 80px;
+
   }
-  .club li:hover {
+  .club  .item:hover {
     -webkit-box-shadow: 0 15px 30px rgba(0,0,0,0.1);
     box-shadow: 0 15px 30px #024886;
     -webkit-transform: translate3d(0, -2px, 0);
     transform: translate3d(0, -2px, 0);
   }
-  .club li:hover .review {
+  .club  .item:hover .review {
     opacity: 1;
-    height: 260px;
+    height: 36vh;
     border-radius:20px;
   }
 

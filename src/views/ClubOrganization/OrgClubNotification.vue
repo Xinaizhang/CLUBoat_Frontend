@@ -16,8 +16,9 @@
                 <el-table :data="notificationList.slice((page - 1) * limit, page * limit)"
                     :default-sort="{ prop: 'notificationTime', order: 'descending' }" style="width: 100%" size="large"
                     height="430">
-                    <el-table-column label="序号" type="index" width="150" />
-                    <el-table-column prop="sendAdminId" label="用户ID" sortable width="170" />
+                    <el-table-column label="序号" type="index" width="80" />
+                    <el-table-column prop="sendAdminId" label="接收用户" width="100" />
+                    <el-table-column prop="sendUserId" label="发送用户" width="100" />
                     <el-table-column prop="notificationTitle" label="标题" />
                     <el-table-column prop="notificationContent" label="内容" />
                     <el-table-column prop="notificationTime" sortable label="发布时间" />
@@ -105,6 +106,7 @@ export default {
 
         }
     },
+
     methods: {
         handleCurrentChange(val) {
             this.page = val
@@ -151,10 +153,15 @@ export default {
                 })
         },
     },
+
     created() {
         this.$axios({
             method: 'get',
-            url: '/api/club-manage/notification/' + localStorage.getItem('userId'),
+            url: '/api/club-manage/notification',
+            data:{
+                type:1,
+                userId:localStorage.getItem('userId')
+            }
         })
             .then(res => {
                 console.log(res.data.data);
@@ -202,6 +209,6 @@ export default {
 
 .box-card-1 {
     margin: 10px;
-    min-height: 600px;
+    height: 83vh;
 }
 </style>

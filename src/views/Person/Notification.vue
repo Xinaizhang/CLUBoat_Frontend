@@ -1,7 +1,5 @@
 <template>
   <Nav/>
-  <br>
-  <br>
   <el-row class="content">
     <el-col :span="3" :offset="3">
       <el-menu class="sidebar"
@@ -12,25 +10,25 @@
         text-color="#fff"
       >
         <el-menu-item index="/personInfo">
-          <p style="margin: 0 auto;">
+          <p style="margin: 0 auto;font-size:2.3vh;">
             <el-icon><User/></el-icon>
             <span>我的信息</span>
           </p>
         </el-menu-item>
         <el-menu-item index="/myActivity">
-          <p style="margin: 0 auto;">
+          <p style="margin: 0 auto;font-size:2.3vh;">
             <el-icon><Football/></el-icon>
             <span>我的活动</span>
           </p>
         </el-menu-item>
         <el-menu-item index="/myClub">
-        <p style="margin: 0 auto;">
+        <p style="margin: 0 auto;font-size:2.3vh;">
           <el-icon><Ship/></el-icon>
           <span>我的社团</span>
         </p>
       </el-menu-item>
       <el-menu-item index="/notification">
-        <p style="margin: 0 auto;">
+        <p style="margin: 0 auto;font-size:2.3vh;">
           <el-icon><Bell/></el-icon>
           <span>我的通知</span>
         </p>
@@ -41,22 +39,22 @@
       <el-header class="card_hd">
         <span class="word">我的通知</span>
       </el-header>
-      <el-row justify="center" style="margin-top: 20px;">
+      <el-row justify="center" style="margin-top: 3vh;">
         <el-col :span="20">
-          <el-scrollbar v-if="notificationList" max-height="480px" style="padding-right:2vw;">
+          <el-scrollbar v-if="notificationList" max-height="65vh" style="padding-right:2vw;">
             <el-timeline v-model="activeNames" style="padding-left:1px;">
               <el-timeline-item v-for="item in notificationList" :key="item.notificationId" :timestamp="item.notificationTime" placement="top" color="#FFC353" :hollow="true">
                 <el-card>
                   <template #header>
                     <div class="card-header">
-                      <h3>{{ item.notificationTitle }}</h3>
+                      <h3 style="font-size:2.3vh">{{ item.notificationTitle }}</h3>
                       <div class="actorFather">
                         <div class="actor" v-if="item.isAdmin!=1">社团管理员</div>
                         <div class="actor" v-if="item.isAdmin==1">社联管理员</div>
                       </div>
                     </div>
                   </template>
-                <p>{{ item.notificationContent }}</p>
+                <p style="font-size:2vh">{{ item.notificationContent }}</p>
                 </el-card>
               </el-timeline-item>
             </el-timeline>
@@ -110,14 +108,16 @@ export default {
 
 <style scoped>
   .content{
-    height: 600px;
+    height: auto;
+    margin-top:5vh;
   }
   .sidebar{
     text-align: center;
-    height: 600px;
+    height: 82vh;
   }
   .card{
     border: 1px solid #023764;
+    height: 82vh;
   }
   .card_hd{
     background-color: #0236641d;
@@ -130,7 +130,7 @@ export default {
     padding-left: 10px;
     color: #023764;
     border-left: 8px solid #FFC353;
-    font-size: 20px;
+    font-size: 2.7vh;
   }
   .card-header {
     display: flex;
@@ -139,11 +139,10 @@ export default {
   }
   .actor{
     background-color: #FFC353;
-    width: 100px;
+    width: 7vw;
     color: #023764;
     border-radius: 10px;
-    font-weight: 600;
-    font-size: smaller;
+    font-size: 1vh;
     line-height: 20px;
   }
   .actorFather{

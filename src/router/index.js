@@ -20,6 +20,7 @@ import ActivityDetail from '../views/ActivityDetail.vue'
 
 //论坛
 import Forum from '../views/Forum.vue'
+import ForumSquare from '../views/ForumSquare.vue'
 
 
 // 社联后台
@@ -135,6 +136,11 @@ const routes = [
     path: '/forum',
     name: 'Forum',
     component: Forum
+  },
+  {
+    path: '/forumSquare',
+    name: 'ForumSquare',
+    component: ForumSquare
   },
   {
     path:"/details",

@@ -95,9 +95,12 @@
                     <el-col :span="1" style="margin-right:1.5vw;">
                       <el-icon class="card_hd_icon"><List /></el-icon>
                     </el-col>
-                    <el-col :span="17">
+                    <el-col :span="15">
                       <div style="font-size:24px;color: #023764;font-weight: bolder;margin-bottom: 5px;">社团列表</div>
                       <div style="font-size:16px;color: #023764;margin-bottom: 5px;">与其在别处迷茫，不如在这里徜徉 </div>
+                    </el-col>
+                    <el-col :span="3">
+                      <el-button class="nav_button" color="#024886"><router-link style="text-decoration:none;color:#FFFFFF" to="/clubrecom">社团推荐</router-link></el-button>
                     </el-col>
                     <el-col :span="3">
                       <el-input

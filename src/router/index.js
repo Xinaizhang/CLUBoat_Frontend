@@ -6,6 +6,9 @@ import LoginPage from '../views/Login/LoginPage.vue'
 //主页
 import HomeView from '../views/HomeView.vue'
 
+//社团推荐
+import ClubRecom from '../views/ClubRecom.vue'
+
 // 个人中心
 import PersonInfo from '../views/Person/PersonInfo.vue'
 import MyActivity from '../views/Person/MyActivity.vue'
@@ -16,6 +19,7 @@ import MyClub from '../views/Person/MyClub.vue'
 import ClubDetails from '../views/ClubDetails.vue'
 //活动详情
 import ActivityDetail from '../views/ActivityDetail.vue'
+
 
 
 //论坛
@@ -90,8 +94,29 @@ const routes = [
     name: 'Collection',
     component: Collection
   },
+  {
+    path:'/activitydetail',
+    name:'activitydetail',
+    component: ActivityDetail
+  },
+  {
+    path: '/forum',
+    name: 'Forum',
+    component: Forum
+  },
+  {
+    path:"/details",
+    name:'details',
+    component: ClubDetails
+  },
+  {
+    path:"/clubrecom",
+    name:'clubrecom',
+    component: ClubRecom
+  },
 
 
+  // 社联后台
   {
     path: '/clubFederation/pubnot',
     name: 'pubnot',
@@ -132,16 +157,9 @@ const routes = [
     name: 'CFClubAdmin',
     component: CFClubAdmin
   },
-  {
-    path: '/forum',
-    name: 'Forum',
-    component: Forum
-  },
-  {
-    path:"/details",
-    name:'details',
-    component: ClubDetails
-  },
+
+
+  // 社团后台
   {
     path:'/org_clubinfo',
     name:'org_clubinfo',
@@ -187,11 +205,7 @@ const routes = [
     name:'org_applyadmin',
     component: OrgApplyAdmin
   },
-  {
-    path:'/activitydetail',
-    name:'activitydetail',
-    component: ActivityDetail
-  },
+
   {
     path:'/org_forum',
     name:'org_forum',

@@ -10,10 +10,31 @@
         </el-row>
 
         <el-button @click="this.$router.push('/home')"> Square to Home</el-button>
+        <button @click="modelTest">test model</button>
 
         <el-row justify="center">
 
-            <el-card style="width:60vw; background-color: #023764;border-radius: 20px;margin-bottom: 20px;">
+            <div>
+                <el-card style="background-color: #e6e9ec;margin-top: 3vh;margin-bottom: 0px;" class="hotPost">
+                    <el-row style="margin: 5px 0px;font-size:14px;font-weight: 600;">热门帖子</el-row>
+                    <el-scrollbar height="28vh">
+                        <div class="hotList" v-for="item in hotList" :key="item" shadow="hover" style="margin-right:10px;">
+                            <el-row>
+                                <el-col :span="23">
+                                    <span class="myPostText">{{ item.postTitle }}</span>
+                                </el-col>
+                                <el-col :span="1">
+                                    <el-button color="#FFC353" class="button" icon="ArrowRightBold" circle
+                                        @click="detail(item)"></el-button>
+                                </el-col>
+                            </el-row>
+                        </div>
+                    </el-scrollbar>
+                </el-card>
+            </div>
+
+
+            <el-card style="width:60vw; height: 35vh; background-color: #023764;border-radius: 20px;margin-bottom: 0px; margin-right: 150px;">
                 <template #header>
                     <div class="clubnav-header">
                         <span>论坛导航</span>
@@ -47,8 +68,15 @@
                 </div>
             </el-card>
 
+
             <!-- 社团帖子 -->
-            <el-card style="width:60vw; background-color: #023764;border-radius: 20px;margin-bottom: 20px;">
+            <el-card style="width:60vw; margin-left: 230px;background-color: #023764;border-radius: 20px;margin-bottom: 20px;">
+                <template #header>
+                    <div class="clubnav-header">
+                        <span>推荐帖子</span>
+                    </div>
+                </template>
+                
                 <!-- 帖子列表 -->
                 <el-card class="box-card" v-for="item in filterPost.slice((page - 1) * limit, page * limit)"
                     :key="item.postId" shadow="hover">
@@ -236,6 +264,7 @@
 
 <script>
 import Nav from '@/components/Nav.vue'
+// import axios from 'axios'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import 'element-plus/es/components/message/style/index'
 import 'element-plus/es/components/message-box/style/index'
@@ -260,6 +289,7 @@ export default {
             tags: [{}],
             postList: [{}],
             myPostList: [{}],
+            hotList: [{}],
             collectedPostList: [{}],
             userInfo: [],
             newPost: {
@@ -293,6 +323,18 @@ export default {
         }
     },
     methods: {
+        modelTest() {
+            let prompt = "以下是我的个人介绍：我所在的学科专业是工学，我平时特别喜欢的娱乐活动或爱好是音乐和体育。在艺术方面，我特别喜欢音乐和摄影。我对游泳体育活动有特别的兴趣。在科学领域，我对生物学感兴趣。我也有想学习一种乐器，那就是吉他。我对探讨文化多元性的文化或社会问题有兴趣。每周我能投入大约4小时到社团活动。我希望通过参加社团活动获得扩大社交圈子和提升个人技能。对于社团活动的形式，我更倾向于线上虚拟活动。现在请你根据我的个人信息，帮我从学校社团列表中，选择三个适合我的社团推荐给我。学校社团列表如下：天文社、流行音乐社、动漫社、英语协会、民谣社、吉他社、轻音社、篮球社、象棋社、文学社、推理社、电子游戏社、电影鉴赏协会、欧美文化社、运动协会、手工社、数码社、环保协会、辩论社"
+            this.$axios({
+                method: 'post',
+                url: '/localhost/chat?question=' + prompt,
+                // headers:{'Access-Control-Allow-Origin' : '*'},
+                // data:{prompt:"以下是我的个人介绍：我所在的学科专业是工学，我平时特别喜欢的娱乐活动或爱好是音乐和体育。在艺术方面，我特别喜欢音乐和摄影。我对游泳体育活动有特别的兴趣。在科学领域，我对生物学感兴趣。我也有想学习一种乐器，那就是吉他。我对探讨文化多元性的文化或社会问题有兴趣。每周我能投入大约4小时到社团活动。我希望通过参加社团活动获得扩大社交圈子和提升个人技能。对于社团活动的形式，我更倾向于线上虚拟活动。现在请你根据我的个人信息，帮我从学校社团列表中，选择三个适合我的社团推荐给我。学校社团列表如下：天文社、流行音乐社、动漫社、英语协会、民谣社、吉他社、轻音社、篮球社、象棋社、文学社、推理社、电子游戏社、电影鉴赏协会、欧美文化社、运动协会、手工社、数码社、环保协会、辩论社"}
+                // "天文社、流行音乐社、动漫社、英语协会、民谣社、吉他社、轻音社、篮球社、象棋社、文学社、推理社、电子游戏社、电影鉴赏协会、欧美文化社、运动协会、手工社、数码社、环保协会、辩论社"
+            }).then(res => {
+                console.log(res.data);
+            })
+        },
         handleCurrentChange(val) {
             this.page = val
         },
@@ -695,6 +737,7 @@ export default {
     created() {
         this.clubName = localStorage.getItem("clubName");
         this.clubId = localStorage.getItem("clubId");
+        let userId = localStorage.getItem("userId");
 
         // get club list
         this.$axios({
@@ -725,12 +768,8 @@ export default {
 
         // 获取该社团论坛的帖子列表
         this.$axios({
-            method: 'post',
-            url: '/api/forum/post/club',
-            data: {
-                clubId: localStorage.getItem("clubId"),
-                status: "正常"
-            }
+            method: 'get',
+            url: '/api/forum/post/recommend/' + userId,
         })
             .then(res => {
                 this.postList = res.data.data;
@@ -739,6 +778,20 @@ export default {
                 })
                 this.total = this.postList.length;
                 console.log('帖子列表' + this.postList);
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+
+        // 获取热门帖子
+        this.$axios({
+            method: 'get',
+            url: '/api/forum/post/popular',
+        })
+            .then(res => {
+                console.log("hot:");
+                console.log(res.data.data);
+                this.hotList = res.data.data;
             })
             .catch(function (error) {
                 console.log(error);
@@ -939,14 +992,21 @@ export default {
     width: 30px;
 }
 
-.myPostList .button {
+.hotList .button {
     height: 10px;
     width: 10px;
     float: right;
 }
 
-.myPostList {
+.hotPost {
+    margin-left: 0px;
+    margin-right: 80px;
+    width: 20vw;
+}
+
+.hotList {
     margin: 1.5vh 0px;
+    /* margin-right: 60px; */
 }
 
 .textFather {

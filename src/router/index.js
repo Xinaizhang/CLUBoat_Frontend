@@ -106,6 +106,11 @@ const routes = [
     component: Forum
   },
   {
+    path: '/forumSquare',
+    name: 'ForumSquare',
+    component: ForumSquare
+  },
+  {
     path:"/details",
     name:'details',
     component: ClubDetails

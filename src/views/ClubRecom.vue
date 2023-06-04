@@ -137,7 +137,7 @@
 
             submit(){
                 this.userAnswer=""
-                
+
                 this.$axios({
                     method: 'post',
                     url: '',
@@ -148,7 +148,6 @@
                     .catch(function (error) {
                         console.log(error);
                     })
-
             },
 
         }

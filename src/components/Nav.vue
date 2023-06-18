@@ -4,7 +4,7 @@
             <div class="box">
                 <nav class="nav_text">
                     <router-link active-class="active" to="/home">主&emsp;&emsp;页</router-link>
-                    <router-link active-class="active" to="/personInfo">个人中心</router-link>
+                    <router-link active-class="active" to="/forumSquare">论坛广场</router-link>
                 </nav>
                 <div class="box_style"></div>
             </div>

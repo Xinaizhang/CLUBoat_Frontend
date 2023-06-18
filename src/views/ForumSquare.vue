@@ -6,17 +6,50 @@
                 <el-breadcrumb-item :to="{ path: '/details' }">{{ clubName }}</el-breadcrumb-item>
                 <el-breadcrumb-item>社团论坛</el-breadcrumb-item>
             </el-breadcrumb> -->
-            <h2 style="font-size: 30px;margin: 2vh 5vw; letter-spacing: 4px;">论坛广场</h2>
+            <h2 style="font-size: 33px;margin: 2vh 4vh 2vw 8vw; letter-spacing: 4px; color: #023764">论坛广场</h2>
         </el-row>
 
-        <el-button @click="this.$router.push('/home')"> Square to Home</el-button>
-        <button @click="modelTest">test model</button>
+        <!-- <el-button @click="this.$router.push('/home')"> Square to Home</el-button> -->
+        <!-- <button @click="modelTest">test model</button> -->
 
         <el-row justify="center">
 
             <div>
-                <el-card style="background-color: #e6e9ec;margin-top: 3vh;margin-bottom: 0px;" class="hotPost">
-                    <el-row style="margin: 5px 0px;font-size:14px;font-weight: 600;">热门帖子</el-row>
+                <!-- 我的帖子 -->
+                <el-card style="background-color: #e6e9ec" class="user">
+                    <el-row style="margin-bottom: 8px;">
+                        <el-col :span="6">
+                            <el-avatar :size="50" :src="userInfo.userPhotoUrl" />
+                        </el-col>
+                        <el-col :span="15">
+                            <span style="color:#023764;font-size:16px;font-weight: 600;">{{ userInfo.userName }}</span>
+                            <div class="sign">{{ userInfo.userSign }}</div>
+                        </el-col>
+                    </el-row>
+                    <hr>
+                    <el-row style="margin: 10px 0px;font-size:16px;font-weight: 600;">
+                        <el-col :span="22">我的帖子</el-col>
+                        <!-- <el-col :span="2"><el-button color="#FFC353" class="button" link @click="1"><el-icon><More /></el-icon></el-button></el-col> -->
+                    </el-row>
+                    <el-scrollbar height="30vh" style="padding-right:10px;">
+                        <div class="hotList" v-for="item in myPostList" :key="item" shadow="hover">
+                            <el-row>
+                                <el-col :span="23">
+                                    <span class="myPostText">{{ item.postTitle }}</span>
+                                </el-col>
+                                <el-col :span="1">
+                                    <el-button color="#FFC353" class="button" icon="ArrowRightBold" circle
+                                        @click="detail(item)"></el-button>
+                                </el-col>
+                            </el-row>
+                        </div>
+                    </el-scrollbar>
+                </el-card>
+
+
+                <!-- 热门帖子 -->
+                <el-card style="border-radius: 20px; background-color: #e6e9ec;margin-top: 3vh;margin-bottom: 0px;" class="hotPost">
+                    <el-row style="margin: 5px 0px;font-size:16px;font-weight: 600;">热门帖子</el-row>
                     <el-scrollbar height="28vh">
                         <div class="hotList" v-for="item in hotList" :key="item" shadow="hover" style="margin-right:10px;">
                             <el-row>
@@ -34,81 +67,87 @@
             </div>
 
 
-            <el-card style="width:60vw; height: 35vh; background-color: #023764;border-radius: 20px;margin-bottom: 0px; margin-right: 150px;">
-                <template #header>
-                    <div class="clubnav-header">
-                        <span>论坛导航</span>
-                    </div>
-                </template>
 
-                <!-- club list nav -->
-                <div class="club">
-                    <ul class="club_list">
-                        <li class="item" v-for="item of clubList.slice((page1 - 1) * limit1, page1 * limit1)"
-                            :key="item.clubId">
-                            <div class="club-img">
-                                <a href="#">
-                                    <img class="item-img" :src="item.clubImageUrl" @click="goForum(item)" />
-                                </a>
-                            </div>
-                            <p class="item-name">{{ item.clubName }}</p>
-                            <!-- <div class="review">
+            <div>
+                <el-card
+                    style="width:60vw; height: 35vh; background-color: #023764;border-radius: 20px;margin-bottom: 30px;">
+                    <template #header>
+                        <div class="clubnav-header">
+                            <span>论坛导航</span>
+                        </div>
+                    </template>
+
+                    <!-- club list nav -->
+                    <div class="club">
+                        <ul class="club_list">
+                            <li class="item" v-for="item of clubList.slice((page1 - 1) * limit1, page1 * limit1)"
+                                :key="item.clubId">
+                                <div class="club-img">
+                                    <a href="#">
+                                        <img class="item-img" :src="item.clubImageUrl" @click="goForum(item)" />
+                                    </a>
+                                </div>
+                                <p class="item-name">{{ item.clubName }}</p>
+                                <!-- <div class="review">
                                 <p class="item-desc">{{ item.clubInformation }}</p>
                                 <a href="#" @click="clubDetail(item)">
                                     <span>查看详情</span>
                                 </a>
                             </div> -->
-                        </li>
-                    </ul>
-                    <div class="pagination1">
-                        <div class="pagination_style">&emsp;</div>
-                        <el-pagination :current-page="page1" :page-size="limit1" background layout="prev, pager, next"
-                            :total="total1" @current-change="handleCurrentChange1" />
+                            </li>
+                        </ul>
+                        <div class="pagination1">
+                            <div class="pagination_style">&emsp;</div>
+                            <el-pagination :current-page="page1" :page-size="limit1" background layout="prev, pager, next"
+                                :total="total1" @current-change="handleCurrentChange1" />
+                        </div>
                     </div>
-                </div>
-            </el-card>
+                </el-card>
 
 
-            <!-- 社团帖子 -->
-            <el-card style="width:60vw; margin-left: 230px;background-color: #023764;border-radius: 20px;margin-bottom: 20px;">
-                <template #header>
-                    <div class="clubnav-header">
-                        <span>推荐帖子</span>
-                    </div>
-                </template>
-                
-                <!-- 帖子列表 -->
-                <el-card class="box-card" v-for="item in filterPost.slice((page - 1) * limit, page * limit)"
-                    :key="item.postId" shadow="hover">
+                <!-- 帖子推荐 -->
+                <el-card
+                    style="width:60vw; background-color: #023764;border-radius: 20px;margin-bottom: 20px;">
                     <template #header>
-                        <div class="card-header">
-                            <span>{{ item.postTitle }}</span>
-                            <el-button color="#FFC353" class="button" icon="ArrowRightBold" circle
-                                @click="detail(item)"></el-button>
+                        <div class="clubnav-header">
+                            <span>推荐帖子</span>
                         </div>
                     </template>
+
+                    <!-- 帖子列表 -->
+                    <el-card class="box-card" v-for="item in filterPost.slice((page - 1) * limit, page * limit)"
+                        :key="item.postId" shadow="hover">
+                        <template #header>
+                            <div class="card-header">
+                                <span>{{ item.postTitle }}</span>
+                                <el-button color="#FFC353" class="button" icon="ArrowRightBold" circle
+                                    @click="detail(item)"></el-button>
+                            </div>
+                        </template>
+                        <el-row>
+                            <p class="postContent">{{ item.postContent }}</p>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="19">
+                                <el-tag class="postTag" type="danger" size="large" v-for="i in item.postTag"
+                                    :key="i.tagName">
+                                    {{ i.tagName }}
+                                </el-tag>
+                            </el-col>
+                            <el-col style="text-align:right;" class="textfather" :span="5">
+                                <span class="text">{{ item.postTime }}</span>
+                            </el-col>
+                        </el-row>
+                    </el-card>
                     <el-row>
-                        <p class="postContent">{{ item.postContent }}</p>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="19">
-                            <el-tag class="postTag" type="danger" size="large" v-for="i in item.postTag" :key="i.tagName">
-                                {{ i.tagName }}
-                            </el-tag>
-                        </el-col>
-                        <el-col style="text-align:right;" class="textfather" :span="5">
-                            <span class="text">{{ item.postTime }}</span>
-                        </el-col>
+                        <div class="pagination">
+                            <div class="pagination_style">&emsp;</div>
+                            <el-pagination :current-page="page" :page-size="limit" background layout="prev, pager, next"
+                                :total="filterPost.length" @current-change="handleCurrentChange" />
+                        </div>
                     </el-row>
                 </el-card>
-                <el-row>
-                    <div class="pagination">
-                        <div class="pagination_style">&emsp;</div>
-                        <el-pagination :current-page="page" :page-size="limit" background layout="prev, pager, next"
-                            :total="filterPost.length" @current-change="handleCurrentChange" />
-                    </div>
-                </el-row>
-            </el-card>
+            </div>
         </el-row>
         <!-- 帖子详情弹窗 -->
         <el-dialog v-model="dialogFormVisible" align-center draggable style="width:80vw">
@@ -329,7 +368,7 @@ export default {
                 method: 'post',
                 url: '/localhost/chat',
                 // headers:{'Access-Control-Allow-Origin' : '*'},
-                data:{prompt:"以下是我的个人介绍：我所在的学科专业是工学，我平时特别喜欢的娱乐活动或爱好是音乐和体育。在艺术方面，我特别喜欢音乐和摄影。我对游泳体育活动有特别的兴趣。在科学领域，我对生物学感兴趣。我也有想学习一种乐器，那就是吉他。我对探讨文化多元性的文化或社会问题有兴趣。每周我能投入大约4小时到社团活动。我希望通过参加社团活动获得扩大社交圈子和提升个人技能。对于社团活动的形式，我更倾向于线上虚拟活动。现在请你根据我的个人信息，帮我从学校社团列表中，选择三个适合我的社团推荐给我。学校社团列表如下：天文社、流行音乐社、动漫社、英语协会、民谣社、吉他社、轻音社、篮球社、象棋社、文学社、推理社、电子游戏社、电影鉴赏协会、欧美文化社、运动协会、手工社、数码社、环保协会、辩论社"}
+                data: { prompt: "以下是我的个人介绍：我所在的学科专业是工学，我平时特别喜欢的娱乐活动或爱好是音乐和体育。在艺术方面，我特别喜欢音乐和摄影。我对游泳体育活动有特别的兴趣。在科学领域，我对生物学感兴趣。我也有想学习一种乐器，那就是吉他。我对探讨文化多元性的文化或社会问题有兴趣。每周我能投入大约4小时到社团活动。我希望通过参加社团活动获得扩大社交圈子和提升个人技能。对于社团活动的形式，我更倾向于线上虚拟活动。现在请你根据我的个人信息，帮我从学校社团列表中，选择三个适合我的社团推荐给我。学校社团列表如下：天文社、流行音乐社、动漫社、英语协会、民谣社、吉他社、轻音社、篮球社、象棋社、文学社、推理社、电子游戏社、电影鉴赏协会、欧美文化社、运动协会、手工社、数码社、环保协会、辩论社" }
                 // "天文社、流行音乐社、动漫社、英语协会、民谣社、吉他社、轻音社、篮球社、象棋社、文学社、推理社、电子游戏社、电影鉴赏协会、欧美文化社、运动协会、手工社、数码社、环保协会、辩论社"
             }).then(res => {
                 console.log(res.data);
@@ -993,6 +1032,12 @@ export default {
 }
 
 .hotList .button {
+    height: 10px;
+    width: 10px;
+    float: right;
+}
+
+.user .button {
     height: 10px;
     width: 10px;
     float: right;

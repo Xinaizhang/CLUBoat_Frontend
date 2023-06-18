@@ -658,13 +658,13 @@ export default {
                 .then(res => {
                     if(res.data.code==200){
                         ElMessage({
-                            message: '已发布该帖子！',
+                            message: '发布成功！',
                             type: 'success',
                         })
                         this.$router.go(0);
                     }
                     else{
-                        ElMessage.error('操作失败！')
+                        ElMessage.error('发布失败，请检查是否有违规内容！')
                     }
                 })
                 .catch(function (error) {

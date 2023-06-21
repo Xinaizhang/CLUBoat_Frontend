@@ -16,7 +16,7 @@
                 <div class="signup-box" :class="{ 'hidden': isHidden }">
                     <h2>Sign Up</h2>
                     <!-- <input type="text" placeholder="用户名"> -->
-                    <input type="text" placeholder="手机号" v-model="user.userPhone">
+                    <input type="text" maxlength="11" placeholder="手机号" v-model="user.userPhone">
                     <input type="password" placeholder="密码">
                     <input type="password" placeholder="确认密码" v-model="user.userPassword">
                     <button @click="userSignup">注册</button>
@@ -105,6 +105,21 @@ export default {
             alert(this.user.userPhone)
         },
         userSignup: function () {
+            let reg = /^1[3-9][0-9]{9}$/;
+            if(this.user.userPhone.length == 0){
+                ElMessage({
+                    message: "手机号不能为空！",
+                    type: 'error',
+                })
+                return;
+            }else if(!reg.test(this.user.userPhone)){
+                ElMessage({
+                    message: this.user.userPhone+"请输入正确的手机号！",
+                    type: 'error',
+                })
+                return;
+            }
+            
             this.$axios({
                 method: 'post',
                 url: '/api/user-login/user',

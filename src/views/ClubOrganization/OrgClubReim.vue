@@ -284,7 +284,7 @@ export default {
                 || this.inputreim.description == ""
                 || this.inputreim.attachments[0].attachUrl == "") {
                 ElMessage({
-                    message: "不能为空?",
+                    message: "不能为空",
                     type: 'error',
                 })
                 return;

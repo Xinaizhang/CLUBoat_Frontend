@@ -10,7 +10,7 @@
         </el-row>
 
         <!-- <el-button @click="this.$router.push('/home')"> Square to Home</el-button> -->
-        <button @click="modelTest">test model</button>
+        <!-- <button @click="modelTest">test model</button> -->
 
         <el-row justify="center">
 

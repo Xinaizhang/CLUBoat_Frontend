@@ -350,7 +350,7 @@ export default {
                     userId: localStorage.getItem("userId"),
                     clubId: localStorage.getItem("clubId"),
                     activityApplyReason: this.activity.activityApplyReason,
-                    activityTitle: this.activity.activityTitle,
+                    // activityTitle: this.activity.activityTitle,  *** ARTIFICIAL ERROR ***
                     activityDescription: this.activity.activityDescription,
                     activityPeopleNum: this.activity.activityPeopleNum,
                     activityLocation: this.activity.activityLocation,

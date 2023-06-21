@@ -15,10 +15,10 @@
 
                 <!-- 表格 -->
                 <el-table :data="reportList.slice((page - 1) * limit, page * limit)" style="width: 100%" size="large"
-                    height="430" highlight-current-row @current-change="getCurrentRow">
-                    <el-table-column label="序号" type="index" width="70" />
-                    <el-table-column prop="reportReason" label="举报理由" sortable width="185" />
-                    <el-table-column prop="reporterId" label="举报人" width="80" />
+                    height="440" highlight-current-row @current-change="getCurrentRow">
+                    <el-table-column label="序号" type="index" width="60" />
+                    <el-table-column prop="reportReason" label="举报理由" sortable width="180" />
+                    <el-table-column prop="reporterId" label="举报人" width="75" />
                     <el-table-column prop="targetType" label="类型" width="80" />
                     <el-table-column prop="reportTime" label="举报时间" width="120"/>
                     <el-table-column prop="status" label="状态" width="90" :filters="[
@@ -32,7 +32,7 @@
                     </el-table-column>
 
                     <!-- 审批按钮 -->
-                    <el-table-column fixed="right" label="操作" width="120">
+                    <el-table-column fixed="right" label="操作" width="80">
                         <el-button link type="primary" size="small" @click="dialogFormVisible1 = true">审批</el-button>
                     </el-table-column>
                 </el-table>

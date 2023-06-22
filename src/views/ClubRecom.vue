@@ -11,7 +11,7 @@
         </div>
         <!-- 问卷标题 -->
         <el-row justify="center" class="title-container">
-            <span class="titleText">社团推荐调查问卷</span>
+            <span class="titleText">AI社团推荐调查问卷</span>
         </el-row>
 
         <el-row justify="center">

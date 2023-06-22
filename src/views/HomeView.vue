@@ -100,7 +100,7 @@
                       <div style="font-size:16px;color: #023764;margin-bottom: 5px;">与其在别处迷茫，不如在这里徜徉 </div>
                     </el-col>
                     <el-col :span="3">
-                      <el-button class="nav_button" color="#024886"><router-link style="text-decoration:none;color:#FFFFFF" to="/clubrecom">社团推荐</router-link></el-button>
+                      <el-button class="nav_button" color="#024886"><router-link style="text-decoration:none;color:#FFFFFF" to="/clubrecom">AI社团推荐</router-link></el-button>
                     </el-col>
                     <el-col :span="3">
                       <el-input

@@ -215,65 +215,6 @@ export default {
       limit1: 3,
       total1: 5,
       clubList: [{
-      //   club_id: '0001',
-      //   club_imageURL: 'https://img.zcool.cn/community/0198ce5b0bab2ea8012181b0957742.jpg@1280w_1l_2o_100sh.jpg',
-      //   club_name: '书法社',
-      //   club_information: '这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介。'
-      // }, {
-      //   club_id: '0002',
-      //   club_imageURL: 'https://marketplace.canva.cn/EADcCD0iE9s/3/0/1600w/canva-%E8%93%9D%E7%BB%BF%E8%89%B2%E5%8F%8C%E6%89%8B%E5%85%83%E7%B4%A0%E6%89%8B%E8%AF%AD%E7%A4%BE%E5%9B%A2logo-DuHpdkXClWo.jpg',
-      //   club_name: '手语社',
-      //   club_information: '这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介。'
-      // }, {
-      //   club_id: '0003',
-      //   club_imageURL: 'https://img-qn.51miz.com/preview/muban/00/00/65/89/M-658928-25F93217.jpg',
-      //   club_name: '轮滑社',
-      //   club_information: '这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介。'
-      // }, {
-      //   club_id: '0004',
-      //   club_imageURL: 'https://marketplace.canva.cn/EADcCeGh3QU/3/0/1600w/canva-%E8%93%9D%E8%89%B2%E8%AF%9D%E7%AD%92%E5%8D%8E%E8%AF%AD%E8%BE%A9%E8%AE%BA%E7%A4%BE%E5%9B%A2logo-AD5FR4ZZRi4.jpg',
-      //   club_name: '辩论社',
-      //   club_information: '这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介。'
-      // }, {
-      //   club_id: '0005',
-      //   club_imageURL: 'https://marketplace.canva.cn/EADcCS7KakY/2/0/1600w/canva-%E7%BA%A2%E8%89%B2%E7%88%B1%E5%BF%83%E7%AE%80%E5%8D%95%E8%8A%AD%E8%95%BE%E8%88%9E%E7%A4%BE%E7%A4%BE%E5%9B%A2logo-8KbZ6Ll759k.jpg',
-      //   club_name: '芭蕾舞社',
-      //   club_information: '这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介。'
-      // }, {
-      //   club_id: '0006',
-      //   club_imageURL: 'https://img.51miz.com/Element/00/86/75/68/46d2b344_E867568_bd12aa0f.png',
-      //   club_name: '篮球社',
-      //   club_information: '这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介。'
-      // }, {
-      //   club_id: '0007',
-      //   club_imageURL: 'https://img.51miz.com/Element/00/90/86/79/5749ec64_E908679_72dacc39.png',
-      //   club_name: '羽毛球社',
-      //   club_information: '这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介。'
-      // }, {
-      //   club_id: '0008',
-      //   club_imageURL: 'https://bpic.588ku.com/element_pic/20/06/30/56b221540e02272739385038812ad7bd.jpg',
-      //   club_name: '爵士舞社',
-      //   club_information: '这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介。'
-      // }, {
-      //   club_id: '0009',
-      //   club_imageURL: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpro.upload.logomaker.com.cn%2F2019%2F11%2F26%2FhuqLO21GQB0Z.jpg&refer=http%3A%2F%2Fpro.upload.logomaker.com.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1671986611&t=523be83dfda426a932db3bfc99ec2ac9',
-      //   club_name: '宠物社',
-      //   club_information: '这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介。'
-      // }, {
-      //   club_id: '0010',
-      //   club_imageURL: 'https://bpic.588ku.com/element_pic/20/06/30/62fd3cae1dd2f131f6b0f6e4eb8408b1.jpg',
-      //   club_name: '钢琴社',
-      //   club_information: '这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介。'
-      // }, {
-      //   club_id: '0011',
-      //   club_imageURL: 'https://bpic.588ku.com/element_pic/20/06/30/62fd3cae1dd2f131f6b0f6e4eb8408b1.jpg',
-      //   club_name: '钢琴社',
-      //   club_information: '这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介。'
-      // }, {
-      //   club_id: '0012',
-      //   club_imageURL: 'https://bpic.588ku.com/element_pic/20/06/30/56b221540e02272739385038812ad7bd.jpg',
-      //   club_name: '爵士舞社',
-      //   club_information: '这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介，这是社团简介。'
       }],
     }
   },

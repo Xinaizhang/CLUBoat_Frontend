@@ -2,14 +2,9 @@
     <Nav />
     <div class="bg">
         <el-row>
-            <!-- <el-breadcrumb style="font-size: 20px;margin: 5vh 7vw;" separator="＞">
-                <el-breadcrumb-item :to="{ path: '/details' }">{{ clubName }}</el-breadcrumb-item>
-                <el-breadcrumb-item>社团论坛</el-breadcrumb-item>
-            </el-breadcrumb> -->
             <h2 style="font-size: 33px;margin: 2vh 4vh 2vw 8vw; letter-spacing: 4px; color: #023764">论坛广场</h2>
         </el-row>
 
-        <!-- <el-button @click="this.$router.push('/home')"> Square to Home</el-button> -->
         <!-- <button @click="modelTest">test model</button> -->
 
         <el-row justify="center">
@@ -88,12 +83,6 @@
                                     </a>
                                 </div>
                                 <p class="item-name">{{ item.clubName }}</p>
-                                <!-- <div class="review">
-                                <p class="item-desc">{{ item.clubInformation }}</p>
-                                <a href="#" @click="clubDetail(item)">
-                                    <span>查看详情</span>
-                                </a>
-                            </div> -->
                             </li>
                         </ul>
                         <div class="pagination1">

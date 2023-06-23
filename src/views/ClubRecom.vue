@@ -58,23 +58,11 @@
                         {{ q }}</el-checkbox>
                 </el-checkbox-group>
 
-                <!-- <div><br>7. 你对探讨哪类社会问题有兴趣？[最多选3项]</div>
-                <el-checkbox-group v-model="A7" :min="0" :max="3">
-                    <el-checkbox v-for="q in Q7" :key="q" :label="q">
-                        {{ q }}</el-checkbox>
-                </el-checkbox-group> -->
-
                 <div><br>6. 你希望通过参加社团活动获得什么样的收获？[最多选2项]</div>
                 <el-checkbox-group v-model="A8" :min="0" :max="2">
                     <el-checkbox v-for="q in Q8" :key="q" :label="q">
                         {{ q }}</el-checkbox>
                 </el-checkbox-group>
-
-                <!-- <div><br>9. 你希望社团的活动地点在哪里？[单选]</div>
-                <el-checkbox-group v-model="A9" :min="0" :max="1">
-                    <el-checkbox v-for="q in Q9" :key="q" :label="q">
-                        {{ q }}</el-checkbox>
-                </el-checkbox-group> -->
 
                 <div><br>7. 对于社团活动的形式，你更倾向于哪一种？[单选]</div>
                 <el-checkbox-group v-model="A10" :min="0" :max="1">
@@ -94,10 +82,7 @@
 </template>
 
 <script>
-// import { ElMessage } from 'element-plus'
-// import 'element-plus/es/components/message/style/index'
 import { ElMessageBox } from 'element-plus'
-// import type { Action } from 'element-plus'
 
 export default {
     name: "ClubRecom",
@@ -140,18 +125,7 @@ export default {
         submit() {
             this.userAnswer = ""
 
-            ElMessageBox.alert('为您推荐：吉他社、音游社、摄影社', '推荐结果', {
-                // if you want to disable its autofocus
-                // autofocus: false,
-                confirmButtonText: 'OK',
-                // callback: (action: Action) => {
-                //     ElMessage({
-                //         type: 'info',
-                //         message: `action: ${action}`,
-                //     })
-                // },
-            })
-
+            // require vpn and verfified api token to operate!
             this.$axios({
                 method: 'post',
                 url: '/localhost/chat',
@@ -159,6 +133,12 @@ export default {
             })
                 .then(res => {
                     console.log(res.data.data);
+                    ElMessageBox.alert('为您推荐：' + res.data.data, '推荐结果', {
+                        // if you want to disable its autofocus
+                        // autofocus: false,
+                        confirmButtonText: 'OK',
+
+                    })
                 })
                 .catch(function (error) {
                     console.log(error);
